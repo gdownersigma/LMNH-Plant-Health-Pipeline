@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validation:
+  
+    name: Pytesting & Pylinting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.14'
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('./langdale_zoo_api/requirements.txt') }}
+        
+    - name: Install libraries
+      run: pip install -r ./langdale_zoo_api/requirements.txt
+      
+    - name: Linting
+      run: pylint ./langdale_zoo_api/ --fail-under 8
+      
+    - name: Testing
+      run: pytest ./langdale_zoo_api/
+
