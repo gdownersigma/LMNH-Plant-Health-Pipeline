@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "andrew.gentry@lnhm.co.uk",
+        "name": "Andrew Gentry",
+        "phone": "+1-865-953-8002x162"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151102Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=301929fc2b01e29e13e4acf00882936ed06b0e2fa793b73e650e3eff47cb79a1",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151102Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=301929fc2b01e29e13e4acf00882936ed06b0e2fa793b73e650e3eff47cb79a1",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151102Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=301929fc2b01e29e13e4acf00882936ed06b0e2fa793b73e650e3eff47cb79a1",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151102Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=301929fc2b01e29e13e4acf00882936ed06b0e2fa793b73e650e3eff47cb79a1",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151102Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=301929fc2b01e29e13e4acf00882936ed06b0e2fa793b73e650e3eff47cb79a1"
+    },
+    "last_watered": "2026-01-26T14:35:24",
+    "name": "Bird of Paradise",
+    "origin_location": {
+        "city": "East Rebecca",
+        "country": "Angola",
+        "latitude": "-34.9328045",
+        "longitude": "150.371647"
+    },
+    "plant_id": 22,
+    "recording_taken": "2026-01-26T15:17:03.980402",
+    "scientific_name": [
+        "Heliconia schiedeana 'Fire and Ice'"
+    ],
+    "soil_moisture": 97.59848184534101,
+    "temperature": 15.067810178229976
+}

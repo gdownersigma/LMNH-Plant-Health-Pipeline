@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "paul.wells@lnhm.co.uk",
+        "name": "Paul Wells",
+        "phone": "363.797.6625"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151252Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1b4025381f206147a8471d9939e2aa1d88026446965c610c309f5c844f752016",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151252Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1b4025381f206147a8471d9939e2aa1d88026446965c610c309f5c844f752016",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151252Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1b4025381f206147a8471d9939e2aa1d88026446965c610c309f5c844f752016",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151252Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1b4025381f206147a8471d9939e2aa1d88026446965c610c309f5c844f752016",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151252Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1b4025381f206147a8471d9939e2aa1d88026446965c610c309f5c844f752016"
+    },
+    "last_watered": "2026-01-26T13:28:17",
+    "name": "Spathiphyllum",
+    "origin_location": {
+        "city": "Ruizmouth",
+        "country": "Niger",
+        "latitude": "21.876417",
+        "longitude": "-31.458582"
+    },
+    "plant_id": 27,
+    "recording_taken": "2026-01-26T15:17:09.510251",
+    "scientific_name": [
+        "Spathiphyllum (group)"
+    ],
+    "soil_moisture": 93.97925322857142,
+    "temperature": 16.37840023041864
+}

@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "anna.davis@lnhm.co.uk",
+        "name": "Anna Davis",
+        "phone": "(601)561-8163x5240"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260123%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260123T173029Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=673717c1b427e7c47d0c69218154fd52b34f6c6c052c738468264a4d44d92402",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260123%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260123T173029Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=673717c1b427e7c47d0c69218154fd52b34f6c6c052c738468264a4d44d92402",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260123%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260123T173029Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=673717c1b427e7c47d0c69218154fd52b34f6c6c052c738468264a4d44d92402",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260123%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260123T173029Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=673717c1b427e7c47d0c69218154fd52b34f6c6c052c738468264a4d44d92402",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260123%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260123T173029Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=673717c1b427e7c47d0c69218154fd52b34f6c6c052c738468264a4d44d92402"
+    },
+    "last_watered": "2026-01-26T14:47:07",
+    "name": "Bird of paradise",
+    "origin_location": {
+        "city": "South Tina",
+        "country": "United Arab Emirates",
+        "latitude": "-60.9363685",
+        "longitude": "-152.763324"
+    },
+    "plant_id": 8,
+    "recording_taken": "2026-01-26T15:16:47.391331",
+    "scientific_name": [
+        "Heliconia schiedeana 'Fire and Ice'"
+    ],
+    "soil_moisture": 98.28478677552987,
+    "temperature": 16.352940642078877
+}

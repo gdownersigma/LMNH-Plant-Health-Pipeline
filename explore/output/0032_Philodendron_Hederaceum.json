@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "jessica.benson@lnhm.co.uk",
+        "name": "Jessica Benson",
+        "phone": "(987)435-8129"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151323Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e10dd126b75e49184cfcfb5415ad5f3786c0a1c46ac7bc2eec5d3c80eebc3010",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151323Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e10dd126b75e49184cfcfb5415ad5f3786c0a1c46ac7bc2eec5d3c80eebc3010",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151323Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e10dd126b75e49184cfcfb5415ad5f3786c0a1c46ac7bc2eec5d3c80eebc3010",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151323Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e10dd126b75e49184cfcfb5415ad5f3786c0a1c46ac7bc2eec5d3c80eebc3010",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151323Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e10dd126b75e49184cfcfb5415ad5f3786c0a1c46ac7bc2eec5d3c80eebc3010"
+    },
+    "last_watered": "2026-01-26T14:35:13",
+    "name": "Philodendron Hederaceum",
+    "origin_location": {
+        "city": "Joanmouth",
+        "country": "Armenia",
+        "latitude": "-35.3487675",
+        "longitude": "-80.319921"
+    },
+    "plant_id": 32,
+    "recording_taken": "2026-01-26T15:17:16.537909",
+    "scientific_name": [
+        "Philodendron hederaceum"
+    ],
+    "soil_moisture": 97.617055802644,
+    "temperature": 15.962881416211733
+}

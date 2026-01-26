@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "ariel.english@lnhm.co.uk",
+        "name": "Ariel English",
+        "phone": "549-638-9648x56913"
+    },
+    "images": {
+        "license": 4,
+        "license_name": "Attribution License",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/917_araucaria_heterophylla/medium/49833684212_2aff9d7b3c_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151730Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=0b58ffe1ea761ee93938a943c41f4af480830dabbfbabfd18552b7e787390e51",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/917_araucaria_heterophylla/og/49833684212_2aff9d7b3c_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151730Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=acc5a0792b4ce6a6adb2e345c9b5bd34abd499a24209febf20fc7e4f2ca529e0",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/917_araucaria_heterophylla/regular/49833684212_2aff9d7b3c_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151730Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=6360964bc813c8bc68e00d47adce3d22827fdfdc251fa6a191fdbc480234439c",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/917_araucaria_heterophylla/small/49833684212_2aff9d7b3c_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151730Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=782ec48026f22393457378a7cf2c73e9986e4413fd8eedfff100d88ea64506f5",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/917_araucaria_heterophylla/thumbnail/49833684212_2aff9d7b3c_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151730Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=efcebbc68c0f227473a8fc74e8b0338675f2d2617bb3510d3f1cd46302bc91bd"
+    },
+    "last_watered": "2026-01-26T13:55:27",
+    "name": "Araucaria Heterophylla",
+    "origin_location": {
+        "city": "Davidshire",
+        "country": "Niue",
+        "latitude": "55.3241195",
+        "longitude": "145.548092"
+    },
+    "plant_id": 44,
+    "recording_taken": "2026-01-26T15:17:29.750205",
+    "scientific_name": [
+        "Araucaria heterophylla"
+    ],
+    "soil_moisture": 95.15477342519685,
+    "temperature": 15.21443844769843
+}

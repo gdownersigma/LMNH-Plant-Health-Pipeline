@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "charles.hall@lnhm.co.uk",
+        "name": "Charles Hall",
+        "phone": "7126105026"
+    },
+    "images": {
+        "license": 4,
+        "license_name": "Attribution License",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1457_caladium_bicolor/medium/25575875658_d782fb76f1_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151728Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=5396d6c3979848a19cd386d930deb26b61304051c85c821aca865e4075168bf7",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1457_caladium_bicolor/og/25575875658_d782fb76f1_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151728Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=76a87e324d6f111c35342407aef5ffd524c08cb57072b982bb440b64ebdf3c9d",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1457_caladium_bicolor/regular/25575875658_d782fb76f1_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151728Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=0a50a2a5bad5951b2d5bfe5f8d365e1fd705d4368c1adf7ed023a0d209db7783",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1457_caladium_bicolor/small/25575875658_d782fb76f1_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151728Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=df044b7f65b1897e10f5dce8b3af68ec05bb3f4cd177456ab7317b8e4cffd911",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1457_caladium_bicolor/thumbnail/25575875658_d782fb76f1_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151728Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=b97317e4b8a2a5eac9ddf639afcc0de39ab20b2e5cf31f4697e71c4500495174"
+    },
+    "last_watered": "2026-01-26T14:08:54",
+    "name": "Caladium Bicolor",
+    "origin_location": {
+        "city": "Lake Christopherberg",
+        "country": "Montenegro",
+        "latitude": "24.7269645",
+        "longitude": "-7.878364"
+    },
+    "plant_id": 41,
+    "recording_taken": "2026-01-26T15:17:27.930905",
+    "scientific_name": [
+        "Caladium bicolor"
+    ],
+    "soil_moisture": 96.16595442590867,
+    "temperature": 12.82727101182018
+}

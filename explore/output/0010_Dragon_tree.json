@@ -1,0 +1,19 @@
+{
+    "botanist": {
+        "email": "melinda.spencer@lnhm.co.uk",
+        "name": "Melinda Spencer",
+        "phone": "(242)257-5669x3173"
+    },
+    "last_watered": "2026-01-26T13:13:02",
+    "name": "Dragon tree",
+    "origin_location": {
+        "city": "Stevensberg",
+        "country": "Hungary",
+        "latitude": "-82.3459075",
+        "longitude": "-13.080896"
+    },
+    "plant_id": 10,
+    "recording_taken": "2026-01-26T15:16:49.734261",
+    "soil_moisture": 92.92596737428572,
+    "temperature": 17.811830624583802
+}

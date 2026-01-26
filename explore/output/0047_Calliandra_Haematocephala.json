@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "amy.yu@lnhm.co.uk",
+        "name": "Amy Yu",
+        "phone": "606-477-9194"
+    },
+    "images": {
+        "license": 4,
+        "license_name": "Attribution License",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1477_calliandra_haematocephala/medium/52063600268_834ebc0538_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151314Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=deeeb22b005d9167ab608583ca162fc3d4a61c6eafbb3165773dceacc482a0a8",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1477_calliandra_haematocephala/og/52063600268_834ebc0538_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151314Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=a3fdd9103a282217df186a2fe7afcdf0b89328ad25449d50d7b9f7949a6dad46",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1477_calliandra_haematocephala/regular/52063600268_834ebc0538_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151314Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=cf278b3f8a9343fc3abd656e489a33eac2a3f3fa821f1aa66f77997f9aab6665",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1477_calliandra_haematocephala/small/52063600268_834ebc0538_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151314Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=6d548257ee64138dc9a9dbe7c2a7232d8638d153967103819c1bdee7c05ff8a5",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1477_calliandra_haematocephala/thumbnail/52063600268_834ebc0538_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151314Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=61d20bdb7fd8fe07de003b10301037d600480321fe47756890e617cc0f4942ad"
+    },
+    "last_watered": "2026-01-26T14:07:26",
+    "name": "Calliandra Haematocephala",
+    "origin_location": {
+        "city": "South Michael",
+        "country": "Wallis and Futuna",
+        "latitude": "28.275200",
+        "longitude": "-60.488715"
+    },
+    "plant_id": 47,
+    "recording_taken": "2026-01-26T15:17:33.697616",
+    "scientific_name": [
+        "Calliandra haematocephala"
+    ],
+    "soil_moisture": 93.98900341,
+    "temperature": 15.192623457227999
+}

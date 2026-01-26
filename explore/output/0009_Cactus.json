@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "virginia.phillips@lnhm.co.uk",
+        "name": "Virginia Phillips",
+        "phone": "8273002266"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151042Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=6bbb7e11e26b2f128b778c513124d6a2b915b2709dc6df9baf6d99f4863a8a3c",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151042Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=6bbb7e11e26b2f128b778c513124d6a2b915b2709dc6df9baf6d99f4863a8a3c",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151042Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=6bbb7e11e26b2f128b778c513124d6a2b915b2709dc6df9baf6d99f4863a8a3c",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151042Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=6bbb7e11e26b2f128b778c513124d6a2b915b2709dc6df9baf6d99f4863a8a3c",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151042Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=6bbb7e11e26b2f128b778c513124d6a2b915b2709dc6df9baf6d99f4863a8a3c"
+    },
+    "last_watered": "2026-01-26T14:38:15",
+    "name": "Cactus",
+    "origin_location": {
+        "city": "Gambleshire",
+        "country": "Nauru",
+        "latitude": "-42.9962205",
+        "longitude": "-123.053507"
+    },
+    "plant_id": 9,
+    "recording_taken": "2026-01-26T15:16:48.564237",
+    "scientific_name": [
+        "Pereskia grandifolia"
+    ],
+    "soil_moisture": 97.69105365968063,
+    "temperature": 15.714665907700807
+}

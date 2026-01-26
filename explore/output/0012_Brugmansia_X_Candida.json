@@ -1,0 +1,19 @@
+{
+    "botanist": {
+        "email": "anthony.oconnell@lnhm.co.uk",
+        "name": "Anthony Oconnell",
+        "phone": "(993)782-7225"
+    },
+    "last_watered": "2026-01-26T13:22:31",
+    "name": "Brugmansia X Candida",
+    "origin_location": {
+        "city": "Gomezmouth",
+        "country": "Belgium",
+        "latitude": "-40.5645435",
+        "longitude": "83.998008"
+    },
+    "plant_id": 12,
+    "recording_taken": "2026-01-26T15:16:52.820585",
+    "soil_moisture": 93.67574139999999,
+    "temperature": 15.305863749909443
+}
