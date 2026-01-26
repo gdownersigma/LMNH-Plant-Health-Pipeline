@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "andrea.cook@lnhm.co.uk",
+        "name": "Andrea Cook",
+        "phone": "931-621-4485x063"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T145937Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=621d48e74e1f5b003b0ab135e5dcc4e59e576ae6f632595f68b6294e450d27d4",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T145937Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=621d48e74e1f5b003b0ab135e5dcc4e59e576ae6f632595f68b6294e450d27d4",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T145937Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=621d48e74e1f5b003b0ab135e5dcc4e59e576ae6f632595f68b6294e450d27d4",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T145937Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=621d48e74e1f5b003b0ab135e5dcc4e59e576ae6f632595f68b6294e450d27d4",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T145937Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=621d48e74e1f5b003b0ab135e5dcc4e59e576ae6f632595f68b6294e450d27d4"
+    },
+    "last_watered": "2026-01-26T13:30:46",
+    "name": "Saintpaulia Ionantha",
+    "origin_location": {
+        "city": "Schmidtfurt",
+        "country": "Cook Islands",
+        "latitude": "-24.459428",
+        "longitude": "-132.113354"
+    },
+    "plant_id": 38,
+    "recording_taken": "2026-01-26T15:17:24.516963",
+    "scientific_name": [
+        "Saintpaulia ionantha"
+    ],
+    "soil_moisture": 94.08092788344126,
+    "temperature": 17.056858022711893
+}

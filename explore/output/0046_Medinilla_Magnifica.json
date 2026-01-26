@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "casey.hayden@lnhm.co.uk",
+        "name": "Casey Hayden",
+        "phone": "001-318-520-0734x47289"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151312Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e6606c235bcf3c6b86e1ded9d96ca5593d62ee77d2b4074cfac4012367c61283",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151312Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e6606c235bcf3c6b86e1ded9d96ca5593d62ee77d2b4074cfac4012367c61283",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151312Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e6606c235bcf3c6b86e1ded9d96ca5593d62ee77d2b4074cfac4012367c61283",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151312Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e6606c235bcf3c6b86e1ded9d96ca5593d62ee77d2b4074cfac4012367c61283",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151312Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e6606c235bcf3c6b86e1ded9d96ca5593d62ee77d2b4074cfac4012367c61283"
+    },
+    "last_watered": "2026-01-26T13:56:30",
+    "name": "Medinilla Magnifica",
+    "origin_location": {
+        "city": "New Lori",
+        "country": "Malta",
+        "latitude": "52.915803",
+        "longitude": "-138.082562"
+    },
+    "plant_id": 46,
+    "recording_taken": "2026-01-26T15:17:33.456310",
+    "scientific_name": [
+        "Medinilla magnifica"
+    ],
+    "soil_moisture": 95.27819776116505,
+    "temperature": 14.991429648121944
+}

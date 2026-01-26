@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "jimmy.rhodes@lnhm.co.uk",
+        "name": "Jimmy Rhodes",
+        "phone": "+1-477-347-7068"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091458Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=c93e1e8cf42a476651f138e2ed7692d4c4cd1392de44e8138fba38c46a1e9650",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091458Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=c93e1e8cf42a476651f138e2ed7692d4c4cd1392de44e8138fba38c46a1e9650",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091458Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=c93e1e8cf42a476651f138e2ed7692d4c4cd1392de44e8138fba38c46a1e9650",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091458Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=c93e1e8cf42a476651f138e2ed7692d4c4cd1392de44e8138fba38c46a1e9650",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091458Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=c93e1e8cf42a476651f138e2ed7692d4c4cd1392de44e8138fba38c46a1e9650"
+    },
+    "last_watered": "2026-01-26T14:01:48",
+    "name": "Gaillardia",
+    "origin_location": {
+        "city": "South Erik",
+        "country": "Malta",
+        "latitude": "39.852798",
+        "longitude": "-22.673609"
+    },
+    "plant_id": 39,
+    "recording_taken": "2026-01-26T15:17:25.555526",
+    "scientific_name": [
+        "Gaillardia aestivalis"
+    ],
+    "soil_moisture": 95.65784160574162,
+    "temperature": 13.449212715094612
+}

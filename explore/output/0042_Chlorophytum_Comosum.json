@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "dan.skinner@lnhm.co.uk",
+        "name": "Dan Skinner",
+        "phone": "361.810.9443"
+    },
+    "images": {
+        "license": 45,
+        "license_name": "Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1847_chlorophytum_comosum_vittatum/medium/2560px-Chlorophytum_comosum_27Vittatum27_kz02.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151309Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=172d9622740e680381bced772553ecd25b01808a61c2951fa82821695131004d",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1847_chlorophytum_comosum_vittatum/og/2560px-Chlorophytum_comosum_27Vittatum27_kz02.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151309Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=5029746d72f13dfe507bd335da1a6b24f0699429b042377e0c0d6fd40a034b8b",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1847_chlorophytum_comosum_vittatum/regular/2560px-Chlorophytum_comosum_27Vittatum27_kz02.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151309Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=77ffc94a408bd22452666d5560ec63391b105ec7c434c8890dbe7ea257258cbc",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1847_chlorophytum_comosum_vittatum/small/2560px-Chlorophytum_comosum_27Vittatum27_kz02.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151309Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=e81e21bbafbbdfbd8f0a9b1e323825f3673b67c7a6230ec6e11d7f3494c6b2a5",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1847_chlorophytum_comosum_vittatum/thumbnail/2560px-Chlorophytum_comosum_27Vittatum27_kz02.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151309Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=4fcb607218bef2d56d66741d7b067bba5b25499aa5b579e618fbd537dcf04884"
+    },
+    "last_watered": "2026-01-26T14:55:42",
+    "name": "Chlorophytum Comosum",
+    "origin_location": {
+        "city": "Davidfurt",
+        "country": "Russian Federation",
+        "latitude": "-79.460413",
+        "longitude": "77.002058"
+    },
+    "plant_id": 42,
+    "recording_taken": "2026-01-26T15:21:34.905779",
+    "scientific_name": [
+        "Chlorophytum comosum 'Vittatum'"
+    ],
+    "soil_moisture": 98.53361116713882,
+    "temperature": 13.289015052227937
+}

@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "angela.myers@lnhm.co.uk",
+        "name": "Angela Myers",
+        "phone": "3838163814"
+    },
+    "images": {
+        "license": 5,
+        "license_name": "Attribution-ShareAlike License",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/855_anthurium_andraeanum/medium/49388458462_0ef650db39_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=477b5c7040d693ef920bcebdd3e605436a67d183c36b09cb830e26303417ba57",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/855_anthurium_andraeanum/og/49388458462_0ef650db39_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=9c9bc51976c550cd4110d24ff70ef0aaf7a62d93495cb82fcf6d78808f2679d7",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/855_anthurium_andraeanum/regular/49388458462_0ef650db39_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=53fde72f698bc39f7f6044e8d7ba182bdd9e112631518b1330ed6c3c2dfc4763",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/855_anthurium_andraeanum/small/49388458462_0ef650db39_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=41e184357df55fc14bad994cd5afb8d513a151c16004214e1a783c1bae214502",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/855_anthurium_andraeanum/thumbnail/49388458462_0ef650db39_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=542cf8d19627f36b8bce5914a107314d4cbb7c0c740e9cc069ad620d6c93d9fd"
+    },
+    "last_watered": "2026-01-26T14:50:20",
+    "name": "Anthurium",
+    "origin_location": {
+        "city": "West Kevinburgh",
+        "country": "Macao",
+        "latitude": "-69.5795405",
+        "longitude": "-54.074219"
+    },
+    "plant_id": 21,
+    "recording_taken": "2026-01-26T15:17:01.706709",
+    "scientific_name": [
+        "Anthurium andraeanum"
+    ],
+    "soil_moisture": 98.47746510931559,
+    "temperature": 15.163498489215437
+}

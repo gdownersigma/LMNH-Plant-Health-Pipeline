@@ -1,0 +1,19 @@
+{
+    "botanist": {
+        "email": "sherry.campbell@lnhm.co.uk",
+        "name": "Sherry Campbell",
+        "phone": "+1-662-659-8097x8928"
+    },
+    "last_watered": "2026-01-26T13:12:19",
+    "name": "Venus flytrap",
+    "origin_location": {
+        "city": "Mitchellfurt",
+        "country": "Suriname",
+        "latitude": "81.2003535",
+        "longitude": "7.815683"
+    },
+    "plant_id": 1,
+    "recording_taken": "2026-01-26T15:16:04.703006",
+    "soil_moisture": 93.13705822458411,
+    "temperature": 16.453945373988777
+}

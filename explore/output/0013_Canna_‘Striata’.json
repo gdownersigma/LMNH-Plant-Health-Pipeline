@@ -1,0 +1,19 @@
+{
+    "botanist": {
+        "email": "deborah.obrien@lnhm.co.uk",
+        "name": "Deborah Obrien",
+        "phone": "321-818-7487x25137"
+    },
+    "last_watered": "2026-01-26T14:34:26",
+    "name": "Canna ‘Striata’",
+    "origin_location": {
+        "city": "Millerton",
+        "country": "Cyprus",
+        "latitude": "-32.9029575",
+        "longitude": "-146.302804"
+    },
+    "plant_id": 13,
+    "recording_taken": "2026-01-26T15:16:53.061637",
+    "soil_moisture": 97.63942388044485,
+    "temperature": 14.847404158198659
+}

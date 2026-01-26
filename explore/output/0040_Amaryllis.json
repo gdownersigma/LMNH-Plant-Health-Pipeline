@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "briana.deleon@lnhm.co.uk",
+        "name": "Briana Deleon",
+        "phone": "605-468-2269x187"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151306Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=f5af9110d834abca75f2be75cd506a6943f9276ff8f1fd9f8c3ccef093d5ddf6",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151306Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=f5af9110d834abca75f2be75cd506a6943f9276ff8f1fd9f8c3ccef093d5ddf6",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151306Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=f5af9110d834abca75f2be75cd506a6943f9276ff8f1fd9f8c3ccef093d5ddf6",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151306Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=f5af9110d834abca75f2be75cd506a6943f9276ff8f1fd9f8c3ccef093d5ddf6",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151306Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=f5af9110d834abca75f2be75cd506a6943f9276ff8f1fd9f8c3ccef093d5ddf6"
+    },
+    "last_watered": "2026-01-26T14:28:30",
+    "name": "Amaryllis",
+    "origin_location": {
+        "city": "Greentown",
+        "country": "Gibraltar",
+        "latitude": "-19.2927425",
+        "longitude": "-101.687203"
+    },
+    "plant_id": 40,
+    "recording_taken": "2026-01-26T15:17:26.774814",
+    "scientific_name": [
+        "Hippeastrum (group)"
+    ],
+    "soil_moisture": 97.14321516536965,
+    "temperature": 14.641699828278472
+}

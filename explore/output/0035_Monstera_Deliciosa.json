@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "tara.quinn@lnhm.co.uk",
+        "name": "Tara Quinn",
+        "phone": "726-719-8082"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151719Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1a50ec0df1139ecb7127c3ee9891742441b6b5c2d68a57c896674ead48df0255",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151719Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1a50ec0df1139ecb7127c3ee9891742441b6b5c2d68a57c896674ead48df0255",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151719Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1a50ec0df1139ecb7127c3ee9891742441b6b5c2d68a57c896674ead48df0255",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151719Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1a50ec0df1139ecb7127c3ee9891742441b6b5c2d68a57c896674ead48df0255",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151719Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=1a50ec0df1139ecb7127c3ee9891742441b6b5c2d68a57c896674ead48df0255"
+    },
+    "last_watered": "2026-01-26T14:46:12",
+    "name": "Monstera Deliciosa",
+    "origin_location": {
+        "city": "New Shanechester",
+        "country": "Tuvalu",
+        "latitude": "-60.291449",
+        "longitude": "-12.594265"
+    },
+    "plant_id": 35,
+    "recording_taken": "2026-01-26T15:17:19.322620",
+    "scientific_name": [
+        "Monstera deliciosa"
+    ],
+    "soil_moisture": 98.20622227089338,
+    "temperature": 15.864506065541885
+}

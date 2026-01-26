@@ -1,0 +1,19 @@
+{
+    "botanist": {
+        "email": "larry.coleman@lnhm.co.uk",
+        "name": "Larry Coleman",
+        "phone": "(799)359-7652x4467"
+    },
+    "last_watered": "2026-01-26T13:36:09",
+    "name": "Palm Trees",
+    "origin_location": {
+        "city": "Farmerberg",
+        "country": "Isle of Man",
+        "latitude": "76.6820215",
+        "longitude": "164.980551"
+    },
+    "plant_id": 25,
+    "recording_taken": "2026-01-26T15:17:08.095600",
+    "soil_moisture": 94.0713350332681,
+    "temperature": 16.9734036391475
+}

@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "jacob.santos@lnhm.co.uk",
+        "name": "Jacob Santos",
+        "phone": "(462)367-2126"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151721Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=cf215a8b8d418f4cb8cecc080bad100f9f096adfdc1b8c970916ab3012c21227",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151721Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=cf215a8b8d418f4cb8cecc080bad100f9f096adfdc1b8c970916ab3012c21227",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151721Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=cf215a8b8d418f4cb8cecc080bad100f9f096adfdc1b8c970916ab3012c21227",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151721Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=cf215a8b8d418f4cb8cecc080bad100f9f096adfdc1b8c970916ab3012c21227",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151721Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=cf215a8b8d418f4cb8cecc080bad100f9f096adfdc1b8c970916ab3012c21227"
+    },
+    "last_watered": "2026-01-26T13:26:21",
+    "name": "Tacca Integrifolia",
+    "origin_location": {
+        "city": "Port Jason",
+        "country": "Singapore",
+        "latitude": "50.7844445",
+        "longitude": "177.490752"
+    },
+    "plant_id": 36,
+    "recording_taken": "2026-01-26T15:17:21.349582",
+    "scientific_name": [
+        "Tacca integrifolia"
+    ],
+    "soil_moisture": 93.76955137698783,
+    "temperature": 16.12493664266229
+}

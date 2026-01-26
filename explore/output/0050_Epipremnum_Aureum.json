@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "gina.meyer@lnhm.co.uk",
+        "name": "Gina Meyer",
+        "phone": "+1-414-616-0457x430"
+    },
+    "images": {
+        "license": 45,
+        "license_name": "Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/2773_epipremnum_aureum/medium/2560px-Epipremnum_aureum_31082012.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091533Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=90f51dccada264ce2debfc7dbe912aa243a76eb2c31f099eddc0bf9fe03e0275",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/2773_epipremnum_aureum/og/2560px-Epipremnum_aureum_31082012.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091533Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=dcfcfb16b74b7932662fa06544d2775f50b39acb43d250698efd4a5f33f86267",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/2773_epipremnum_aureum/regular/2560px-Epipremnum_aureum_31082012.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091533Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=f2d55e219907cc180c62a3eafc8e6d9571c4f5ea61febb30e65758bcfd58ac25",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/2773_epipremnum_aureum/small/2560px-Epipremnum_aureum_31082012.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091533Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=c712175a3b30262caf4c24cd85dbe53ffa5a854fcbe154ff922849be305ed597",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/2773_epipremnum_aureum/thumbnail/2560px-Epipremnum_aureum_31082012.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091533Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=7dcf9ee93dec418848dfadbe636c0af1816b0bf01aff6d0b27eaf010ffd01926"
+    },
+    "last_watered": "2026-01-26T14:52:24",
+    "name": "Epipremnum Aureum",
+    "origin_location": {
+        "city": "North Joshuatown",
+        "country": "Montenegro",
+        "latitude": "-73.7987385",
+        "longitude": "-22.615264"
+    },
+    "plant_id": 50,
+    "recording_taken": "2026-01-26T15:17:36.216217",
+    "scientific_name": [
+        "Epipremnum aureum"
+    ],
+    "soil_moisture": 98.58935054757463,
+    "temperature": 14.821376471098276
+}

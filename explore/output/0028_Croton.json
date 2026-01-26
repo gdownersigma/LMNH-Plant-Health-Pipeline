@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "katherine.hunt@lnhm.co.uk",
+        "name": "Katherine Hunt",
+        "phone": "+1-263-878-8630x362"
+    },
+    "images": {
+        "license": 4,
+        "license_name": "Attribution License",
+        "license_url": "https://creativecommons.org/licenses/by/2.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1999_codiaeum_variegatum/medium/29041866364_2c535b2297_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151711Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=1e765743b4891c62043ae0f57f9f35d9d54d298635526bd0070119111a0c51ca",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1999_codiaeum_variegatum/og/29041866364_2c535b2297_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151711Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=61e905be1938e28b0cbf4e09a31b1f84199ec53e4b53a690c1e26a9c73a0b710",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1999_codiaeum_variegatum/regular/29041866364_2c535b2297_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151711Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=9cb150c0f22bf49cfb8a52f56618029251e936020958de9b6da38f3187ac1111",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1999_codiaeum_variegatum/small/29041866364_2c535b2297_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151711Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=48adbb9542b5cefa934d152aaa9bd6038dd0a8a0e0f83e8f1b5eb746f84dea9c",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/species_image/1999_codiaeum_variegatum/thumbnail/29041866364_2c535b2297_b.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T151711Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=448930d44c990cbdb7b78d8c41b46570085ce611f20c116fce76825e968e3e59"
+    },
+    "last_watered": "2026-01-26T13:18:38",
+    "name": "Croton",
+    "origin_location": {
+        "city": "Mallorymouth",
+        "country": "Cocos (Keeling) Islands",
+        "latitude": "9.707351",
+        "longitude": "72.816634"
+    },
+    "plant_id": 28,
+    "recording_taken": "2026-01-26T15:17:10.407896",
+    "scientific_name": [
+        "Codiaeum variegatum"
+    ],
+    "soil_moisture": 93.34667175771749,
+    "temperature": 14.743265103118812
+}

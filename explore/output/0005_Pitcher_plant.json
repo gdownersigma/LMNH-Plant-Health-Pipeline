@@ -1,0 +1,32 @@
+{
+    "botanist": {
+        "email": "jennifer.blanchard@lnhm.co.uk",
+        "name": "Jennifer Blanchard",
+        "phone": "327.732.2111"
+    },
+    "images": {
+        "license": 451,
+        "license_name": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "medium_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=93fc0c119ca51733989a816170185f32ff373619b0e44d3037fca57a7d6db0f9",
+        "original_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=93fc0c119ca51733989a816170185f32ff373619b0e44d3037fca57a7d6db0f9",
+        "regular_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=93fc0c119ca51733989a816170185f32ff373619b0e44d3037fca57a7d6db0f9",
+        "small_url": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=93fc0c119ca51733989a816170185f32ff373619b0e44d3037fca57a7d6db0f9",
+        "thumbnail": "https://s3.us-central-1.wasabisys.com/perenual/image/upgrade_access.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0MPGHU7CIPXNPMVWMXUW%2F20260126%2Fus-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260126T091505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=93fc0c119ca51733989a816170185f32ff373619b0e44d3037fca57a7d6db0f9"
+    },
+    "last_watered": "2026-01-26T14:11:02",
+    "name": "Pitcher plant",
+    "origin_location": {
+        "city": "Lake Lydiaburgh",
+        "country": "Pitcairn Islands",
+        "latitude": "17.7169705",
+        "longitude": "-17.829700"
+    },
+    "plant_id": 5,
+    "recording_taken": "2026-01-26T15:21:34.127888",
+    "scientific_name": [
+        "Sarracenia catesbaei"
+    ],
+    "soil_moisture": 95.96171003339694,
+    "temperature": 17.138240170002035
+}
