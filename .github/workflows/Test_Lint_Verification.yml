@@ -22,6 +22,12 @@ jobs:
         
     - name: Install libraries
       run: pip install -r ./requirements.txt
+
+    - name: Install libraries
+      run: pip install -r ./pipeline/pipeline_requirements.txt
+      
+    - name: Install pipeline reqs
+      run: pip install -r ./pipeline/pipeline_requirements.txt
       
     - name: Linting
       run: pylint *.py --fail-under 8
