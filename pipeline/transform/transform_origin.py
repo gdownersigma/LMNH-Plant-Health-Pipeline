@@ -37,6 +37,25 @@ def validate_latitude(latitude) -> bool:
     return True
 
 
+def validate_longitude(longitude) -> bool:
+    """Validate longitude values."""
+    if pd.isna(longitude):
+        print(f"Validation failed: longitude is NaN")
+        return False
+    max_long = 180.0
+    min_long = -180.0
+
+    if not isinstance(longitude, (float, int)):
+        print(
+            f"Validation failed: longitude {longitude} is not a number (type: {type(longitude)})")
+        return False
+
+    if not (min_long <= longitude <= max_long):
+        print(f"Validation failed: longitude {longitude} out of range [{min_long}, {max_long}]")
+        return False
+    
+    return True
+
 
 if __name__ == "__main__":
     pass
