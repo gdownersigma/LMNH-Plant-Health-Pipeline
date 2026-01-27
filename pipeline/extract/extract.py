@@ -23,7 +23,7 @@ def does_plant_exist(plant: dict) -> bool:
     return True
 
 
-def fetch_all_plants(max_consecutive_failures: int = 3) -> list[dict]:
+def fetch_all_plants(max_consecutive_failures: int = 5) -> list[dict]:
     """Fetch all plant data from the API, handling consecutive failures."""
     plants = []
     consecutive_failures = 0
