@@ -44,3 +44,21 @@ def test_fix_data_types(column_name, valid_readings_data: pd.DataFrame):
 
     assert not pd.api.types.is_datetime64_any_dtype(original_dtype)
     assert pd.api.types.is_datetime64_any_dtype(new_dtype)
+
+
+@pytest.mark.parametrize("column_name", [
+    'soil_moisture',
+    'temperature'
+])
+def test_round_readings_for_soil_moisture(column_name, valid_readings_data: pd.DataFrame):
+    """Test rounding for plant readings data."""
+    original_soil_moisture = valid_readings_data[column_name].iloc[0]
+    readings_data = round_readings(valid_readings_data, column_name)
+    rounded_soil_moisture = readings_data[column_name].iloc[0]
+
+    print(original_soil_moisture)
+    print(rounded_soil_moisture)
+
+    assert isinstance(rounded_soil_moisture, float)
+    assert round(original_soil_moisture, 3) == rounded_soil_moisture
+    assert len(str(rounded_soil_moisture).split('.')[-1]) <= 3
