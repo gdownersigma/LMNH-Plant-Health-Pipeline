@@ -1,15 +1,16 @@
 """Script to transform origin data."""
-import pandas as pd
+
 import sys
 from pathlib import Path
+import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from extract.extract import fetch_all_plants, to_dataframe
 
 
-def get_raw_origin(df: pd.DataFrame) -> pd.DataFrame:
+def get_raw_origin(data: pd.DataFrame) -> pd.DataFrame:
     """Extract unique origin details from the plant data."""
-    origin_data = df[['origin_city', 'origin_country',
+    origin_data = data[['origin_city', 'origin_country',
                       'origin_latitude', 'origin_longitude']]
 
     origin_data = origin_data.reset_index(drop=True)
@@ -19,7 +20,7 @@ def get_raw_origin(df: pd.DataFrame) -> pd.DataFrame:
 def validate_latitude(latitude) -> bool:
     """Validate latitude values."""
     if pd.isna(latitude):
-        print(f"Validation failed: latitude is NaN")
+        print("Validation failed: latitude is NaN")
         return False
     max_lat = 90.0
     min_lat = -90.0
@@ -29,18 +30,17 @@ def validate_latitude(latitude) -> bool:
             f"Validation failed: latitude {latitude} is not a number (type: {type(latitude)})")
         return False
 
-    if not (min_lat <= latitude <= max_lat):
+    if not min_lat <= latitude <= max_lat:
         print(f"Validation failed: latitude {latitude} out of range [{min_lat}, {max_lat}]")
         return False
-    
-    
+
     return True
 
 
 def validate_longitude(longitude) -> bool:
     """Validate longitude values."""
     if pd.isna(longitude):
-        print(f"Validation failed: longitude is NaN")
+        print("Validation failed: longitude is NaN")
         return False
     max_long = 180.0
     min_long = -180.0
@@ -50,24 +50,24 @@ def validate_longitude(longitude) -> bool:
             f"Validation failed: longitude {longitude} is not a number (type: {type(longitude)})")
         return False
 
-    if not (min_long <= longitude <= max_long):
+    if not min_long <= longitude <= max_long:
         print(f"Validation failed: longitude {longitude} out of range [{min_long}, {max_long}]")
         return False
-    
+
     return True
 
 
-def validate_city_country(df: pd.DataFrame) -> bool:
+def validate_city_country(data: pd.DataFrame) -> bool:
     """Validate city and country data for the origin data."""
 
-    if pd.isna(df):
-        print(f"Validation failed: city/country is NaN")
+    if pd.isna(data):
+        print("Validation failed: city/country is NaN")
         return False
-    if not isinstance(df, str):
-        print(f"Validation failed: city/country {df} is not a string (type: {type(df)})")
+    if not isinstance(data, str):
+        print(f"Validation failed: city/country {data} is not a string (type: {type(data)})")
         return False
-    if df.strip() == "":
-        print(f"Validation failed: city/country is empty or whitespace only")
+    if data.strip() == "":
+        print("Validation failed: city/country is empty or whitespace only")
         return False
     return True
 
@@ -75,13 +75,13 @@ def validate_city_country(df: pd.DataFrame) -> bool:
 def validate_origin_data(origin_data: pd.DataFrame) -> bool:
     """Validate origin location data columns."""
     if not origin_data['origin_latitude'].apply(validate_latitude).all():
-        print(f"Validation failed: lat/long contains invalid latitude values")
+        print("Validation failed: lat/long contains invalid latitude values")
         return False
-    
+
     if not origin_data['origin_longitude'].apply(validate_longitude).all():
-        print(f"Validation failed: lat/long contains invalid longitude values")
+        print("Validation failed: lat/long contains invalid longitude values")
         return False
-    
+
     for col in ['origin_city', 'origin_country']:
         if not origin_data[col].apply(validate_city_country).all():
             print(f"Validation failed: column '{col}' contains invalid city/country values")
@@ -112,12 +112,12 @@ def transform_origin_data(origin_data: pd.DataFrame) -> pd.DataFrame:
     if validate_origin_data(origin_data):
         print("Origin data validation passed")
         return origin_data
-    else:
-        print("ERROR: Origin data validation failed")
-        raise ValueError("Origin data validation failed.")
+    print("ERROR: Origin data validation failed")
+    raise ValueError("Origin data validation failed.")
 
 
 def get_country_ids(origin_data: pd.DataFrame) -> None:
+    """Generate country IDs and save to countries.csv."""
 
     countries_df = origin_data[['origin_country']].drop_duplicates().reset_index(drop=True)
     countries_df.insert(0, 'country_id', range(1, len(countries_df) + 1))
@@ -125,7 +125,7 @@ def get_country_ids(origin_data: pd.DataFrame) -> None:
 
 
 def get_city_ids(origin_data: pd.DataFrame) -> None:
-    """Generate city IDs and save to cities.csv. Convert country names to IDs."""
+    """Generate city IDs and save to cities.csv."""
 
     cities_df = origin_data[['origin_city', 'country_id']].drop_duplicates().reset_index(drop=True)
     cities_df.insert(0, 'city_id', range(1, len(cities_df) + 1))
@@ -134,8 +134,9 @@ def get_city_ids(origin_data: pd.DataFrame) -> None:
 
 def assign_country_ids(origin_data: pd.DataFrame) -> pd.DataFrame:
     """Assign country IDs to origin data based on countries.csv."""
+
     countries_df = pd.read_csv('countries.csv')
-    new_countries = [c for c in origin_data['origin_country'].unique() 
+    new_countries = [c for c in origin_data['origin_country'].unique()
                      if c not in countries_df['origin_country'].values]
 
     if new_countries:
@@ -184,9 +185,9 @@ def process_origin_data(all_data: pd.DataFrame) -> None:
 if __name__ == "__main__":
     #From extract.py
     all_plants = fetch_all_plants()
-    df = to_dataframe(all_plants)
+    plants_df = to_dataframe(all_plants)
 
     #From transform_origin.py
-    origin_df = process_origin_data(df)
+    origin_df = process_origin_data(plants_df)
     cities_df = pd.read_csv('cities.csv')
     countries_df = pd.read_csv('countries.csv')

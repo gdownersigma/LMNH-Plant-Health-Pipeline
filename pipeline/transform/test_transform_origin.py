@@ -1,3 +1,4 @@
+#pylint: disable=missing-function-docstring, missing-class-docstring, missing-module-docstring
 """Tests for transform_origin.py"""
 
 import pytest
@@ -23,7 +24,7 @@ class TestValidateOriginData:
     ])
     def test_validate_latitude(self, input, output):
         assert validate_latitude(input) == output
-    
+
     @pytest.mark.parametrize("input, output", [
         [10.0, True],
         [180.0, True],
@@ -57,18 +58,18 @@ class TestCleanOriginData:
 
     @pytest.mark.parametrize("input, output", [
         [{'origin_city': "Lisbon", 'origin_country': "portugal"},
-         {'origin_city': "Lisbon", 'origin_country': "Portugal"}],
+         {'city': "Lisbon", 'country': "Portugal"}],
         [{'origin_city': "Madrid", 'origin_country': "Spain"},
-         {'origin_city': "Madrid", 'origin_country': "Spain"}],
-        [{'origin_city': " New York ", 'origin_country': " USA "}, 
-         {'origin_city': "New York", 'origin_country': "Usa"}],
-        [{'origin_city': "london ", 'origin_country': " united kingdom"}, 
-         {'origin_city': "London", 'origin_country': "United Kingdom"}]
+         {'city': "Madrid", 'country': "Spain"}],
+        [{'origin_city': " New York ", 'origin_country': " USA "},
+         {'city': "New York", 'country': "Usa"}],
+        [{'origin_city': "london ", 'origin_country': " united kingdom"},
+         {'city': "London", 'country': "United Kingdom"}]
     ])
     def test_clean_city_country(self, input, output):
-        assert clean_city_country(pd.DataFrame([input]))['origin_city'].iloc[0] == output['origin_city']
-        assert clean_city_country(pd.DataFrame([input]))['origin_country'].iloc[0] == output['origin_country']
-
+        assert clean_city_country(pd.DataFrame([input]))['origin_city'].iloc[0] == output['city']
+        assert clean_city_country(pd.DataFrame([input]))['origin_country'].iloc[0] == output['country']
+    
     @pytest.mark.parametrize("input, output", [
         [{'origin_latitude': "45.0", 'origin_longitude': "-93.0"},
          {'origin_latitude': 45.0, 'origin_longitude': -93.0}],
