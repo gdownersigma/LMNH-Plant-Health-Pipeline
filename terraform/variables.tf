@@ -29,3 +29,11 @@ variable "SUBNET_ID_C" {
 variable "BASE_NAME" {
     type = string
 }
+
+variable "CLUSTER_NAME" {
+    type = string
+}
+
+variable "TASK_DEFINITION_ARN" {
+    type = string
+}
