@@ -1,2 +1,3 @@
 explore/output/
 .venv
+.env
