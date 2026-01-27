@@ -91,3 +91,4 @@ if __name__ == "__main__":
     print(df.info())
     print(df.head())
     print(df.isnull().sum())
+    df.to_csv("out.csv")
