@@ -1,4 +1,4 @@
-from extract import fetch_plant
+from extract import fetch_plant, does_plant_exist, fetch_all_plants
 import requests
 
 
@@ -45,3 +45,62 @@ class TestFetchPlant:
         assert "error" in result
         assert "plant_id" in result
         assert result["error"] == "plant sensor fault"
+
+
+class TestDoesPlantExist:
+    """Tests for the does_plant_exist function."""
+
+    def test_returns_true_for_valid_plant(self, sample_plant_data):
+        """Should return True when plant data has no error key."""
+        result = does_plant_exist(sample_plant_data)
+
+        assert result is True
+
+    def test_returns_false_for_plant_not_found(self):
+        """Should return False when plant not found."""
+        plant = {"error": "plant not found", "plant_id": 16998565}
+
+        result = does_plant_exist(plant)
+
+        assert result is False
+
+    def test_returns_false_for_sensor_fault(self):
+        """Should return False when sensor fault."""
+        plant = {"error": "plant sensor fault", "plant_id": 23}
+
+        result = does_plant_exist(plant)
+
+        assert result is False
+
+
+class TestFetchAllPlants:
+    """Tests for the fetch_all_plants function."""
+
+    def test_returns_list_of_plants(self, monkeypatch, sample_plant_data):
+        """Should return a list of plant dictionaries."""
+        plants = [sample_plant_data, sample_plant_data, None, None, None]
+        monkeypatch.setattr(
+            "extract.fetch_plant", lambda id: plants[id - 1] if id <= len(plants) else None)
+
+        result = fetch_all_plants()
+
+        assert isinstance(result, list)
+        assert len(result) == 2
+
+    def test_stops_after_consecutive_failures(self, mocker):
+        """Should stop fetching after max consecutive failures."""
+        mock_fetch = mocker.patch("extract.fetch_plant", return_value=None)
+
+        fetch_all_plants(max_consecutive_failures=3)
+
+        assert mock_fetch.call_count == 3
+
+    def test_resets_failure_count_on_success(self, monkeypatch, sample_plant_data):
+        """Should reset failure count when valid plant found."""
+        responses = [None, None, sample_plant_data, None, None, None]
+        monkeypatch.setattr(
+            "extract.fetch_plant", lambda id: responses[id - 1] if id <= len(responses) else None)
+
+        result = fetch_all_plants(max_consecutive_failures=3)
+
+        assert len(result) == 1
