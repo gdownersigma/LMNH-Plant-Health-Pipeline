@@ -15,12 +15,12 @@ CREATE TABLE botanist (
 CREATE TABLE plant (
     plant_id SMALLINT NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    scientific_name VARCHAR(255) NOT NULL,
+    scientific_name VARCHAR(255) NULL,
     origin_id SMALLINT NOT NULL,
     botanist_id SMALLINT NOT NULL,
-    image_license_url VARCHAR(255) NOT NULL,
-    image_url VARCHAR(255) NOT NULL,
-    thumbnail VARCHAR(255) NOT NULL
+    image_license_url VARCHAR(255) NULL,
+    image_url VARCHAR(255) NULL,
+    thumbnail VARCHAR(255) NULL
 );
 CREATE TABLE origin (
     origin_id SMALLINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
