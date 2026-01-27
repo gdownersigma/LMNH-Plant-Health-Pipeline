@@ -29,3 +29,7 @@ variable "SUBNET_ID_C" {
 variable "BASE_NAME" {
     type = string
 }
+
+variable "CLUSTER_NAME" {
+    type = string
+}
