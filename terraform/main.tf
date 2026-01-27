@@ -90,7 +90,7 @@ data  "aws_iam_policy_document" "schedule-permissions-policy" {
     }
 }
 
-
+# IAM Role and Policy for Scheduler
 resource "aws_iam_role" "schedule-role" {
     name               = "${var.BASE_NAME}-scheduler-etl-role"
     assume_role_policy = data.aws_iam_policy_document.schedule-trust-policy.json
@@ -102,17 +102,12 @@ resource "aws_iam_role_policy" "schedule-permissions" {
     policy = data.aws_iam_policy_document.schedule-permissions-policy.json
 }
 
+# Security Group for ETL Tasks
 resource "aws_security_group" "etl-sg" {
     name        = "${var.BASE_NAME}-etl-sg"
     description = "Security group for ETL tasks"
     vpc_id      = data.aws_vpc.c21-vpc.id
 
-    ingress {
-        from_port   = 80
-        to_port     = 80
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
     egress {
     from_port   = 0
     to_port     = 0
@@ -121,6 +116,7 @@ resource "aws_security_group" "etl-sg" {
 }
 }
 
+# ETL Eventbridge Schedule
 resource "aws_scheduler_schedule" "data-upload-schedule" {
     name = "${var.BASE_NAME}-etl-schedule"
     flexible_time_window {
