@@ -58,7 +58,8 @@ data  "aws_iam_policy_document" "schedule-permissions-policy" {
 
     statement {
         effect = "Allow"
-        #resources = ["${task definition arn for etl pipeline lambda}:*"]
+        resources = ["${var.TASK_DEFINITION_ARN}:*",
+                      var.TASK_DEFINITION_ARN]
         actions = ["ecs:RunTask"]
         condition {
             test     = "ArnLike"
@@ -86,5 +87,61 @@ data  "aws_iam_policy_document" "schedule-permissions-policy" {
             "logs:PutLogEvents",
             "logs:CreateLogGroup"
         ]
+    }
+}
+
+
+resource "aws_iam_role" "schedule-role" {
+    name               = "${var.BASE_NAME}-scheduler-etl-role"
+    assume_role_policy = data.aws_iam_policy_document.schedule-trust-policy.json
+}
+
+resource "aws_iam_role_policy" "schedule-permissions" {
+    name   = "${var.BASE_NAME}-execution-policy"
+    role   = aws_iam_role.schedule-role.id
+    policy = data.aws_iam_policy_document.schedule-permissions-policy.json
+}
+
+resource "aws_security_group" "etl-sg" {
+    name        = "${var.BASE_NAME}-etl-sg"
+    description = "Security group for ETL tasks"
+    vpc_id      = data.aws_vpc.c21-vpc.id
+
+    ingress {
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+}
+}
+
+resource "aws_scheduler_schedule" "data-upload-schedule" {
+    name = "${var.BASE_NAME}-etl-schedule"
+    flexible_time_window {
+      mode = "OFF"
+    }
+    schedule_expression = "cron(* * * * ? *)"
+    schedule_expression_timezone = "Europe/London"
+
+    target {
+        arn = data.aws_ecs_cluster.target-cluster.arn
+        role_arn = aws_iam_role.schedule-role.arn
+        ecs_parameters {
+            task_definition_arn = var.TASK_DEFINITION_ARN
+            launch_type = "FARGATE"
+            network_configuration {
+                subnets          = [data.aws_subnet.c21-public-subnet-a.id,
+                                    data.aws_subnet.c21-public-subnet-b.id,
+                                    data.aws_subnet.c21-public-subnet-c.id]
+                security_groups  = [aws_security_group.etl-sg.id]
+                assign_public_ip = true
+            }
+        }
     }
 }

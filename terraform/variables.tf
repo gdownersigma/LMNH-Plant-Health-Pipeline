@@ -33,3 +33,7 @@ variable "BASE_NAME" {
 variable "CLUSTER_NAME" {
     type = string
 }
+
+variable "TASK_DEFINITION_ARN" {
+    type = string
+}
