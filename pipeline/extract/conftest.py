@@ -52,3 +52,33 @@ def sample_plant_data():
         "soil_moisture": 28.58,
         "temperature": 16.91
     }
+
+
+@pytest.fixture
+def sample_plant_data_extended():
+    """Sample plant data for testing."""
+    return {
+        "botanist": {
+            "email": "sherry.campbell@lnhm.co.uk",
+            "name": "Sherry Campbell",
+            "phone": "+1-662-659-8097x8928"
+        },
+        "images": {
+            "license": 4,
+            "license_name": "Attribution License",
+            "medium_url": "https://example.com/image.jpg"
+        },
+        "last_watered": "2026-01-26T13:12:19",
+        "name": "Venus flytrap",
+        "origin_location": {
+            "city": "Mitchellfurt",
+            "country": "Suriname",
+            "latitude": "81.2003535",
+            "longitude": "7.815683"
+        },
+        "plant_id": 1,
+        "recording_taken": "2026-01-27T10:08:05.308991",
+        "scientific_name": ["Dionaea muscipula"],
+        "soil_moisture": 28.58,
+        "temperature": 16.91
+    }
