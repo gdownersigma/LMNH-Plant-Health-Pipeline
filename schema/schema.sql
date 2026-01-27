@@ -1,5 +1,12 @@
+-- Drop tables if they exist (in correct dependency order)
+IF OBJECT_ID('plant_reading', 'U') IS NOT NULL DROP TABLE plant_reading;
+IF OBJECT_ID('plant', 'U') IS NOT NULL DROP TABLE plant;
+IF OBJECT_ID('origin', 'U') IS NOT NULL DROP TABLE origin;
+IF OBJECT_ID('botanist', 'U') IS NOT NULL DROP TABLE botanist;
+IF OBJECT_ID('country', 'U') IS NOT NULL DROP TABLE country;
+
 CREATE TABLE botanist (
-    botanist_id SMALLINT NOT NULL PRIMARY KEY,
+    botanist_id SMALLINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL
@@ -15,14 +22,14 @@ CREATE TABLE plant (
     thumbnail VARCHAR(255) NULL
 );
 CREATE TABLE origin (
-    origin_id SMALLINT NOT NULL PRIMARY KEY,
+    origin_id SMALLINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     city VARCHAR(255) NOT NULL,
     country_id SMALLINT NOT NULL,
     lat FLOAT NOT NULL,
     long FLOAT NOT NULL
 );
 CREATE TABLE plant_reading (
-    plant_reading_id BIGINT NOT NULL PRIMARY KEY,
+    plant_reading_id BIGINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     plant_id SMALLINT NOT NULL,
     soil_moisture FLOAT NOT NULL,
     temperature FLOAT NOT NULL,
@@ -30,7 +37,7 @@ CREATE TABLE plant_reading (
     last_watered DATE NOT NULL
 );
 CREATE TABLE country (
-    country_id SMALLINT NOT NULL PRIMARY KEY,
+    country_id SMALLINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     country_name VARCHAR(255) NOT NULL
 );
 ALTER TABLE plant_reading
