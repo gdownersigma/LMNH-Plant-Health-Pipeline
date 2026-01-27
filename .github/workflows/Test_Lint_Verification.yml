@@ -1,4 +1,4 @@
-name: Test
+name: Pytesting & Pylinting
 
 on:
   pull_request:
@@ -14,23 +14,24 @@ jobs:
     name: Pytesting & Pylinting
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: '3.14'
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('./langdale_zoo_api/requirements.txt') }}
         
     - name: Install libraries
-      run: pip install -r ./langdale_zoo_api/requirements.txt
+      run: pip install -r ./requirements.txt
+
+    - name: Install libraries
+      run: pip install -r ./pipeline/pipeline_requirements.txt
+      
+    - name: Install pipeline reqs
+      run: pip install -r ./pipeline/pipeline_requirements.txt
       
     - name: Linting
-      run: pylint ./langdale_zoo_api/ --fail-under 8
+      run: pylint *.py --fail-under 8
       
     - name: Testing
-      run: pytest ./langdale_zoo_api/
+      run: pytest .
 
