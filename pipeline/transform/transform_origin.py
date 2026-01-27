@@ -72,5 +72,50 @@ def validate_city_country(df: pd.DataFrame) -> bool:
     return True
 
 
+def validate_origin_data(origin_data: pd.DataFrame) -> bool:
+    """Validate origin location data columns."""
+    if not origin_data['origin_latitude'].apply(validate_latitude).all():
+        print(f"Validation failed: lat/long contains invalid latitude values")
+        return False
+    
+    if not origin_data['origin_longitude'].apply(validate_longitude).all():
+        print(f"Validation failed: lat/long contains invalid longitude values")
+        return False
+    
+    for col in ['origin_city', 'origin_country']:
+        if not origin_data[col].apply(validate_city_country).all():
+            print(f"Validation failed: column '{col}' contains invalid city/country values")
+            return False
+    return True
+
+
+def clean_city_country(df: pd.DataFrame) -> pd.DataFrame:
+    """Clean city and country data for the origin data."""
+
+    df['origin_city'] = df['origin_city'].apply(lambda x: x.strip().title() if isinstance(x, str) else x)
+    df['origin_country'] = df['origin_country'].apply(lambda x: x.strip().title() if isinstance(x, str) else x)
+    return df
+
+
+def clean_lat_long(df: pd.DataFrame) -> pd.DataFrame:
+    """Clean latitudes and longitudes for the origin data."""
+
+    df['origin_latitude'] = df['origin_latitude'].astype(float)
+    df['origin_longitude'] = df['origin_longitude'].astype(float)
+    return df
+
+
+def transform_origin_data(origin_data: pd.DataFrame) -> pd.DataFrame:
+    """Transform and clean origin location data."""
+    origin_data = clean_city_country(origin_data)
+    origin_data = clean_lat_long(origin_data)
+    if validate_origin_data(origin_data):
+        print("Origin data validation passed")
+        return origin_data
+    else:
+        print("ERROR: Origin data validation failed")
+        raise ValueError("Origin data validation failed.")
+
+
 if __name__ == "__main__":
     pass
