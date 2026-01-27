@@ -57,5 +57,20 @@ def validate_longitude(longitude) -> bool:
     return True
 
 
+def validate_city_country(df: pd.DataFrame) -> bool:
+    """Validate city and country data for the origin data."""
+
+    if pd.isna(df):
+        print(f"Validation failed: city/country is NaN")
+        return False
+    if not isinstance(df, str):
+        print(f"Validation failed: city/country {df} is not a string (type: {type(df)})")
+        return False
+    if df.strip() == "":
+        print(f"Validation failed: city/country is empty or whitespace only")
+        return False
+    return True
+
+
 if __name__ == "__main__":
     pass

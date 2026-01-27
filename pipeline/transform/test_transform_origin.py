@@ -2,7 +2,7 @@
 
 import pytest
 
-from transform_origin import (validate_latitude, validate_longitude)
+from transform_origin import (validate_latitude, validate_longitude, validate_city_country)
 
 class TestValidateOriginData:
     """Tests to clean botanist data."""
@@ -36,3 +36,16 @@ class TestValidateOriginData:
     ])
     def test_validate_longitude(self, input, output):
         assert validate_longitude(input) == output
+
+    @pytest.mark.parametrize("input, output", [
+        ["", False],
+        ["   ", False],
+        [180.0, False],
+        ["Valid City", True],
+        ["Valid Country", True],
+        ["Triangle", True],
+        [None, False],
+        [12345, False],
+    ])
+    def test_validate_city_country(self, input, output):
+        assert validate_city_country(input) == output
