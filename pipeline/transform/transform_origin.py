@@ -24,13 +24,16 @@ def validate_latitude(latitude) -> bool:
     max_lat = 90.0
     min_lat = -90.0
 
+    if not isinstance(latitude, (float, int)):
+        print(
+            f"Validation failed: latitude {latitude} is not a number (type: {type(latitude)})")
+        return False
+
     if not (min_lat <= latitude <= max_lat):
         print(f"Validation failed: latitude {latitude} out of range [{min_lat}, {max_lat}]")
         return False
     
-    if not isinstance(latitude, (float, int)):
-        print(f"Validation failed: latitude {latitude} is not a number (type: {type(latitude)})")
-        return False
+    
     return True
 
 
