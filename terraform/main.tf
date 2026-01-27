@@ -32,6 +32,6 @@ resource "aws_s3_bucket" "plant-storage" {
     bucket = "${var.BASE_NAME}-plant-storage"
     
     tags = {
-        Name = "C21 ${var.BASE_NAME} Plant Storage Bucket"
+        Name = "${var.BASE_NAME} Plant Storage Bucket"
     }
 }
