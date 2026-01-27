@@ -7,3 +7,4 @@
 *.tfvars
 explore/output/
 **/copilot-instructions.md
+*.csv
