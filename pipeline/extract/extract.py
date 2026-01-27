@@ -7,8 +7,7 @@ def fetch_plant(plant_id: int) -> dict:
     """Return a dictionary with plant data for the given plant ID."""
     response = requests.get(
         f"https://tools.sigmalabs.co.uk/api/plants/{plant_id}", timeout=5)
-    response = response.json()
-    return response
+    return response.json()
 
 
 def does_plant_exist(plant: dict) -> bool:
