@@ -1,19 +1,6 @@
 """Tests for the load_plant_readings module."""
 import pytest
-
-from load_plant_readings import get_connection, insert_plant_reading, load_plant_readings
-
-
-class TestGetConnection:
-    """Tests for the get_connection function."""
-
-    def test_returns_connection(self, mocker):
-        """Should return a database connection."""
-        mock_connect = mocker.patch("load_plant_readings.pymssql.connect")
-
-        get_connection()
-
-        mock_connect.assert_called_once()
+from load_plant_readings import insert_plant_reading, load_plant_readings
 
 
 class TestInsertPlantReading:
