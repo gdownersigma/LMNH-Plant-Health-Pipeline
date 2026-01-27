@@ -87,7 +87,4 @@ def to_dataframe(plants: list[dict]) -> pd.DataFrame:
 if __name__ == "__main__":
     all_plants = fetch_all_plants()
     df = to_dataframe(all_plants)
-    print(df.shape)
-    print(df.info())
-    print(df.head())
-    print(df.isnull().sum())
+    df.to_csv("out.csv")
