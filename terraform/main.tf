@@ -37,8 +37,4 @@ resource "aws_s3_bucket" "plant-storage" {
     }
 }
 
-# Access existing bucket
-# data "aws_s3_bucket" "plant-storage" {
-#     bucket = "c21-curdie-plant-storage"
-# }
 
