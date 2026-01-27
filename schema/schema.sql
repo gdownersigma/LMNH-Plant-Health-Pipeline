@@ -1,0 +1,43 @@
+CREATE TABLE botanist (
+    botanist_id SMALLINT NOT NULL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL
+);
+CREATE TABLE plant (
+    plant_id SMALLINT NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    scientific_name VARCHAR(255) NOT NULL,
+    origin_id SMALLINT NOT NULL,
+    botanist_id SMALLINT NOT NULL,
+    image_license_url VARCHAR(255) NULL,
+    image_url VARCHAR(255) NULL,
+    thumbnail VARCHAR(255) NULL
+);
+CREATE TABLE origin (
+    origin_id SMALLINT NOT NULL PRIMARY KEY,
+    city VARCHAR(255) NOT NULL,
+    country_id SMALLINT NOT NULL,
+    lat FLOAT NOT NULL,
+    long FLOAT NOT NULL
+);
+CREATE TABLE plant_reading (
+    plant_reading_id BIGINT NOT NULL PRIMARY KEY,
+    plant_id SMALLINT NOT NULL,
+    soil_moisture FLOAT NOT NULL,
+    temperature FLOAT NOT NULL,
+    recording_taken DATE NOT NULL,
+    last_watered DATE NOT NULL
+);
+CREATE TABLE country (
+    country_id SMALLINT NOT NULL PRIMARY KEY,
+    country_name VARCHAR(255) NOT NULL
+);
+ALTER TABLE plant_reading
+    ADD CONSTRAINT FK_plant_reading_plant_id FOREIGN KEY (plant_id) REFERENCES plant(plant_id);
+ALTER TABLE plant
+    ADD CONSTRAINT FK_plant_origin_id FOREIGN KEY (origin_id) REFERENCES origin(origin_id);
+ALTER TABLE plant
+    ADD CONSTRAINT FK_plant_botanist_id FOREIGN KEY (botanist_id) REFERENCES botanist(botanist_id);
+ALTER TABLE origin
+    ADD CONSTRAINT FK_origin_country_id FOREIGN KEY (country_id) REFERENCES country(country_id);

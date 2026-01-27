@@ -7,8 +7,7 @@ def fetch_plant(plant_id: int) -> dict:
     """Return a dictionary with plant data for the given plant ID."""
     response = requests.get(
         f"https://tools.sigmalabs.co.uk/api/plants/{plant_id}", timeout=5)
-    response = response.json()
-    return response
+    return response.json()
 
 
 def does_plant_exist(plant: dict) -> bool:
@@ -24,7 +23,7 @@ def does_plant_exist(plant: dict) -> bool:
     return True
 
 
-def fetch_all_plants(max_consecutive_failures: int = 3) -> list[dict]:
+def fetch_all_plants(max_consecutive_failures: int = 5) -> list[dict]:
     """Fetch all plant data from the API, handling consecutive failures."""
     plants = []
     consecutive_failures = 0
@@ -76,13 +75,8 @@ def to_dataframe(plants: list[dict]) -> pd.DataFrame:
 
         # Flatten images
         images = plant.get("images") or {}
-        row["image_license"] = images.get("license")
-        row["image_license_name"] = images.get("license_name")
         row["image_license_url"] = images.get("license_url")
-        row["image_medium_url"] = images.get("medium_url")
         row["image_original_url"] = images.get("original_url")
-        row["image_regular_url"] = images.get("regular_url")
-        row["image_small_url"] = images.get("small_url")
         row["image_thumbnail"] = images.get("thumbnail")
 
         flattened.append(row)
