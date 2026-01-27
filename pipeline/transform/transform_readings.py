@@ -22,10 +22,54 @@ def get_plant_readings_data(all_data: pd.DataFrame) -> pd.DataFrame:
             col for col in readings_columns if col not in all_data.columns]
         raise KeyError(f"Missing columns in input DataFrame: {missing_cols}")
 
-    readings_data = all_data[readings_columns].copy()
+    readings_data = all_data[readings_columns].copy().dropna()
     return readings_data
 
 
-def validate_data_types(readings: pd.DataFrame) -> bool:
-    """Validate data types for the plant readings data columns."""
-    pass
+def fix_data_types(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    """Fix data types for the plant readings data columns."""
+
+    readings[column_name] = pd.to_datetime(
+        readings[column_name], errors='coerce')
+
+    return readings
+
+
+def round_readings(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    """Round soil_moisture and temperature to 3 decimal places."""
+
+    readings[column_name] = readings[column_name].round(3)
+
+    return readings
+
+
+def round_seconds(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    """Returns datetime column rounded to the nearest second."""
+
+    readings[column_name] = readings[column_name].dt.round('s')
+
+    return readings
+
+
+def transform_plant_readings(all_data: pd.DataFrame) -> pd.DataFrame:
+    """Transform the plant readings data."""
+
+    readings_data = get_plant_readings_data(all_data)
+    readings_data = fix_data_types(readings_data, 'recording_taken')
+    readings_data = fix_data_types(readings_data, 'last_watered')
+    readings_data = round_readings(readings_data, 'soil_moisture')
+    readings_data = round_seconds(readings_data, 'recording_taken')
+
+    return readings_data
+
+
+if __name__ == "__main__":
+    df = pd.read_csv("plant_data.csv")
+
+    readings_df = get_plant_readings_data(df)
+    readings_df = fix_data_types(readings_df, 'recording_taken')
+    readings_df = fix_data_types(readings_df, 'last_watered')
+    readings_df = round_readings(readings_df, 'soil_moisture')
+    readings_df = round_seconds(readings_df, 'recording_taken')
+
+    readings_df.to_csv("plant_readings.csv", index=False)
