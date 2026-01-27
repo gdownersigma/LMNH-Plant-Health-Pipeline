@@ -57,3 +57,4 @@ if __name__ == "__main__":
     df = get_botanists(df)
 
     save_clean_data(df, "clean_botanists.csv")
+    print("Cleaned botanist data saved to 'clean_botanists.csv'")
