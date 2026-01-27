@@ -1,4 +1,5 @@
 """Script to retrieve plant data from the API and save it as a dataframe."""
+import pandas as pd
 
 
 def fetch_plant(plant_id: int) -> dict:
@@ -16,4 +17,10 @@ def fetch_all_plants(base_url: str, max_consecutive_failures: int = 3) -> list[d
     pass
 
 
+def to_dataframe(plants: list[dict]) -> pd.DataFrame:
+    """Convert a list of plant dictionaries to a pandas DataFrame."""
+    pass
+
+
 if __name__ == "__main__":
+    pass
