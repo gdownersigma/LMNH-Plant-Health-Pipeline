@@ -2,7 +2,8 @@
 
 import pandas as pd
 import pytest
-from transform_readings import (get_plant_readings_data, validate_data_types)
+from transform_readings import (
+    get_plant_readings_data, fix_data_types, round_readings, remove_milliseconds)
 
 
 def test_get_plant_readings_data(sample_plant_data):
@@ -30,7 +31,12 @@ def test_get_plant_readings_data_empty():
         get_plant_readings_data(empty_df)
 
 
-def test_validate_data_types(sample_readings_data):
-    """Test validation of data types for plant readings data."""
-    is_valid = validate_data_types(sample_readings_data)
-    assert is_valid is True
+def test_fix_data_types(valid_readings_data: pd.DataFrame):
+    """Test changing of data types for plant readings data."""
+    original_dtype = valid_readings_data["recording_taken"].dtype
+    fixed_data = fix_data_types(valid_readings_data, 'recording_taken')
+    new_dtype = fixed_data["recording_taken"].dtype
+    print(new_dtype)
+
+    assert not pd.api.types.is_datetime64_any_dtype(original_dtype)
+    assert pd.api.types.is_datetime64_any_dtype(new_dtype)

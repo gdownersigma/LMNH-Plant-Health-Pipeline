@@ -50,8 +50,8 @@ def sample_plant_data():
         },
         "plant_id": 1,
         "recording_taken": "2026-01-27T10:08:05.308991",
-        "soil_moisture": 28.58,
-        "temperature": 16.91
+        "soil_moisture": 88.75284232471265,
+        "temperature": 15.768334844741695
     }
 
 
@@ -93,8 +93,8 @@ def valid_readings_data():
         "name": "Venus flytrap",
         "plant_id": 1,
         "recording_taken": "2026-01-27T10:08:05.308991",
-        "soil_moisture": 28.58,
-        "temperature": 16.91
+        "soil_moisture": 88.75284232471265,
+        "temperature": 15.768334844741695
     }
     data_frame = pd.json_normalize(data)
     return data_frame
@@ -108,8 +108,8 @@ def invalid_readings_data():
         "name": "Venus flytrap",
         "plant_id": 1,
         "recording_taken": "2026-01-27T10:08:05.308991",
-        "soil_moisture": 28.58,
-        "temperature": 16.91
+        "soil_moisture": 88.75284232471265,
+        "temperature": 15.768334844741695
     }
     data_frame = pd.json_normalize(data)
     return data_frame
