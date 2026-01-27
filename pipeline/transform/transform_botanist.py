@@ -52,7 +52,14 @@ def clean_phone_number(phone: str) -> str:
 
 
 if __name__ == "__main__":
-    df = load_data("test_data.csv")
+
+    df = load_data("out.csv")
+
+    # Verify that df does not have any duplicate rows
+    if df.duplicated().any():
+        print(f"Warning: {df.duplicated().sum()} duplicate rows found in the DataFrame.")
+    else:
+        print("No duplicate rows found in the DataFrame.")
 
     df = get_botanists(df)
 
