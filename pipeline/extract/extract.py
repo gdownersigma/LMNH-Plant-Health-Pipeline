@@ -7,7 +7,8 @@ def fetch_plant(plant_id: int) -> dict:
     """Return a dictionary with plant data for the given plant ID."""
     response = requests.get(
         f"https://tools.sigmalabs.co.uk/api/plants/{plant_id}", timeout=5)
-    return response.json()
+    response = response.json()
+    return response
 
 
 def does_plant_exist(plant: dict) -> bool:
@@ -16,6 +17,9 @@ def does_plant_exist(plant: dict) -> bool:
         return False
     if plant.get("error", False) == "plant sensor fault":
         print("Sensor fault detected.")
+        return True
+    if plant.get("error", False) == "plant on loan to another museum":
+        print("Plant on loan detected.")
         return True
     return True
 
@@ -44,9 +48,52 @@ def fetch_all_plants(max_consecutive_failures: int = 3) -> list[dict]:
 
 def to_dataframe(plants: list[dict]) -> pd.DataFrame:
     """Convert a list of plant dictionaries to a pandas DataFrame."""
-    pass
+
+    flattened = []
+    for plant in plants:
+        row = {
+            "plant_id": plant.get("plant_id"),
+            "name": plant.get("name"),
+            "scientific_name": plant.get("scientific_name", [None])[0],
+            "soil_moisture": plant.get("soil_moisture"),
+            "temperature": plant.get("temperature"),
+            "recording_taken": plant.get("recording_taken"),
+            "last_watered": plant.get("last_watered"),
+        }
+
+        # Flatten botanist
+        botanist = plant.get("botanist") or {}
+        row["botanist_name"] = botanist.get("name")
+        row["botanist_email"] = botanist.get("email")
+        row["botanist_phone"] = botanist.get("phone")
+
+        # Flatten origin_location
+        location = plant.get("origin_location") or {}
+        row["origin_city"] = location.get("city")
+        row["origin_country"] = location.get("country")
+        row["origin_latitude"] = location.get("latitude")
+        row["origin_longitude"] = location.get("longitude")
+
+        # Flatten images
+        images = plant.get("images") or {}
+        row["image_license"] = images.get("license")
+        row["image_license_name"] = images.get("license_name")
+        row["image_license_url"] = images.get("license_url")
+        row["image_medium_url"] = images.get("medium_url")
+        row["image_original_url"] = images.get("original_url")
+        row["image_regular_url"] = images.get("regular_url")
+        row["image_small_url"] = images.get("small_url")
+        row["image_thumbnail"] = images.get("thumbnail")
+
+        flattened.append(row)
+
+    return pd.DataFrame(flattened)
 
 
 if __name__ == "__main__":
     all_plants = fetch_all_plants()
-    print(all_plants)
+    df = to_dataframe(all_plants)
+    print(df.shape)
+    print(df.info())
+    print(df.head())
+    print(df.isnull().sum())
