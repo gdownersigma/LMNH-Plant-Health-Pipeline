@@ -141,3 +141,13 @@ resource "aws_scheduler_schedule" "data-upload-schedule" {
         }
     }
 }
+
+# CloudWatch Log Group for ETL Task Logs
+resource "aws_cloudwatch_log_group" "etl-logs" {
+    name              = "/ecs/${var.BASE_NAME}-etl-task"
+    retention_in_days = 7
+
+    tags = {
+        Name = "${var.BASE_NAME} ETL Task Logs"
+    }
+}
