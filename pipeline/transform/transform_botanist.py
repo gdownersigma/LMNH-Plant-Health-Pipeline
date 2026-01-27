@@ -5,8 +5,12 @@ import pandas as pd
 
 def load_data(file_path: str):
     """Load data from a CSV file into a DataFrame."""
-    df = pd.read_csv(file_path)
-    return df
+    return pd.read_csv(file_path)
+
+
+def save_clean_data(df: pd.DataFrame, file_path: str):
+    """Save cleaned data to a CSV file."""
+    df.to_csv(file_path, index=False)
 
 
 def get_botanists(df: pd.DataFrame) -> pd.DataFrame:
@@ -19,7 +23,6 @@ def get_botanists(df: pd.DataFrame) -> pd.DataFrame:
         clean_phone_number)
 
     botanists_df = botanists_df.reset_index(drop=True)
-    botanists_df.insert(0, 'botanist_id', range(1, len(botanists_df) + 1))
     return botanists_df
 
 
@@ -51,9 +54,6 @@ def clean_phone_number(phone: str) -> str:
 if __name__ == "__main__":
     df = load_data("test_data.csv")
 
-    data = {}
+    df = get_botanists(df)
 
-    data["botanists"] = get_botanists(df)
-
-    print(data)
-    get_botanists(df).to_csv("test_clean_data.csv", index=False)
+    save_clean_data(df, "clean_botanists.csv")
