@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 from transform_readings import (
-    get_plant_readings_data, fix_data_types, round_readings, remove_milliseconds)
+    get_plant_readings_data, fix_data_types, round_readings, round_seconds)
 
 
 def test_get_plant_readings_data(sample_plant_data):
@@ -50,15 +50,31 @@ def test_fix_data_types(column_name, valid_readings_data: pd.DataFrame):
     'soil_moisture',
     'temperature'
 ])
-def test_round_readings_for_soil_moisture(column_name, valid_readings_data: pd.DataFrame):
+def test_round_readings(column_name, valid_readings_data: pd.DataFrame):
     """Test rounding for plant readings data."""
-    original_soil_moisture = valid_readings_data[column_name].iloc[0]
+    original_value = valid_readings_data[column_name].iloc[0]
     readings_data = round_readings(valid_readings_data, column_name)
-    rounded_soil_moisture = readings_data[column_name].iloc[0]
+    rounded_value = readings_data[column_name].iloc[0]
 
-    print(original_soil_moisture)
-    print(rounded_soil_moisture)
+    assert isinstance(rounded_value, float)
+    assert round(original_value, 3) == rounded_value
+    assert len(str(rounded_value).split('.')[-1]) <= 3
+    'soil_moisture',
+    'temperature'
 
-    assert isinstance(rounded_soil_moisture, float)
-    assert round(original_soil_moisture, 3) == rounded_soil_moisture
-    assert len(str(rounded_soil_moisture).split('.')[-1]) <= 3
+
+@pytest.mark.parametrize("column_name", [
+    'recording_taken',
+])
+def test_round_seconds(column_name, valid_readings_data: pd.DataFrame):
+    """Test removal of milliseconds for plant readings data."""
+    readings_data = fix_data_types(valid_readings_data, column_name)
+
+    original_value = readings_data[column_name].iloc[0]
+    readings_data = round_seconds(readings_data, column_name)
+    new_value = readings_data[column_name].iloc[0]
+
+    assert type(original_value) == pd.Timestamp
+    assert type(new_value) == pd.Timestamp
+    assert original_value.microsecond != 0
+    assert new_value.microsecond == 0
