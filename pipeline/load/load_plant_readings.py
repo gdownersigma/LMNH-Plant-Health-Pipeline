@@ -1,6 +1,7 @@
 """Load plant readings into the database."""
-import pandas as pd
+# pylint: disable=no-member
 from os import environ as ENV
+import pandas as pd
 from dotenv import load_dotenv
 import pymssql
 
