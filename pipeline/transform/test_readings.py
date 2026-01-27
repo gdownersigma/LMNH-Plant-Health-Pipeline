@@ -31,11 +31,15 @@ def test_get_plant_readings_data_empty():
         get_plant_readings_data(empty_df)
 
 
-def test_fix_data_types(valid_readings_data: pd.DataFrame):
+@pytest.mark.parametrize("column_name", [
+    'recording_taken',
+    'last_watered'
+])
+def test_fix_data_types(column_name, valid_readings_data: pd.DataFrame):
     """Test changing of data types for plant readings data."""
-    original_dtype = valid_readings_data["recording_taken"].dtype
-    fixed_data = fix_data_types(valid_readings_data, 'recording_taken')
-    new_dtype = fixed_data["recording_taken"].dtype
+    original_dtype = valid_readings_data[column_name].dtype
+    fixed_data = fix_data_types(valid_readings_data, column_name)
+    new_dtype = fixed_data[column_name].dtype
     print(new_dtype)
 
     assert not pd.api.types.is_datetime64_any_dtype(original_dtype)
