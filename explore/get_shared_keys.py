@@ -1,10 +1,15 @@
+"""Script to identify shared and non-shared keys across JSON files in a directory."""
+
 import os
 import json
 
 
 def get_shared_and_nonshared_keys(directory):
+    """Identify shared and non-shared keys across all JSON files in the specified directory."""
+
     shared_keys = None
     all_keys = set()
+
     for filename in os.listdir(directory):
         if filename.endswith('.json'):
             path = os.path.join(directory, filename)
@@ -18,8 +23,9 @@ def get_shared_and_nonshared_keys(directory):
                             shared_keys = keys
                         else:
                             shared_keys &= keys
-                except Exception as e:
+                except ValueError as e:
                     print(f"Error reading {filename}: {e}")
+
     if shared_keys is None:
         shared_keys = set()
     non_shared_keys = all_keys - shared_keys
