@@ -1,4 +1,4 @@
-"""""Tests for the extract module."""
+""""Tests for the extract module."""
 import requests
 import pandas as pd
 from extract import fetch_plant, does_plant_exist, fetch_all_plants, to_dataframe
