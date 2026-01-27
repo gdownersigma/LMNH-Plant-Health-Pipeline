@@ -1,6 +1,5 @@
 variable "AWS_REGION" {
     type    = string
-    default = "eu-west-2"
 }
 
 variable "AWS_ACCESS_KEY" {
@@ -24,5 +23,9 @@ variable "SUBNET_ID_B" {
 }
 
 variable "SUBNET_ID_C" {
+    type = string
+}
+
+variable "BASE_NAME" {
     type = string
 }

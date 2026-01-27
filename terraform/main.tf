@@ -29,12 +29,9 @@ data "aws_subnet" "c21-public-subnet-c" {
 
 # Create new bucket
 resource "aws_s3_bucket" "plant-storage" {
-    bucket = "c21-curdie-plant-storage"
+    bucket = "${var.BASE_NAME}-plant-storage"
     
     tags = {
-        Name = "C21 Curdie Plant Storage Bucket"
-        Environment = "Dev"
+        Name = "C21 ${var.BASE_NAME} Plant Storage Bucket"
     }
 }
-
-
