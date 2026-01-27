@@ -7,12 +7,33 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from extract.extract import fetch_all_plants, to_dataframe
 
 
-def get_botanists(df: pd.DataFrame) -> pd.DataFrame:
-    """Extract unique botanist details from the plant data."""
+def get_raw_origin(df: pd.DataFrame) -> pd.DataFrame:
+    """Extract unique origin details from the plant data."""
     origin_data = df[['origin_city', 'origin_country',
-                      'origin_latitude', 'origin_longitude']].dropna().drop_duplicates()
+                      'origin_latitude', 'origin_longitude']]
 
     origin_data = origin_data.reset_index(drop=True)
     return origin_data
 
 
+def validate_latitude(latitude) -> bool:
+    """Validate latitude values."""
+    if pd.isna(latitude):
+        print(f"Validation failed: latitude is NaN")
+        return False
+    max_lat = 90.0
+    min_lat = -90.0
+
+    if not (min_lat <= latitude <= max_lat):
+        print(f"Validation failed: latitude {latitude} out of range [{min_lat}, {max_lat}]")
+        return False
+    
+    if not isinstance(latitude, (float, int)):
+        print(f"Validation failed: latitude {latitude} is not a number (type: {type(latitude)})")
+        return False
+    return True
+
+
+
+if __name__ == "__main__":
+    pass

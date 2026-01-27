@@ -1,0 +1,23 @@
+"""Tests for transform_origin.py"""
+
+import pytest
+
+from transform_origin import validate_latitude
+
+class TestValidateOriginData:
+    """Tests to clean botanist data."""
+
+    @pytest.mark.parametrize("input, output", [
+        [10.0, True],
+        [90.0, True],
+        [-90.0, True],
+        [91.0, False],
+        [-91.0, False],
+        [None, False],
+        ["string", False],
+        [0, True],
+        [56398285, False],
+        [67.77454747, True],
+    ])
+    def test_validate_latitude(self, input, output):
+        assert validate_latitude(input) == output
