@@ -1,12 +1,6 @@
 """Script to transform origin data."""
 
-import sys
-from pathlib import Path
 import pandas as pd
-
-sys.path.insert(0, str(Path(__file__).parent.parent))
-from extract.extract import fetch_all_plants, to_dataframe
-
 
 def get_raw_origin(data: pd.DataFrame) -> pd.DataFrame:
     """Extract unique origin details from the plant data."""
@@ -183,11 +177,12 @@ def process_origin_data(all_data: pd.DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    #From extract.py
-    all_plants = fetch_all_plants()
-    plants_df = to_dataframe(all_plants)
+    # Takes input from extract.py
+    # all_plants = fetch_all_plants()
+    # plants_df = to_dataframe(all_plants)
 
     #From transform_origin.py
-    origin_df = process_origin_data(plants_df)
-    cities_df = pd.read_csv('cities.csv')
-    countries_df = pd.read_csv('countries.csv')
+    # origin_df = process_origin_data(plants_df)
+    # cities_df = pd.read_csv('cities.csv')
+    # countries_df = pd.read_csv('countries.csv')
+    pass
