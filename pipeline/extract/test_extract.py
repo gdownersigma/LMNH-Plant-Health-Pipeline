@@ -1,7 +1,6 @@
-"""Tests for the extract module."""
+from extract import fetch_plant, does_plant_exist, fetch_all_plants, to_dataframe
 import requests
 import pandas as pd
-from extract import fetch_plant, does_plant_exist, fetch_all_plants, to_dataframe
 
 
 class TestFetchPlant:
