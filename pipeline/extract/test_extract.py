@@ -70,7 +70,7 @@ class TestDoesPlantExist:
 
         result = does_plant_exist(plant)
 
-        assert result is False
+        assert result is True
 
 
 class TestFetchAllPlants:
@@ -78,9 +78,12 @@ class TestFetchAllPlants:
 
     def test_returns_list_of_plants(self, monkeypatch, sample_plant_data):
         """Should return a list of plant dictionaries."""
-        plants = [sample_plant_data, sample_plant_data, None, None, None]
-        monkeypatch.setattr(
-            "extract.fetch_plant", lambda id: plants[id - 1] if id <= len(plants) else None)
+        def mock_fetch(id):
+            if id <= 2:
+                return sample_plant_data
+            return {"error": "plant not found", "plant_id": id}
+
+        monkeypatch.setattr("extract.fetch_plant", mock_fetch)
 
         result = fetch_all_plants()
 
@@ -89,7 +92,10 @@ class TestFetchAllPlants:
 
     def test_stops_after_consecutive_failures(self, mocker):
         """Should stop fetching after max consecutive failures."""
-        mock_fetch = mocker.patch("extract.fetch_plant", return_value=None)
+        mock_fetch = mocker.patch(
+            "extract.fetch_plant",
+            return_value={"error": "plant not found", "plant_id": 1}
+        )
 
         fetch_all_plants(max_consecutive_failures=3)
 
@@ -97,9 +103,12 @@ class TestFetchAllPlants:
 
     def test_resets_failure_count_on_success(self, monkeypatch, sample_plant_data):
         """Should reset failure count when valid plant found."""
-        responses = [None, None, sample_plant_data, None, None, None]
-        monkeypatch.setattr(
-            "extract.fetch_plant", lambda id: responses[id - 1] if id <= len(responses) else None)
+        def mock_fetch(id):
+            if id == 3:
+                return sample_plant_data
+            return {"error": "plant not found", "plant_id": id}
+
+        monkeypatch.setattr("extract.fetch_plant", mock_fetch)
 
         result = fetch_all_plants(max_consecutive_failures=3)
 
