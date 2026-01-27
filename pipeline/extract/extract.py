@@ -76,13 +76,8 @@ def to_dataframe(plants: list[dict]) -> pd.DataFrame:
 
         # Flatten images
         images = plant.get("images") or {}
-        row["image_license"] = images.get("license")
-        row["image_license_name"] = images.get("license_name")
         row["image_license_url"] = images.get("license_url")
-        row["image_medium_url"] = images.get("medium_url")
         row["image_original_url"] = images.get("original_url")
-        row["image_regular_url"] = images.get("regular_url")
-        row["image_small_url"] = images.get("small_url")
         row["image_thumbnail"] = images.get("thumbnail")
 
         flattened.append(row)
