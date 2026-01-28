@@ -28,9 +28,9 @@ async def fetch_all_plants(max_consecutive_failures: int = 5) -> list[dict]:
     plants = []
     consecutive_failures = 0
     plant_id = 1
-    batch_size = 10  # Number of concurrent requests per batch
+    batch_size = 30  # Number of concurrent requests per batch
 
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5)) as session:
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
         while consecutive_failures < max_consecutive_failures:
             # Create tasks for a batch of plant IDs
             tasks = [
