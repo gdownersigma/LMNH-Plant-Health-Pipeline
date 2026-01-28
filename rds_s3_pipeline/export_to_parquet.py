@@ -57,9 +57,30 @@ def write_partitioned_parquet(df, table_name, base_path='s3://input/'):
 
     print(f"✓ Exported {table_name} ({len(df)} rows)")
 
-def export_all_tables():
-    """Main function to export all tables to partitioned parquet files"""
-    # Connect to database
+def get_base_path():
+    """Get S3 base path from environment variables"""
+    s3_bucket = os.getenv('S3_BUCKET_NAME')
+    if not s3_bucket:
+        raise Exception("No s3 bucket name found in environment!")
+
+    base_path = f"s3://{s3_bucket}/input"
+    print(f"Output path: {base_path}\n")
+    return base_path
+
+def export_tables(cursor, tables, base_path):
+    """Export multiple tables to parquet files"""
+    for table in tables:
+        try:
+            df = read_table_to_dataframe(cursor, table)
+            if not df.empty:
+                write_partitioned_parquet(df, table, base_path=base_path)
+            else:
+                print(f"⚠ Skipped {table} (empty table)")
+        except Exception as e:
+            print(f"✗ Error exporting {table}: {e}")
+
+def get_db_connection():
+    """Create and return a database connection"""
     conn = pymssql.connect(
         server=os.getenv('DB_HOST'),
         port=int(os.getenv('DB_PORT', 1433)),
@@ -67,19 +88,21 @@ def export_all_tables():
         password=os.getenv('DB_PASSWORD'),
         database=os.getenv('DB_NAME')
     )
+    return conn
+
+def export_all_tables():
+    """Main function to export all tables to partitioned parquet files"""
+    # Connect to database
+    conn = get_db_connection()
     cursor = conn.cursor()
 
     # Get all tables from schema
     tables = ['plant_reading', 'plant', 'origin', 'country', 'city', 'botanist']
     print(f"Extracting {len(tables)} tables: {', '.join(tables)}\n")
 
-    # S3 base path with bucket name from environment
+    # Get S3 base path
+    base_path = get_base_path()
     s3_bucket = os.getenv('S3_BUCKET_NAME')
-    if not s3_bucket:
-        raise Exception("No s3 bucket name found in environment!")
-
-    base_path = f"s3://{s3_bucket}/input"
-    print(f"Output path: {base_path}\n")
 
     # Create empty output folder at bucket root if it doesn't exist
     output_folder_path = f"s3://{s3_bucket}/output/"
@@ -91,15 +114,7 @@ def export_all_tables():
     print(f"✓ Ensured output folder exists: {output_folder_path}\n")
 
     # Export each table
-    for table in tables:
-        try:
-            df = read_table_to_dataframe(cursor, table)
-            if not df.empty:
-                write_partitioned_parquet(df, table, base_path=base_path)
-            else:
-                print(f"⚠ Skipped {table} (empty table)")
-        except Exception as e:
-            print(f"✗ Error exporting {table}: {e}")
+    export_tables(cursor, tables, base_path)
 
     cursor.close()
     conn.close()
