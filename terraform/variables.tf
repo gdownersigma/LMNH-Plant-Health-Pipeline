@@ -53,3 +53,6 @@ variable "DB_PASSWORD" {
 variable "DB_PORT" {
     type = number
 }
+variable "DB_SCHEMA" {
+    type = string
+}
