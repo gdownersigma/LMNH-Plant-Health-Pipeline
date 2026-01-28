@@ -42,12 +42,12 @@ resource "aws_s3_bucket" "plant-storage" {
 # Lambda IAM Roles and Functions
 
 data "aws_ecr_image" "first-pipeline-image" {
-    repository_name = "${var.BASE_NAME}-first-pipeline-repo"
+    repository_name = "${var.BASE_NAME}-live-pipeline"
     image_tag       = "latest"
 }
 
 data "aws_ecr_image" "second-pipeline-image" {
-    repository_name = "${var.BASE_NAME}-second-pipeline-repo"
+    repository_name = "${var.BASE_NAME}-rds-to-s3-pipeline"
     image_tag       = "latest"
 }
 
