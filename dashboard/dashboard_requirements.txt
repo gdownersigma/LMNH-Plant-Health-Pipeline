@@ -1,5 +1,5 @@
 streamlit
 pandas
 altair
-boto3
+pymssql
 python-dotenv
