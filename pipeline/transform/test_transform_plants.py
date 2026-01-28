@@ -26,7 +26,7 @@ def test_get_plant_data(sample_plant_data_full):
     assert plant_data["plant_id"].iloc[0] == sample_plant_data_full["plant_id"]
 
 
-@pytest.mark.parametrize("input, output", [
+@pytest.mark.parametrize("input_name, output_name", [
     ["venus flytrap", "Venus Flytrap"],
     ["Canna ‘Striata’", "Canna Striata"],
     ["Heliconia schiedeana 'Fire and Ice'", "Heliconia Schiedeana Fire And Ice"],
@@ -35,8 +35,9 @@ def test_get_plant_data(sample_plant_data_full):
     [None, None],
     ["    Chlorophytum     comosum 'Vittatum'", "Chlorophytum Comosum Vittatum"]
 ])
-def test_clean_names(input, output):
-    assert clean_names(input) == output
+def test_clean_names(input_name, output_name):
+    """Test cleaning and standardising of names."""
+    assert clean_names(input_name) == output_name
 
 
 def test_transform_plant_data(sample_plant_data_full, sample_transformed_plant_table_data):
