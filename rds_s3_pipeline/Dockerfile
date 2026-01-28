@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY export_to_parquet.py .
 
-CMD [ "export_to_parquet.export_all_tables" ]
+CMD [ "export_to_parquet.handler" ]
