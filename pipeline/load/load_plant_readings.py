@@ -3,13 +3,13 @@
 from os import environ as ENV
 import pandas as pd
 from dotenv import load_dotenv
-import pymssql
+from pymssql import connect
 
 
 def get_connection():
     """Create a connection to the MS SQL database."""
     load_dotenv()
-    return pymssql.connect(
+    return connect(
         server=ENV["DB_HOST"],
         user=ENV["DB_USER"],
         password=ENV["DB_PASSWORD"],
@@ -39,7 +39,7 @@ def insert_plant_reading(conn, row: dict) -> None:
         ))
 
 
-def load_plant_readings(filepath: str) -> None:
+def load_plant_readings_from_csv(filepath: str) -> None:
     """Load all plant readings from CSV into the database."""
     df = load_csv(filepath)
     conn = get_connection()
@@ -55,5 +55,20 @@ def load_plant_readings(filepath: str) -> None:
         conn.close()
 
 
+def load_plant_readings(df: pd.DataFrame) -> None:
+    """Load all plant readings from DataFrame into the database."""
+    conn = get_connection()
+
+    try:
+        for _, row in df.iterrows():
+            insert_plant_reading(conn, row)
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        conn.close()
+
+
 if __name__ == "__main__":
-    load_plant_readings("plant_readings.csv")
+    load_plant_readings_from_csv("plant_readings.csv")

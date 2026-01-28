@@ -62,6 +62,11 @@ def transform_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
     plant_data['scientific_name'] = plant_data['scientific_name'].apply(
         clean_names)
 
+    # Ensure coordinates match the format stored in origin table
+    plant_data['origin_latitude'] = plant_data['origin_latitude'].astype(float)
+    plant_data['origin_longitude'] = plant_data['origin_longitude'].astype(
+        float)
+
     return plant_data
 
 
