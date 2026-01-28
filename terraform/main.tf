@@ -151,3 +151,87 @@ resource "aws_cloudwatch_log_group" "etl-logs" {
         Name = "${var.BASE_NAME} ETL Task Logs"
     }
 }
+
+# Glue Crawler IAM Role
+data "aws_iam_policy_document" "glue-trust-policy" {
+    statement {
+        effect = "Allow"
+        principals {
+            type        = "Service"
+            identifiers = ["glue.amazonaws.com"]
+        }
+        actions = ["sts:AssumeRole"]
+    }
+}
+
+data "aws_iam_policy_document" "glue-permissions-policy" {
+    statement {
+        effect = "Allow"
+        resources = [
+            aws_s3_bucket.plant-storage.arn,
+            "${aws_s3_bucket.plant-storage.arn}/*"
+        ]
+        actions = [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:ListBucket"
+        ]
+    }
+
+    statement {
+        effect    = "Allow"
+        resources = ["*"]
+        actions = [
+            "glue:*",
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ]
+    }
+}
+
+resource "aws_iam_role" "glue-crawler-role" {
+    name               = "${var.BASE_NAME}-glue-crawler-role"
+    assume_role_policy = data.aws_iam_policy_document.glue-trust-policy.json
+}
+
+resource "aws_iam_role_policy" "glue-crawler-permissions" {
+    name   = "${var.BASE_NAME}-glue-crawler-policy"
+    role   = aws_iam_role.glue-crawler-role.id
+    policy = data.aws_iam_policy_document.glue-permissions-policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "glue-service-role" {
+    role       = aws_iam_role.glue-crawler-role.name
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+# Glue Catalog Database
+resource "aws_glue_catalog_database" "plant-catalog-db" {
+    name = replace("${var.BASE_NAME}_plant_catalog", "-", "_")
+
+    description = "Glue catalog database for plant health data"
+}
+
+# Glue Crawler
+resource "aws_glue_crawler" "plant-data-crawler" {
+    name          = "${var.BASE_NAME}-plant-crawler"
+    role          = aws_iam_role.glue-crawler-role.arn
+    database_name = aws_glue_catalog_database.plant-catalog-db.name
+
+    s3_target {
+        path = "s3://${aws_s3_bucket.plant-storage.bucket}"
+    }
+
+    schedule = "cron(0 0 * * ? *)"
+
+    schema_change_policy {
+        delete_behavior = "LOG"
+        update_behavior = "UPDATE_IN_DATABASE"
+    }
+
+    tags = {
+        Name = "${var.BASE_NAME} Plant Data Crawler"
+    }
+}
+
