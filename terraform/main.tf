@@ -11,24 +11,6 @@ data "aws_vpc" "c21-vpc" {
     id = var.VPC_ID
 }
 
-## public subnets
-# data "aws_subnet" "c21-public-subnet-a" {
-#   id = var.SUBNET_ID_A
-# }
-
-# data "aws_subnet" "c21-public-subnet-b" {
-#   id = var.SUBNET_ID_B
-# }
-
-# data "aws_subnet" "c21-public-subnet-c" {
-#   id = var.SUBNET_ID_C
-# }
-
-# # ECS Cluster
-# data "aws_ecs_cluster" "target-cluster" {
-#     cluster_name = var.CLUSTER_NAME
-# }
-
 # S3 Bucket
 
 # Create new bucket
@@ -39,8 +21,7 @@ resource "aws_s3_bucket" "plant-storage" {
     }
 }
 
-# Lambda IAM Roles and Functions
-
+# Lambda Images
 data "aws_ecr_image" "first-pipeline-image" {
     repository_name = "${var.BASE_NAME}-live-pipeline"
     image_tag       = "latest"
@@ -98,7 +79,7 @@ resource "aws_iam_role_policy" "pipeline-lambda-permissions" {
     policy = data.aws_iam_policy_document.lambda-permissions-policy.json
 }
 
-## First Pipeline Lambda - Data Extraction and Loading
+## First Pipeline Lambda - Every Minute Pipeline
 resource "aws_lambda_function" "first-pipeline" {
     function_name = "${var.BASE_NAME}-first-pipeline"
     role          = aws_iam_role.pipeline-lambda-role.arn
@@ -112,11 +93,11 @@ resource "aws_lambda_function" "first-pipeline" {
     }
 
     tags = {
-        Name = "${var.BASE_NAME} First Pipeline Lambda"
+        Name = "${var.BASE_NAME} Minutely Lambda"
     }
 }
 
-## Second Pipeline Lambda - Dockerised Pipeline
+## Second Pipeline Lambda - Daily Pipeline
 resource "aws_lambda_function" "second-pipeline" {
     function_name = "${var.BASE_NAME}-second-pipeline"
     role          = aws_iam_role.pipeline-lambda-role.arn
@@ -131,7 +112,7 @@ resource "aws_lambda_function" "second-pipeline" {
     }
 
     tags = {
-        Name = "${var.BASE_NAME} Second Pipeline Lambda"
+        Name = "${var.BASE_NAME} Daily Lambda"
     }
 }
 
