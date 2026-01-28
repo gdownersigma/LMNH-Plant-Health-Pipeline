@@ -1,6 +1,7 @@
+"""Tests for transform_botanist.py."""
+# pylint: disable=redefined-builtin
 import pytest
-from transform_botanist import get_botanists, clean_phone_number
-import pandas as pd
+from transform_botanist import clean_phone_number
 
 
 class TestCleanBotanists:
@@ -19,4 +20,5 @@ class TestCleanBotanists:
         ["44(212.276-0013x063", "+44-212-276-0013x063"],
     ])
     def test_clean_phone_number(self, input, output):
+        """Should clean and standardise phone numbers."""
         assert clean_phone_number(input) == output
