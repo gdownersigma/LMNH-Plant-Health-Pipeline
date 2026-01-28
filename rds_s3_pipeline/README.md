@@ -44,7 +44,7 @@ The script will:
 ### Build the Docker Image
 
 ```bash
-docker buildx build --platform linux/amd64,linux/arm64 -t rds-s3-export .
+docker build --platform linux/amd64 --provenance=false -t rds-s3-export .
 ```
 
 ## Output Structure
