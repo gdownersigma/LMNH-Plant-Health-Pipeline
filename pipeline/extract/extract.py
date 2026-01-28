@@ -1,46 +1,61 @@
-"""Script to retrieve plant data from the API and save it as a dataframe."""
+"""Script to retrieve plant data from the API asynchronously."""
+import asyncio
+import aiohttp
 import pandas as pd
-import requests
 
 
-def fetch_plant(plant_id: int) -> dict:
+async def fetch_plant(session: aiohttp.ClientSession, plant_id: int) -> dict:
     """Return a dictionary with plant data for the given plant ID."""
-    response = requests.get(
-        f"https://tools.sigmalabs.co.uk/api/plants/{plant_id}", timeout=5)
-    return response.json()
+    url = f"https://tools.sigmalabs.co.uk/api/plants/{plant_id}"
+    async with session.get(url) as response:
+        return await response.json()
 
 
 def does_plant_exist(plant: dict) -> bool:
     """Check if the plant actually exists in the API response."""
-    if plant.get("error", False) == "plant not found":
+    error = plant.get("error", False)
+    if error == "plant not found":
         return False
-    if plant.get("error", False) == "plant sensor fault":
+    if error == "plant sensor fault":
         print("Sensor fault detected.")
-        return True
-    if plant.get("error", False) == "plant on loan to another museum":
+    elif error == "plant on loan to another museum":
         print("Plant on loan detected.")
-        return True
     return True
 
 
-def fetch_all_plants(max_consecutive_failures: int = 5) -> list[dict]:
+async def fetch_all_plants(max_consecutive_failures: int = 5) -> list[dict]:
     """Fetch all plant data from the API, handling consecutive failures."""
+
     plants = []
     consecutive_failures = 0
     plant_id = 1
+    batch_size = 30
 
-    while consecutive_failures < max_consecutive_failures:
-        plant = fetch_plant(plant_id)
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
+        while consecutive_failures < max_consecutive_failures:
 
-        if does_plant_exist(plant):
-            plants.append(plant)
-            print(f"Fetched plant ID {plant_id}")
-            consecutive_failures = 0
-        else:
-            print(f"Plant ID {plant_id} not found.")
-            consecutive_failures += 1
+            tasks = [
+                fetch_plant(session, pid)
+                for pid in range(plant_id, plant_id + batch_size)
+            ]
 
-        plant_id += 1
+            results = await asyncio.gather(*tasks)
+
+            for i, plant in enumerate(results):
+                current_id = plant_id + i
+
+                if does_plant_exist(plant):
+                    plants.append(plant)
+                    print(f"Fetched plant ID {current_id}")
+                    consecutive_failures = 0
+                else:
+                    print(f"Plant ID {current_id} not found.")
+                    consecutive_failures += 1
+
+                    if consecutive_failures >= max_consecutive_failures:
+                        break
+
+            plant_id += batch_size
 
     return plants
 
@@ -85,10 +100,6 @@ def to_dataframe(plants: list[dict]) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    all_plants = fetch_all_plants()
+    all_plants = asyncio.run(fetch_all_plants())
     df = to_dataframe(all_plants)
-    print(df.shape)
-    print(df.info())
-    print(df.head())
-    print(df.isnull().sum())
     df.to_csv("out.csv")
