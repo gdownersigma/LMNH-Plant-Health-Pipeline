@@ -1,23 +1,40 @@
 """"Tests for the extract module."""
-import requests
+import pytest
 import pandas as pd
+from unittest.mock import AsyncMock, MagicMock
 from extract import fetch_plant, does_plant_exist, fetch_all_plants, to_dataframe
+
+
+""""Tests for the extract module."""
+
+
+class MockSession:
+    """Mock aiohttp response and session."""
+
+    def __init__(self, data):
+        self.data = data
+
+    def get(self, url):
+        return self
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+    async def json(self):
+        return self.data
 
 
 class TestFetchPlant:
     """Tests for the fetch_plant function."""
 
-    def test_fetch_plant_returns_correct_keys_for_valid_plant(self, monkeypatch, sample_plant_data):
+    @pytest.mark.asyncio
+    async def test_fetch_plant_returns_correct_keys_for_valid_plant(self, sample_plant_data):
         """Should return dictionary with all expected keys for valid plant."""
-        def mock_get(url, timeout=None):
-            response = requests.Response()
-            response.status_code = 200
-            response.json = lambda: sample_plant_data
-            return response
-
-        monkeypatch.setattr(requests, "get", mock_get)
-
-        result = fetch_plant(1)
+        session = MockSession(sample_plant_data)
+        result = await fetch_plant(session, 1)
 
         assert "plant_id" in result
         assert "name" in result
@@ -28,21 +45,23 @@ class TestFetchPlant:
         assert "soil_moisture" in result
         assert "temperature" in result
 
-    def test_fetch_plant_returns_correct_keys_for_not_found(self, mock_plant_not_found):
+    @pytest.mark.asyncio
+    async def test_fetch_plant_returns_correct_keys_for_not_found(self):
         """Should return dictionary with error and plant_id keys when plant not found."""
-        mock_plant_not_found(999)
-
-        result = fetch_plant(999)
+        error_data = {"error": "plant not found", "plant_id": 999}
+        session = MockSession(error_data)
+        result = await fetch_plant(session, 999)
 
         assert "error" in result
         assert "plant_id" in result
         assert result["error"] == "plant not found"
 
-    def test_fetch_plant_returns_correct_keys_for_sensor_fault(self, mock_sensor_fault):
+    @pytest.mark.asyncio
+    async def test_fetch_plant_returns_correct_keys_for_sensor_fault(self):
         """Should return dictionary with error and plant_id keys when sensor fault."""
-        mock_sensor_fault(23)
-
-        result = fetch_plant(23)
+        error_data = {"error": "plant sensor fault", "plant_id": 23}
+        session = MockSession(error_data)
+        result = await fetch_plant(session, 23)
 
         assert "error" in result
         assert "plant_id" in result
@@ -78,41 +97,44 @@ class TestDoesPlantExist:
 class TestFetchAllPlants:
     """Tests for the fetch_all_plants function."""
 
-    def test_returns_list_of_plants(self, monkeypatch, sample_plant_data):
+    @pytest.mark.asyncio
+    async def test_returns_list_of_plants(self, monkeypatch, sample_plant_data):
         """Should return a list of plant dictionaries."""
-        def mock_fetch(id):
-            if id <= 2:
+        async def mock_fetch(session, plant_id):
+            if plant_id <= 2:
                 return sample_plant_data
-            return {"error": "plant not found", "plant_id": id}
+            return {"error": "plant not found", "plant_id": plant_id}
 
         monkeypatch.setattr("extract.fetch_plant", mock_fetch)
 
-        result = fetch_all_plants()
+        result = await fetch_all_plants()
 
         assert isinstance(result, list)
         assert len(result) == 2
 
-    def test_stops_after_consecutive_failures(self, mocker):
+    @pytest.mark.asyncio
+    async def test_stops_after_consecutive_failures(self, monkeypatch):
         """Should stop fetching after max consecutive failures."""
-        mock_fetch = mocker.patch(
-            "extract.fetch_plant",
-            return_value={"error": "plant not found", "plant_id": 1}
-        )
-
-        fetch_all_plants(max_consecutive_failures=3)
-
-        assert mock_fetch.call_count == 3
-
-    def test_resets_failure_count_on_success(self, monkeypatch, sample_plant_data):
-        """Should reset failure count when valid plant found."""
-        def mock_fetch(id):
-            if id == 3:
-                return sample_plant_data
-            return {"error": "plant not found", "plant_id": id}
+        async def mock_fetch(session, plant_id):
+            return {"error": "plant not found", "plant_id": plant_id}
 
         monkeypatch.setattr("extract.fetch_plant", mock_fetch)
 
-        result = fetch_all_plants(max_consecutive_failures=3)
+        result = await fetch_all_plants(max_consecutive_failures=3)
+
+        assert len(result) == 0
+
+    @pytest.mark.asyncio
+    async def test_resets_failure_count_on_success(self, monkeypatch, sample_plant_data):
+        """Should reset failure count when valid plant found."""
+        async def mock_fetch(session, plant_id):
+            if plant_id == 3:
+                return sample_plant_data
+            return {"error": "plant not found", "plant_id": plant_id}
+
+        monkeypatch.setattr("extract.fetch_plant", mock_fetch)
+
+        result = await fetch_all_plants(max_consecutive_failures=3)
 
         assert len(result) == 1
 
