@@ -58,9 +58,7 @@ def test_round_readings(column_name, valid_readings_data: pd.DataFrame):
 
     assert isinstance(rounded_value, float)
     assert round(original_value, 3) == rounded_value
-    assert len(str(rounded_value).split('.')[-1]) <= 3
-    'soil_moisture',
-    'temperature'
+    assert len(str(rounded_value).rsplit('.', maxsplit=1)[-1]) <= 3
 
 
 @pytest.mark.parametrize("column_name", [
@@ -74,7 +72,7 @@ def test_round_seconds(column_name, valid_readings_data: pd.DataFrame):
     readings_data = round_seconds(readings_data, column_name)
     new_value = readings_data[column_name].iloc[0]
 
-    assert type(original_value) == pd.Timestamp
-    assert type(new_value) == pd.Timestamp
+    assert isinstance(original_value, pd.Timestamp)
+    assert isinstance(new_value, pd.Timestamp)
     assert original_value.microsecond != 0
     assert new_value.microsecond == 0
