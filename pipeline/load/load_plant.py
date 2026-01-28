@@ -1,4 +1,5 @@
 """Load plant data into the database."""
+# pylint: disable=redefined-outer-name
 from os import environ as ENV
 import pandas as pd
 from dotenv import load_dotenv
