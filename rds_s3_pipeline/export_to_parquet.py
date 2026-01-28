@@ -11,9 +11,9 @@ load_dotenv()
 
 # Create boto3 session with explicit credentials
 session = boto3.Session(
-    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-    region_name=os.getenv('AWS_DEFAULT_REGION', 'eu-west-2')
+    aws_access_key_id=os.getenv('ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('SECRET_ACCESS_KEY'),
+    region_name=os.getenv('DEFAULT_REGION', 'eu-west-2')
 )
 
 def read_table_to_dataframe(cursor, table_name):
@@ -119,10 +119,6 @@ def export_all_tables():
     cursor.close()
     conn.close()
     print("\n✓ Export complete!")
-
-
-def handler():
-    export_all_tables()
 
 if __name__ == "__main__":
     export_all_tables()
