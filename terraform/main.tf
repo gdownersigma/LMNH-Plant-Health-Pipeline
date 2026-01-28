@@ -39,6 +39,102 @@ resource "aws_s3_bucket" "plant-storage" {
     }
 }
 
+# Lambda IAM Roles and Functions
+
+data "aws_ecr_image" "first-pipeline-image" {
+    repository_name = "${var.BASE_NAME}-first-pipeline-repo"
+    image_tag       = "latest"
+}
+
+data "aws_ecr_image" "second-pipeline-image" {
+    repository_name = "${var.BASE_NAME}-second-pipeline-repo"
+    image_tag       = "latest"
+}
+
+## Shared Lambda IAM Role and Permissions
+data "aws_iam_policy_document" "lambda-trust-policy" {
+    statement {
+        effect = "Allow"
+        principals {
+            type        = "Service"
+            identifiers = ["lambda.amazonaws.com"]
+        }
+        actions = ["sts:AssumeRole"]
+    }
+}
+
+data "aws_iam_policy_document" "lambda-permissions-policy" {
+    statement {
+        effect = "Allow"
+        resources = ["arn:aws:logs:*:*:*"]
+        actions = [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ]
+    }
+    statement {
+        effect = "Allow"
+        resources = [
+            aws_s3_bucket.plant-storage.arn,
+            "${aws_s3_bucket.plant-storage.arn}/*"
+        ]
+        actions = [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:ListBucket"
+        ]
+    }
+}
+
+resource "aws_iam_role" "pipeline-lambda-role" {
+    name               = "${var.BASE_NAME}-pipeline-lambda-role"
+    assume_role_policy = data.aws_iam_policy_document.lambda-trust-policy.json
+}
+
+resource "aws_iam_role_policy" "pipeline-lambda-permissions" {
+    name   = "${var.BASE_NAME}-pipeline-lambda-policy"
+    role   = aws_iam_role.pipeline-lambda-role.id
+    policy = data.aws_iam_policy_document.lambda-permissions-policy.json
+}
+
+## First Pipeline Lambda - Data Extraction and Loading
+resource "aws_lambda_function" "first-pipeline" {
+    function_name = "${var.BASE_NAME}-first-pipeline"
+    role          = aws_iam_role.pipeline-lambda-role.arn
+    memory_size   = 512
+
+    package_type = "Image"
+    image_uri    = data.aws_ecr_image.first-pipeline-image.image_uri
+
+    environment {
+        variables = {S3_BUCKET = aws_s3_bucket.plant-storage.bucket}
+    }
+
+    tags = {
+        Name = "${var.BASE_NAME} First Pipeline Lambda"
+    }
+}
+
+## Second Pipeline Lambda - Dockerised Pipeline
+resource "aws_lambda_function" "second-pipeline" {
+    function_name = "${var.BASE_NAME}-second-pipeline"
+    role          = aws_iam_role.pipeline-lambda-role.arn
+    memory_size   = 512
+    package_type = "Image"
+    image_uri    = data.aws_ecr_image.second-pipeline-image.image_uri
+
+    environment {
+        variables = {
+            S3_BUCKET = aws_s3_bucket.plant-storage.bucket
+        }
+    }
+
+    tags = {
+        Name = "${var.BASE_NAME} Second Pipeline Lambda"
+    }
+}
+
 # ETL Eventbridge Schedule
 
 ## Trust Policy
@@ -58,8 +154,8 @@ data  "aws_iam_policy_document" "schedule-permissions-policy" {
 
     statement {
         effect = "Allow"
-        resources = ["${var.TASK_DEFINITION_ARN}:*",
-                      var.TASK_DEFINITION_ARN]
+        resources = ["${var.MINUTELY_TASK_ARN}:*",
+                      var.MINUTELY_TASK_ARN]
         actions = ["ecs:RunTask"]
         condition {
             test     = "ArnLike"
@@ -129,7 +225,7 @@ resource "aws_scheduler_schedule" "data-upload-schedule" {
         arn = data.aws_ecs_cluster.target-cluster.arn
         role_arn = aws_iam_role.schedule-role.arn
         ecs_parameters {
-            task_definition_arn = var.TASK_DEFINITION_ARN
+            task_definition_arn = var.MINUTELY_TASK_ARN
             launch_type = "FARGATE"
             network_configuration {
                 subnets          = [data.aws_subnet.c21-public-subnet-a.id,
@@ -232,6 +328,32 @@ resource "aws_glue_crawler" "plant-data-crawler" {
 
     tags = {
         Name = "${var.BASE_NAME} Plant Data Crawler"
+    }
+}
+
+# Second Pipeline EventBridge Schedule (11:55 PM daily)
+resource "aws_scheduler_schedule" "second-pipeline-schedule" {
+    name = "${var.BASE_NAME}-second-pipeline-schedule"
+    flexible_time_window {
+      mode = "OFF"
+    }
+    schedule_expression = "cron(55 23 * * ? *)"
+    schedule_expression_timezone = "Europe/London"
+
+    target {
+        arn = data.aws_ecs_cluster.target-cluster.arn
+        role_arn = aws_iam_role.schedule-role.arn
+        ecs_parameters {
+            task_definition_arn = var.DAILY_TASK_ARN
+            launch_type = "FARGATE"
+            network_configuration {
+                subnets          = [data.aws_subnet.c21-public-subnet-a.id,
+                                    data.aws_subnet.c21-public-subnet-b.id,
+                                    data.aws_subnet.c21-public-subnet-c.id]
+                security_groups  = [aws_security_group.etl-sg.id]
+                assign_public_ip = true
+            }
+        }
     }
 }
 

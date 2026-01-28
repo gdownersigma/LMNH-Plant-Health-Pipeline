@@ -34,6 +34,11 @@ variable "CLUSTER_NAME" {
     type = string
 }
 
-variable "TASK_DEFINITION_ARN" {
+variable "MINUTELY_TASK_ARN" {
     type = string
+}
+
+variable "DAILY_TASK_ARN" {
+    type = string
+    description = "Task definition ARN for the second pipeline (Dockerised pipeline)"
 }
