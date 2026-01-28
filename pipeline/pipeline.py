@@ -1,5 +1,6 @@
 """The code to run the ETL pipeline."""
 import pandas as pd
+import asyncio
 
 # Extract
 from extract.extract import fetch_all_plants, to_dataframe
@@ -20,7 +21,7 @@ from load.load_plant_readings import load_plant_readings
 def extract() -> pd.DataFrame:
     """Extract all plant data from API into a DataFrame."""
     print("=== EXTRACT PHASE ===")
-    all_plants = fetch_all_plants()
+    all_plants = asyncio.run(fetch_all_plants())
     plants_df = to_dataframe(all_plants)
     print(f"Extracted {len(plants_df)} plants")
     return plants_df

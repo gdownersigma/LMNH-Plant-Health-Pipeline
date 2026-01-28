@@ -3,7 +3,7 @@
 from os import environ as ENV
 import pandas as pd
 from dotenv import load_dotenv
-import pymssql
+from pymssql import connect
 
 
 def nan_to_none(value):
@@ -16,7 +16,7 @@ def nan_to_none(value):
 def get_connection():
     """Create a connection to the MS SQL database."""
     load_dotenv()
-    return pymssql.connect(  # pylint: disable=no-member
+    return connect(
         server=ENV["DB_HOST"],
         user=ENV["DB_USER"],
         password=ENV["DB_PASSWORD"],
