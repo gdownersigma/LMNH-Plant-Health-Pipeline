@@ -33,7 +33,7 @@ Use this to initialize the Terraform working directory.
 terraform init
 ```
 
-## Use Terraform Plan
+## Use Terraform Plan/Apply
 
 Use this to create an execution plan.
 ```bash
@@ -43,4 +43,11 @@ terraform plan
 Then apply the changes with terraform.
 ```bash
 terraform apply
+```
+
+## Destroy Infrastructure
+
+To destroy the created infrastructure, use the following command.
+```bash
+terraform destroy
 ```
