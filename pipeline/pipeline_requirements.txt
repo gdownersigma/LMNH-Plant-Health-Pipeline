@@ -5,3 +5,4 @@ pandas
 requests
 pymssql
 python-dotenv
+aiohttp
