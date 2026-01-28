@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 from transform_readings import (
-    get_plant_readings_data, fix_data_types, round_readings, round_seconds)
+    get_plant_readings_data, change_to_datetime, round_readings, round_seconds)
 
 
 def test_get_plant_readings_data(sample_plant_data):
@@ -35,10 +35,10 @@ def test_get_plant_readings_data_empty():
     'recording_taken',
     'last_watered'
 ])
-def test_fix_data_types(column_name, valid_readings_data: pd.DataFrame):
+def test_change_to_datetime(column_name, valid_readings_data: pd.DataFrame):
     """Test changing of data types for plant readings data."""
     original_dtype = valid_readings_data[column_name].dtype
-    fixed_data = fix_data_types(valid_readings_data, column_name)
+    fixed_data = change_to_datetime(valid_readings_data, column_name)
     new_dtype = fixed_data[column_name].dtype
     print(new_dtype)
 
@@ -66,7 +66,7 @@ def test_round_readings(column_name, valid_readings_data: pd.DataFrame):
 ])
 def test_round_seconds(column_name, valid_readings_data: pd.DataFrame):
     """Test removal of milliseconds for plant readings data."""
-    readings_data = fix_data_types(valid_readings_data, column_name)
+    readings_data = change_to_datetime(valid_readings_data, column_name)
 
     original_value = readings_data[column_name].iloc[0]
     readings_data = round_seconds(readings_data, column_name)

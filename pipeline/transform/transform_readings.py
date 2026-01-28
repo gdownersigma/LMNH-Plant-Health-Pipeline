@@ -26,8 +26,8 @@ def get_plant_readings_data(all_data: pd.DataFrame) -> pd.DataFrame:
     return readings_data
 
 
-def fix_data_types(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    """Fix data types for the plant readings data columns."""
+def change_to_datetime(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    """Changes columns to datetime for the plant readings data."""
 
     readings[column_name] = pd.to_datetime(
         readings[column_name], errors='coerce')
@@ -55,8 +55,8 @@ def transform_plant_readings(all_data: pd.DataFrame) -> pd.DataFrame:
     """Transform the plant readings data."""
 
     readings_data = get_plant_readings_data(all_data)
-    readings_data = fix_data_types(readings_data, 'recording_taken')
-    readings_data = fix_data_types(readings_data, 'last_watered')
+    readings_data = change_to_datetime(readings_data, 'recording_taken')
+    readings_data = change_to_datetime(readings_data, 'last_watered')
     readings_data = round_readings(readings_data, 'soil_moisture')
     readings_data = round_seconds(readings_data, 'recording_taken')
 
@@ -67,8 +67,8 @@ if __name__ == "__main__":
     df = pd.read_csv("plant_data.csv")
 
     readings_df = get_plant_readings_data(df)
-    readings_df = fix_data_types(readings_df, 'recording_taken')
-    readings_df = fix_data_types(readings_df, 'last_watered')
+    readings_df = change_to_datetime(readings_df, 'recording_taken')
+    readings_df = change_to_datetime(readings_df, 'last_watered')
     readings_df = round_readings(readings_df, 'soil_moisture')
     readings_df = round_seconds(readings_df, 'recording_taken')
 
