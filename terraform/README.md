@@ -14,6 +14,18 @@ Run this command to create the file if it does not exist.
 touch terraform.tfvars
 ```
 
+Example usage (replace the placeholders with your actual values):
+```hcl
+AWS_ACCESS_KEY = "{}"
+AWS_SECRET_KEY = "{}"
+AWS_REGION = "eu-west-2"
+VPC_ID = "{}"
+SUBNET_ID_A = "{}"
+SUBNET_ID_B = "{}"
+SUBNET_ID_C = "{}"
+BASE_NAME = "curdie"
+```
+
 ## Initialize Terraform
 
 Use this to initialize the Terraform working directory.
