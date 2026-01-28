@@ -6,3 +6,4 @@ requests
 pymssql
 python-dotenv
 aiohttp
+pytest-asyncio
