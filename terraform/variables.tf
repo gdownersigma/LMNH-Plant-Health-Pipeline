@@ -1,12 +1,12 @@
-variable "AWS_REGION" {
+variable "AWS_DEFAULT_REGION" {
     type    = string
 }
 
-variable "AWS_ACCESS_KEY" {
+variable "AWS_ACCESS_KEY_ID" {
     type = string
 }
 
-variable "AWS_SECRET_KEY" {
+variable "AWS_SECRET_ACCESS_KEY" {
     type = string
 }
 
@@ -34,11 +34,22 @@ variable "CLUSTER_NAME" {
     type = string
 }
 
-variable "MINUTELY_TASK_ARN" {
+variable "DB_HOST" {
     type = string
 }
 
-variable "DAILY_TASK_ARN" {
+variable "DB_NAME" {
     type = string
-    description = "Task definition ARN for the second pipeline (Dockerised pipeline)"
+}
+
+variable "DB_USER" {
+    type = string
+}
+
+variable "DB_PASSWORD" {
+    type = string
+}
+
+variable "DB_PORT" {
+    type = number
 }

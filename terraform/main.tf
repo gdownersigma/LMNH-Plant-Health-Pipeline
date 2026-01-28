@@ -1,7 +1,7 @@
 provider "aws" {
-  region = var.AWS_REGION
-  access_key = var.AWS_ACCESS_KEY
-  secret_key = var.AWS_SECRET_KEY
+  region = var.AWS_DEFAULT_REGION
+  access_key = var.AWS_ACCESS_KEY_ID
+  secret_key = var.AWS_SECRET_ACCESS_KEY
 }
 
 # Existing Resources
@@ -89,7 +89,14 @@ resource "aws_lambda_function" "first-pipeline" {
     image_uri    = data.aws_ecr_image.first-pipeline-image.image_uri
 
     environment {
-        variables = {S3_BUCKET = aws_s3_bucket.plant-storage.bucket}
+        variables = {
+            DB_HOST   = var.DB_HOST
+            DB_NAME   = var.DB_NAME
+            DB_USER   = var.DB_USER
+            DB_PASSWORD   = var.DB_PASSWORD
+            DB_SCHEMA   = var.DB_SCHEMA
+            DB_PORT   = var.DB_PORT
+        }
     }
 
     tags = {
@@ -108,6 +115,14 @@ resource "aws_lambda_function" "second-pipeline" {
     environment {
         variables = {
             S3_BUCKET = aws_s3_bucket.plant-storage.bucket
+            DB_HOST   = var.DB_HOST
+            DB_NAME   = var.DB_NAME
+            DB_USER   = var.DB_USER
+            DB_PASSWORD   = var.DB_PASSWORD
+            DB_PORT   = var.DB_PORT
+            AWS_ACCESS_KEY_ID = var.AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
+            AWS_DEFAULT_REGION = var.AWS_DEFAULT_REGION
         }
     }
 
