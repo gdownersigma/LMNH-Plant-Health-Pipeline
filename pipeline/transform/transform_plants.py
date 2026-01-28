@@ -23,7 +23,7 @@ def get_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
         "image_thumbnail"
     ]
 
-    important_columns = [
+    not_null_columns = [
         "name",
         "botanist_email",
         "origin_latitude",
@@ -36,7 +36,7 @@ def get_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
         raise KeyError(f"Missing columns in input DataFrame: {missing_cols}")
 
     plant_data = all_data[plant_columns].copy().dropna(
-        subset=important_columns, how='all')
+        subset=not_null_columns, how='all')
 
     return plant_data
 
