@@ -33,8 +33,8 @@ CREATE TABLE plant_reading (
     plant_id SMALLINT NOT NULL,
     soil_moisture FLOAT NOT NULL,
     temperature FLOAT NOT NULL,
-    recording_taken DATE NOT NULL,
-    last_watered DATE NOT NULL
+    recording_taken DATETIME NOT NULL,
+    last_watered DATETIME NOT NULL
 );
 CREATE TABLE country (
     country_id SMALLINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
