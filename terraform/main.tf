@@ -12,22 +12,22 @@ data "aws_vpc" "c21-vpc" {
 }
 
 ## public subnets
-data "aws_subnet" "c21-public-subnet-a" {
-  id = var.SUBNET_ID_A
-}
+# data "aws_subnet" "c21-public-subnet-a" {
+#   id = var.SUBNET_ID_A
+# }
 
-data "aws_subnet" "c21-public-subnet-b" {
-  id = var.SUBNET_ID_B
-}
+# data "aws_subnet" "c21-public-subnet-b" {
+#   id = var.SUBNET_ID_B
+# }
 
-data "aws_subnet" "c21-public-subnet-c" {
-  id = var.SUBNET_ID_C
-}
+# data "aws_subnet" "c21-public-subnet-c" {
+#   id = var.SUBNET_ID_C
+# }
 
-# ECS Cluster
-data "aws_ecs_cluster" "target-cluster" {
-    cluster_name = var.CLUSTER_NAME
-}
+# # ECS Cluster
+# data "aws_ecs_cluster" "target-cluster" {
+#     cluster_name = var.CLUSTER_NAME
+# }
 
 # S3 Bucket
 
@@ -154,35 +154,11 @@ data  "aws_iam_policy_document" "schedule-permissions-policy" {
 
     statement {
         effect = "Allow"
-        resources = ["${var.MINUTELY_TASK_ARN}:*",
-                      var.MINUTELY_TASK_ARN]
-        actions = ["ecs:RunTask"]
-        condition {
-            test     = "ArnLike"
-            variable = "ecs:cluster"
-            values   = [data.aws_ecs_cluster.target-cluster.arn]
-        }
-    }
-
-    statement {
-        effect = "Allow"
-        resources = ["*"]
-        actions = ["iam:PassRole"]
-        condition {
-            test     = "StringLike"
-            variable = "iam:PassedToService"
-            values   = ["ecs-tasks.amazonaws.com"]
-        }
-    }
-
-    statement {
-        effect = "Allow"
-        resources = ["arn:aws:logs:*:*:*"]
-        actions = [
-            "logs:CreateLogStream",
-            "logs:PutLogEvents",
-            "logs:CreateLogGroup"
+        resources = [
+            aws_lambda_function.first-pipeline.arn,
+            aws_lambda_function.second-pipeline.arn
         ]
+        actions = ["lambda:InvokeFunction"]
     }
 }
 
@@ -198,23 +174,11 @@ resource "aws_iam_role_policy" "schedule-permissions" {
     policy = data.aws_iam_policy_document.schedule-permissions-policy.json
 }
 
-# Security Group for ETL Tasks
-resource "aws_security_group" "etl-sg" {
-    name        = "${var.BASE_NAME}-etl-sg"
-    description = "Security group for ETL tasks"
-    vpc_id      = data.aws_vpc.c21-vpc.id
 
-    egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-}
-}
 
-# ETL Eventbridge Schedule
-resource "aws_scheduler_schedule" "data-upload-schedule" {
-    name = "${var.BASE_NAME}-etl-schedule"
+# First Pipeline EventBridge Schedule (every minute)
+resource "aws_scheduler_schedule" "first-pipeline-schedule" {
+    name = "${var.BASE_NAME}-first-pipeline-schedule"
     flexible_time_window {
       mode = "OFF"
     }
@@ -222,31 +186,11 @@ resource "aws_scheduler_schedule" "data-upload-schedule" {
     schedule_expression_timezone = "Europe/London"
 
     target {
-        arn = data.aws_ecs_cluster.target-cluster.arn
+        arn = aws_lambda_function.first-pipeline.arn
         role_arn = aws_iam_role.schedule-role.arn
-        ecs_parameters {
-            task_definition_arn = var.MINUTELY_TASK_ARN
-            launch_type = "FARGATE"
-            network_configuration {
-                subnets          = [data.aws_subnet.c21-public-subnet-a.id,
-                                    data.aws_subnet.c21-public-subnet-b.id,
-                                    data.aws_subnet.c21-public-subnet-c.id]
-                security_groups  = [aws_security_group.etl-sg.id]
-                assign_public_ip = true
-            }
-        }
     }
 }
 
-# CloudWatch Log Group for ETL Task Logs
-resource "aws_cloudwatch_log_group" "etl-logs" {
-    name              = "/ecs/${var.BASE_NAME}-etl-task"
-    retention_in_days = 7
-
-    tags = {
-        Name = "${var.BASE_NAME} ETL Task Logs"
-    }
-}
 
 # Glue Crawler IAM Role
 data "aws_iam_policy_document" "glue-trust-policy" {
@@ -341,19 +285,8 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
     schedule_expression_timezone = "Europe/London"
 
     target {
-        arn = data.aws_ecs_cluster.target-cluster.arn
+        arn = aws_lambda_function.second-pipeline.arn
         role_arn = aws_iam_role.schedule-role.arn
-        ecs_parameters {
-            task_definition_arn = var.DAILY_TASK_ARN
-            launch_type = "FARGATE"
-            network_configuration {
-                subnets          = [data.aws_subnet.c21-public-subnet-a.id,
-                                    data.aws_subnet.c21-public-subnet-b.id,
-                                    data.aws_subnet.c21-public-subnet-c.id]
-                security_groups  = [aws_security_group.etl-sg.id]
-                assign_public_ip = true
-            }
-        }
     }
 }
 
