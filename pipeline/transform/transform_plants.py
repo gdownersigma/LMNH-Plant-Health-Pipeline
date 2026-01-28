@@ -1,5 +1,7 @@
 """Transform data for the plant table and validate data."""
 
+import re
+
 import pandas as pd
 
 
@@ -39,9 +41,25 @@ def get_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
     return plant_data
 
 
+def clean_names(name: str) -> str:
+    """Clean and standardise names."""
+    if pd.isna(name) or name == '':
+        return None
+
+    name = re.sub(r'[()`\'\u2018\u2019]', '', name)
+    name = re.sub(r'\s+', ' ', name)
+
+    name = name.title().strip()
+
+    return name
+
+
 if __name__ == "__main__":
     df = pd.read_csv("out.csv")
 
     plant_df = get_plant_data(df)
+    plant_df['name'] = plant_df['name'].apply(clean_names)
+    plant_df['scientific_name'] = plant_df['scientific_name'].apply(
+        clean_names)
 
     plant_df.to_csv("plant_data.csv", index=False)

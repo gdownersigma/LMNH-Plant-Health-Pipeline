@@ -2,7 +2,7 @@
 
 import pandas as pd
 import pytest
-from transform_plants import get_plant_data
+from transform_plants import get_plant_data, clean_names
 
 
 def test_get_plant_data(sample_plant_data_full):
@@ -24,3 +24,16 @@ def test_get_plant_data(sample_plant_data_full):
 
     assert list(plant_data.columns) == expected_columns
     assert plant_data["plant_id"].iloc[0] == sample_plant_data_full["plant_id"]
+
+
+@pytest.mark.parametrize("input, output", [
+    ["venus flytrap", "Venus Flytrap"],
+    ["Canna ‘Striata’", "Canna Striata"],
+    ["Heliconia schiedeana 'Fire and Ice'", "Heliconia Schiedeana Fire And Ice"],
+    ["Spathiphyllum (group)", "Spathiphyllum Group"],
+    ["", None],
+    [None, None],
+    ["    Chlorophytum     comosum 'Vittatum'", "Chlorophytum Comosum Vittatum"]
+])
+def test_clean_names(input, output):
+    assert clean_names(input) == output
