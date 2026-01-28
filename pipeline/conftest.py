@@ -1,5 +1,6 @@
 import pytest
 import requests
+import pandas as pd
 
 
 @pytest.fixture
@@ -49,8 +50,8 @@ def sample_plant_data():
         },
         "plant_id": 1,
         "recording_taken": "2026-01-27T10:08:05.308991",
-        "soil_moisture": 28.58,
-        "temperature": 16.91
+        "soil_moisture": 88.75284232471265,
+        "temperature": 15.768334844741695
     }
 
 
@@ -82,3 +83,33 @@ def sample_plant_data_extended():
         "soil_moisture": 28.58,
         "temperature": 16.91
     }
+
+
+@pytest.fixture
+def valid_readings_data():
+    """Sample plant data for testing."""
+    data = {
+        "last_watered": "2026-01-26T13:12:19",
+        "name": "Venus flytrap",
+        "plant_id": 1,
+        "recording_taken": "2026-01-27T10:08:05.308991",
+        "soil_moisture": 88.75284232471265,
+        "temperature": 15.768334844741695
+    }
+    data_frame = pd.json_normalize(data)
+    return data_frame
+
+
+@pytest.fixture
+def invalid_readings_data():
+    """Sample plant data for testing."""
+    data = {
+        "last_watered": "2026-01-26T13:12:19",
+        "name": "Venus flytrap",
+        "plant_id": 1,
+        "recording_taken": "2026-01-27T10:08:05.308991",
+        "soil_moisture": 88.75284232471265,
+        "temperature": 15.768334844741695
+    }
+    data_frame = pd.json_normalize(data)
+    return data_frame
