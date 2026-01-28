@@ -1,7 +1,7 @@
 provider "aws" {
-  region = var.AWS_DEFAULT_REGION
-  access_key = var.AWS_ACCESS_KEY_ID
-  secret_key = var.AWS_SECRET_ACCESS_KEY
+  region = var.DEFAULT_REGION
+  access_key = var.ACCESS_KEY_ID
+  secret_key = var.SECRET_ACCESS_KEY
 }
 
 # Existing Resources
@@ -120,9 +120,9 @@ resource "aws_lambda_function" "second-pipeline" {
             DB_USER   = var.DB_USER
             DB_PASSWORD   = var.DB_PASSWORD
             DB_PORT   = var.DB_PORT
-            AWS_ACCESS_KEY_ID = var.AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
-            AWS_DEFAULT_REGION = var.AWS_DEFAULT_REGION
+            ACCESS_KEY_ID = var.ACCESS_KEY_ID
+            SECRET_ACCESS_KEY = var.SECRET_ACCESS_KEY
+            DEFAULT_REGION = var.DEFAULT_REGION
         }
     }
 
