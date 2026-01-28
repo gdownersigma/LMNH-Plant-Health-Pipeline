@@ -84,6 +84,7 @@ resource "aws_lambda_function" "first-pipeline" {
     function_name = "${var.BASE_NAME}-first-pipeline"
     role          = aws_iam_role.pipeline-lambda-role.arn
     memory_size   = 512
+    timeout = 60
 
     package_type = "Image"
     image_uri    = data.aws_ecr_image.first-pipeline-image.image_uri
@@ -109,12 +110,13 @@ resource "aws_lambda_function" "second-pipeline" {
     function_name = "${var.BASE_NAME}-second-pipeline"
     role          = aws_iam_role.pipeline-lambda-role.arn
     memory_size   = 512
+    timeout = 60
     package_type = "Image"
     image_uri    = data.aws_ecr_image.second-pipeline-image.image_uri
 
     environment {
         variables = {
-            S3_BUCKET = aws_s3_bucket.plant-storage.bucket
+            S3_BUCKET_NAME = aws_s3_bucket.plant-storage.bucket
             DB_HOST   = var.DB_HOST
             DB_NAME   = var.DB_NAME
             DB_USER   = var.DB_USER
