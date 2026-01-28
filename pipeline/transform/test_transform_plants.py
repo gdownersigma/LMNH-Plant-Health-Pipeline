@@ -2,7 +2,7 @@
 
 import pandas as pd
 import pytest
-from transform_plants import get_plant_data, clean_names
+from transform_plants import get_plant_data, clean_names, transform_plant_data
 
 
 def test_get_plant_data(sample_plant_data_full):
@@ -37,3 +37,15 @@ def test_get_plant_data(sample_plant_data_full):
 ])
 def test_clean_names(input, output):
     assert clean_names(input) == output
+
+
+def test_transform_plant_data(sample_plant_data_full, sample_transformed_plant_table_data):
+    """Test full transformation of plant data."""
+    input_df = pd.json_normalize(sample_plant_data_full)
+    output_df = pd.json_normalize(sample_transformed_plant_table_data)
+
+    transformed_data = transform_plant_data(input_df)
+
+    assert list(transformed_data.columns) == list(output_df.columns)
+    assert transformed_data["name"].iloc[0] == output_df["name"].iloc[0]
+    assert transformed_data["scientific_name"].iloc[0] == output_df["scientific_name"].iloc[0]

@@ -54,12 +54,20 @@ def clean_names(name: str) -> str:
     return name
 
 
+def transform_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
+    """Transform the plant data."""
+
+    plant_data = get_plant_data(all_data)
+    plant_data['name'] = plant_data['name'].apply(clean_names)
+    plant_data['scientific_name'] = plant_data['scientific_name'].apply(
+        clean_names)
+
+    return plant_data
+
+
 if __name__ == "__main__":
     df = pd.read_csv("out.csv")
 
-    plant_df = get_plant_data(df)
-    plant_df['name'] = plant_df['name'].apply(clean_names)
-    plant_df['scientific_name'] = plant_df['scientific_name'].apply(
-        clean_names)
+    plant_df = transform_plant_data(df)
 
     plant_df.to_csv("plant_data.csv", index=False)
