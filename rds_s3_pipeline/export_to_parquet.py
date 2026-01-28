@@ -23,16 +23,6 @@ def read_table_to_dataframe(cursor, table_name):
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
 
-def get_partition_columns(timestamp):
-    """Convert timestamp to partition columns"""
-    return {
-        'year': timestamp.year,
-        'month': f"{timestamp.month:02d}",
-        'day': f"{timestamp.day:02d}",
-        'hour': f"{timestamp.hour:02d}",
-        'minute': f"{timestamp.minute:02d}"
-    }
-
 def write_partitioned_parquet(df, table_name, base_path='s3://input/'):
     """Write DataFrame to parquet files (time-partitioned for plant_reading only)"""
     output_path = f"{base_path}/{table_name}"
