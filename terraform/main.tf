@@ -1,7 +1,7 @@
 provider "aws" {
-  region = var.DEFAULT_REGION
-  access_key = var.ACCESS_KEY_ID
-  secret_key = var.SECRET_ACCESS_KEY
+  region = var.AWS_REGION
+  access_key = var.AWS_ACCESS_KEY
+  secret_key = var.AWS_SECRET_KEY
 }
 
 # Existing Resources
@@ -140,9 +140,9 @@ resource "aws_lambda_function" "second-pipeline" {
             DB_USER   = var.DB_USER
             DB_PASSWORD   = var.DB_PASSWORD
             DB_PORT   = var.DB_PORT
-            ACCESS_KEY_ID = var.ACCESS_KEY_ID
-            SECRET_ACCESS_KEY = var.SECRET_ACCESS_KEY
-            DEFAULT_REGION = var.DEFAULT_REGION
+            AWS_ACCESS_KEY = var.AWS_ACCESS_KEY
+            AWS_SECRET_KEY = var.AWS_SECRET_KEY
+            AWS_REGION = var.AWS_REGION
         }
     }
 
@@ -279,7 +279,7 @@ resource "aws_glue_crawler" "plant-data-crawler" {
         path = "s3://${aws_s3_bucket.plant-storage.bucket}"
     }
 
-    schedule = "cron(0 0 * * ? *)"
+    schedule = "cron(6 0 * * ? *)"
 
     schema_change_policy {
         delete_behavior = "LOG"
@@ -297,7 +297,7 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
     flexible_time_window {
       mode = "OFF"
     }
-    schedule_expression = "cron(55 23 * * ? *)"
+    schedule_expression = "cron(1 0 * * ? *)"
     schedule_expression_timezone = "Europe/London"
 
     target {
