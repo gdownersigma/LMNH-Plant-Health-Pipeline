@@ -344,7 +344,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
 resource "aws_security_group" "dashboard_sg" {
     name        = "${var.BASE_NAME}-dashboard-sg"
     description = "Security group for ECS tasks"
-    vpc_id      = data.aws_vpc.default.id
+    vpc_id      = data.aws_vpc.c21-vpc.id
 
     ingress {
         description = "Streamlit port"
@@ -410,13 +410,15 @@ resource "aws_ecs_task_definition" "streamlit" {
 
 resource "aws_ecs_service" "streamlit" {
     name            = "${var.BASE_NAME}-streamlit-service"
-    cluster         = data.aws_ecs_cluster.existing.arn
+    cluster         = data.aws_ecs_cluster.c21-ecs-cluster.arn
     task_definition = aws_ecs_task_definition.streamlit.arn
     desired_count   = 1
     launch_type     = "FARGATE"
 
     network_configuration {
-        subnets          = data.aws_subnets.default.ids
+        subnets          = [data.aws_subnets.c21-public-subnet-a.id,
+                            data.aws_subnets.c21-public-subnet-b.id,
+                            data.aws_subnets.c21-public-subnet-c.id]
         security_groups  = [aws_security_group.dashboard_sg.id]
         assign_public_ip = true
     }
