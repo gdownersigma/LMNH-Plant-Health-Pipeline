@@ -116,7 +116,7 @@ def get_db_connection():
     """Create and return a database connection"""
     return pymssql.connect(
         server=os.getenv('DB_HOST'),
-        port=int(os.getenv('DB_PORT', 1433)),
+        port=os.getenv('DB_PORT', 1433),
         user=os.getenv('DB_USER'),
         password=os.getenv('DB_PASSWORD'),
         database=os.getenv('DB_NAME')
