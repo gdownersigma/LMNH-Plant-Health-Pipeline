@@ -119,5 +119,10 @@ def run_pipeline() -> None:
     load(transformed_data)
 
 
+def handler(event, context) -> None:
+    """AWS Lambda handler to run the ETL pipeline."""
+    run_pipeline()
+
+
 if __name__ == "__main__":
     run_pipeline()

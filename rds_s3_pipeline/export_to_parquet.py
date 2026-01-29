@@ -11,9 +11,9 @@ load_dotenv()
 
 # Create boto3 session with explicit credentials
 session = boto3.Session(
-    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-    region_name=os.getenv('AWS_DEFAULT_REGION', 'eu-west-2')
+    aws_access_key_id=os.getenv('ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('SECRET_ACCESS_KEY'),
+    region_name=os.getenv('DEFAULT_REGION', 'eu-west-2')
 )
 
 def read_table_to_dataframe(cursor, table_name):
@@ -119,6 +119,29 @@ def export_all_tables():
     cursor.close()
     conn.close()
     print("\n✓ Export complete!")
+
+def delete_old_plant_readings():
+    """Delete plant_reading records older than 24 hours from the database."""
+    print("\n[INFO] Starting deletion of old plant_reading records...")
+    delete_query = """
+        DELETE FROM plant_reading
+        WHERE recording_taken < DATEADD(hour, -24, GETDATE())
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(delete_query)
+    deleted_count = cursor.rowcount
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print(f"[INFO] Deleted {deleted_count} plant_reading records older than 24 hours.")
+
+def handler(event, context):
+    print("[INFO] Starting table export from RDS to S3...")
+    export_all_tables()
+    print("[INFO] Export complete. Proceeding to delete old plant_reading records...")
+    delete_old_plant_readings()
+    print("[INFO] Data export and cleanup finished.")
 
 if __name__ == "__main__":
     export_all_tables()
