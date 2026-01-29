@@ -308,4 +308,67 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
 
 # Dashboard ECS service
 
+## Dashboard image
+
+data "aws_ecr_image" "dashboard-image" {
+    repository_name = "${var.BASE_NAME}-plant-dashboard"
+    image_tag       = "latest"
+}
+
+# ECS execution role
+
+resource "aws_iam_role" "ecs_task_execution" {
+  name = "${var.BASE_NAME}-task-execution-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
+  role       = aws_iam_role.ecs_task_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# ECS Security Group
+
+resource "aws_security_group" "ecs_tasks" {
+  name        = "${var.BASE_NAME}-ecs-tasks-sg"
+  description = "Security group for ECS tasks"
+  vpc_id      = data.aws_vpc.default.id
+
+  ingress {
+    description = "Streamlit port"
+    from_port   = 8501
+    to_port     = 8501
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# ECS Log Group
+
+resource "aws_cloudwatch_log_group" "ecs_dashboard_logs" {
+  name              = "/ecs/${var.BASE_NAME}-dashboard"
+  retention_in_days = 7
+}
+
+# ECS Task Definition
+
 
