@@ -2,8 +2,9 @@
 
 from os import environ as ENV, _Environ
 from dotenv import load_dotenv
-import pandas as pd
 from pymssql import connect, Connection
+import pandas as pd
+import streamlit as st
 
 
 def get_db_connection(config: _Environ) -> Connection:
@@ -17,23 +18,58 @@ def get_db_connection(config: _Environ) -> Connection:
     )
 
 
-def read_table_to_dataframe(conn: Connection, table_name: str) -> pd.DataFrame:
-    """Read table into a pandas DataFrame"""
+def get_all_live_data(conn: Connection) -> pd.DataFrame:
+    """Returns all live data from Database as a DataFrame."""
+
     with conn.cursor() as cur:
-        cur.execute(f"SELECT * FROM {table_name}")
+        cur.execute(
+            f"""SELECT
+                    p.*,
+                    pr.plant_reading_id,
+                    pr.soil_moisture,
+                    pr.temperature,
+                    pr.recording_taken,
+                    pr.last_watered,
+                    b.email,
+                    b.name AS botanist_name,
+                    b.phone,
+                    o.lat,
+                    o.long,
+                    c.city_id,
+                    c.city_name,
+                    cn.country_id,
+                    cn.country_name
+                FROM plant AS p 
+                JOIN plant_reading AS pr
+                    ON p.plant_id = pr.plant_id
+                JOIN botanist AS b
+                    ON p.botanist_id = b.botanist_id
+                JOIN origin AS o
+                    ON p.origin_id = o.origin_id
+                JOIN city AS c
+                    ON o.city_id = c.city_id
+                JOIN country AS cn
+                    ON c.country_id = cn.country_id
+                WHERE pr.plant_reading_id IN (
+                    SELECT MAX(plant_reading_id)
+                    FROM plant_reading
+                    GROUP BY plant_id)
+                ORDER BY p.plant_id;""")
         columns = [desc[0] for desc in cur.description]
         data = cur.fetchall()
 
-    return pd.DataFrame(data, columns=columns)
+    df = pd.DataFrame(data, columns=columns)
+    return df
 
 
-def get_key_metrics(conn: Connection) -> pd.DataFrame:
-    """Returns all data from Database as a DataFrame."""
+def get_filter_data(conn: Connection) -> pd.DataFrame:
+    """Returns all live data from Database as a DataFrame."""
+
     with conn.cursor() as cur:
         cur.execute(
             f"""SELECT
                     p.plant_id,
-                    p.name AS plant_name,
+                    p.name,
                     b.botanist_id,
                     b.name AS botanist_name,
                     cn.country_id,
@@ -46,7 +82,8 @@ def get_key_metrics(conn: Connection) -> pd.DataFrame:
                 JOIN city AS c
                     ON o.city_id = c.city_id
                 JOIN country AS cn
-                    ON c.country_id = cn.country_id;""")
+                    ON c.country_id = cn.country_id
+                ORDER BY p.plant_id;""")
         columns = [desc[0] for desc in cur.description]
         data = cur.fetchall()
 
@@ -60,7 +97,7 @@ if __name__ == "__main__":
 
     conn = get_db_connection(ENV)
 
-    df = read_table_to_dataframe(conn, 'plant')
+    df = get_all_live_data(conn)
 
     print(df.head())
 

@@ -6,13 +6,15 @@ from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 
-from data_query import get_db_connection, get_key_metrics
+from data_query import get_db_connection, get_filter_data, get_all_live_data
 
 st.set_page_config(layout="wide", page_title="LMNH Plant Health Dashboard")
 
 
-def build_multiselect(name: str, options: list, default: bool) -> list:
-    """"""
+def build_multiselect(df: pd.DataFrame, name: str, columns: list[str], default: bool) -> list:
+    """Builds a multiselect and checkmark sidebar component and returns the selected options."""
+    options = df[columns].drop_duplicates().values.tolist()
+
     select_all = st.sidebar.checkbox(
         f"Select All {name}s", value=default)
 
@@ -20,80 +22,32 @@ def build_multiselect(name: str, options: list, default: bool) -> list:
         label=f"Select {name}s",
         options=options,
         default=options if select_all else [],
-        # format_func=lambda x: f"{x}" if name != "Plant" else f"{x[0]} - {x[1]}"
+        format_func=lambda x: f"{x[0]}" if name != "Plant" else f"{x[0]} - {x[1]}"
     )
 
-    return selected_options
+    return [option[0] for option in selected_options]
 
 
-def display_sidebar(df: pd.DataFrame) -> pd.DataFrame:
+def display_sidebar(df: pd.DataFrame) -> pd.Series:
     """Display the sidebar for the dashboard."""
 
     st.sidebar.header("Filters")
 
     if not df.empty:
-        # Use IDs for filtering to avoid issues with duplicate names
-        plant_tuples = df[['plant_id', 'plant_name']
-                          ].drop_duplicates().values.tolist()
-        plant_tuples = [tuple(row) for row in plant_tuples]
-
-        # Checkbox to select or deselect all plants
-        # select_all_plants = st.sidebar.checkbox(
-        #     "Select All Plants", value=True)
-
-        # # Multiselect dropdown for plants
-        # selected_plants = st.sidebar.multiselect(
-        #     label="Select Plants",
-        #     options=plant_tuples,
-        #     default=plant_tuples if select_all_plants else [],
-        #     format_func=lambda x: f"{x[0]} - {x[1]}"
-        # )
-
-        selected_plants = build_multiselect(
-            "Plant", plant_tuples, default=True)
-
-        # Get unique botanist names for filtering
-        botanist_names = df['botanist_name'].drop_duplicates().values.tolist()
-
-        # Checkbox to select or deselect all botanists
-        # select_all_botanists = st.sidebar.checkbox(
-        #     "Select All Botanists", value=True)
-
-        # # Multiselect dropdown for botanists
-        # selected_botanist_names = st.sidebar.multiselect(
-        #     label="Select Botanists",
-        #     options=botanist_names,
-        #     default=botanist_names if select_all_botanists else []
-        # )
+        selected_plant_ids = build_multiselect(
+            df, "Plant", ["plant_id", "name"], default=True)
 
         selected_botanist_names = build_multiselect(
-            "Botanist", botanist_names, default=True)
-
-        # Get unique country names for filtering
-        country_names = df['country_name'].drop_duplicates().values.tolist()
-
-        # Checkbox to select or deselect all countries
-        # select_all_countries = st.sidebar.checkbox(
-        #     "Select All Countries", value=True)
-
-        # # Multiselect dropdown for countries
-        # selected_country_names = st.sidebar.multiselect(
-        #     label="Select Countries",
-        #     options=country_names,
-        #     default=country_names if select_all_countries else []
-        # )
+            df, "Botanist", ["botanist_name"], default=True)
 
         selected_country_names = build_multiselect(
-            "Country", country_names, default=True)
+            df, "Country", ["country_name"], default=True)
 
-        selected_plant_ids = [plant[0] for plant in selected_plants]
+        return df['plant_id'].isin(selected_plant_ids) & \
+            df['botanist_name'].isin(selected_botanist_names) & \
+            df['country_name'].isin(selected_country_names)
 
-        filtered_df = df[df['plant_id'].isin(selected_plant_ids) &
-                         df['botanist_name'].isin(selected_botanist_names) &
-                         df['country_name'].isin(selected_country_names)].copy()
-        return filtered_df
-
-    return df
+    return df['plant_id'].isin([])
 
 
 def display_key_metrics(plants: int, countries: int, botanists: int):
@@ -114,7 +68,7 @@ def display_key_metrics(plants: int, countries: int, botanists: int):
                   help="Total number of botanists monitoring the plants.")
 
 
-def display_live_data():
+def display_live_data(df: pd.DataFrame):
     """Display live plant data chart."""
     st.subheader("Live Plant Data", text_alignment="center")
 
@@ -133,25 +87,26 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    # Get data
     conn = get_db_connection(ENV)
 
-    all_data_df = get_key_metrics(conn)
+    filter_data_df = get_filter_data(conn)
+    all_live_data_df = get_all_live_data(conn)
 
     conn.close()
 
-    filtered_df = display_sidebar(all_data_df)
+    filter_condition = display_sidebar(filter_data_df)
+    filtered_live_data_df = all_live_data_df[filter_condition]
 
     st.title("LMNH Plant Health Dashboard", text_alignment="center")
 
-    display_key_metrics(int(all_data_df['plant_id'].nunique()),
-                        int(all_data_df['country_id'].nunique()),
-                        int(all_data_df['botanist_id'].nunique()))
+    display_key_metrics(int(filtered_live_data_df['plant_id'].nunique()),
+                        int(filtered_live_data_df['country_id'].nunique()),
+                        int(filtered_live_data_df['botanist_id'].nunique()))
 
     st.header("Plant Health Overview", text_alignment="center")
 
     col1, col2 = st.columns(2)
     with col1:
-        display_live_data()
+        display_live_data(filtered_live_data_df)
     with col2:
         display_all_data()
