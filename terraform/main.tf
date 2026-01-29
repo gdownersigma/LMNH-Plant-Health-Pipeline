@@ -318,90 +318,106 @@ data "aws_ecr_image" "dashboard-image" {
 # ECS execution role
 
 resource "aws_iam_role" "ecs_task_execution" {
-  name = "${var.BASE_NAME}-task-execution-role"
+    name = "${var.BASE_NAME}-task-execution-role"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "ecs-tasks.amazonaws.com"
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+        {
+            Action = "sts:AssumeRole"
+            Effect = "Allow"
+            Principal = {
+            Service = "ecs-tasks.amazonaws.com"
+            }
         }
-      }
-    ]
-  })
+        ]
+    })
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
-  role       = aws_iam_role.ecs_task_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+    role       = aws_iam_role.ecs_task_execution.name
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 # ECS Security Group
 
-resource "aws_security_group" "ecs_tasks" {
-  name        = "${var.BASE_NAME}-ecs-tasks-sg"
-  description = "Security group for ECS tasks"
-  vpc_id      = data.aws_vpc.default.id
+resource "aws_security_group" "dashboard_sg" {
+    name        = "${var.BASE_NAME}-dashboard-sg"
+    description = "Security group for ECS tasks"
+    vpc_id      = data.aws_vpc.default.id
 
-  ingress {
-    description = "Streamlit port"
-    from_port   = 8501
-    to_port     = 8501
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+    ingress {
+        description = "Streamlit port"
+        from_port   = 8501
+        to_port     = 8501
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
 }
 
 # ECS Log Group
 
 resource "aws_cloudwatch_log_group" "ecs_dashboard_logs" {
-  name              = "/ecs/${var.BASE_NAME}-dashboard"
-  retention_in_days = 7
+    name              = "/ecs/${var.BASE_NAME}-dashboard"
+    retention_in_days = 7
 }
 
 # ECS Task Definition
 
 resource "aws_ecs_task_definition" "streamlit" {
-  family                   = "${var.BASE_NAME}-streamlit-task"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = 512
-  memory                   = 1024
-  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+    family                   = "${var.BASE_NAME}-streamlit-task"
+    network_mode             = "awsvpc"
+    requires_compatibilities = ["FARGATE"]
+    cpu                      = 512
+    memory                   = 1024
+    execution_role_arn       = aws_iam_role.ecs_task_execution.arn
 
-  container_definitions = jsonencode([
+    container_definitions = jsonencode([
     {
-      name  = "${var.BASE_NAME}-streamlit"
-      image = data.aws_ecr_image.dashboard-image.image_uri
+        name  = "${var.BASE_NAME}-streamlit"
+        image = data.aws_ecr_image.dashboard-image.image_uri
 
-      portMappings = [
-        {
-          containerPort = 8501
-          hostPort      = 8501
-          protocol      = "tcp"
+        portMappings = [
+            {
+            containerPort = 8501
+            hostPort      = 8501
+            protocol      = "tcp"
+            }
+        ]
+
+        logConfiguration = {
+            logDriver = "awslogs"
+            options = {
+            "awslogs-group"         = aws_cloudwatch_log_group.ecs_dashboard_logs.name
+            "awslogs-region"        = var.DEFAULT_REGION
+            "awslogs-stream-prefix" = "ecs"
+            }
         }
-      ]
 
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          "awslogs-group"         = aws_cloudwatch_log_group.ecs_dashboard_logs.name
-          "awslogs-region"        = var.DEFAULT_REGION
-          "awslogs-stream-prefix" = "ecs"
-        }
-      }
-
-      essential = true
+        essential = true
     }
   ])
+}
+
+# ECS Service
+
+resource "aws_ecs_service" "streamlit" {
+    name            = "${var.BASE_NAME}-streamlit-service"
+    cluster         = data.aws_ecs_cluster.existing.arn
+    task_definition = aws_ecs_task_definition.streamlit.arn
+    desired_count   = 1
+    launch_type     = "FARGATE"
+
+    network_configuration {
+        subnets          = data.aws_subnets.default.ids
+        security_groups  = [aws_security_group.dashboard_sg.id]
+        assign_public_ip = true
+    }
 }
