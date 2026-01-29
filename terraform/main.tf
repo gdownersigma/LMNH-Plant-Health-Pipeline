@@ -11,6 +11,24 @@ data "aws_vpc" "c21-vpc" {
     id = var.VPC_ID
 }
 
+## public subnets
+data "aws_subnet" "c21-public-subnet-a" {
+  id = var.SUBNET_ID_A
+}
+
+data "aws_subnet" "c21-public-subnet-b" {
+  id = var.SUBNET_ID_B
+}
+
+data "aws_subnet" "c21-public-subnet-c" {
+  id = var.SUBNET_ID_C
+}
+
+# ECS Cluster
+data "aws_ecs_cluster" "target-cluster" {
+    cluster_name = var.CLUSTER_NAME
+}
+
 # S3 Bucket
 
 # Create new bucket
@@ -288,3 +306,120 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
     }
 }
 
+# Dashboard ECS service
+
+## Dashboard image
+
+data "aws_ecr_image" "dashboard-image" {
+    repository_name = "${var.BASE_NAME}-plant-dashboard"
+    image_tag       = "latest"
+}
+
+# ECS execution role
+
+resource "aws_iam_role" "ecs_task_execution" {
+    name = "${var.BASE_NAME}-task-execution-role"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+        {
+            Action = "sts:AssumeRole"
+            Effect = "Allow"
+            Principal = {
+            Service = "ecs-tasks.amazonaws.com"
+            }
+        }
+        ]
+    })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
+    role       = aws_iam_role.ecs_task_execution.name
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# ECS Security Group
+
+resource "aws_security_group" "dashboard_sg" {
+    name        = "${var.BASE_NAME}-dashboard-sg"
+    description = "Security group for ECS tasks"
+    vpc_id      = data.aws_vpc.c21-vpc.id
+
+    ingress {
+        description = "Streamlit port"
+        from_port   = 8501
+        to_port     = 8501
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+# ECS Log Group
+
+resource "aws_cloudwatch_log_group" "ecs_dashboard_logs" {
+    name              = "/ecs/${var.BASE_NAME}-dashboard"
+    retention_in_days = 7
+}
+
+# ECS Task Definition
+
+resource "aws_ecs_task_definition" "streamlit" {
+    family                   = "${var.BASE_NAME}-streamlit-task"
+    network_mode             = "awsvpc"
+    requires_compatibilities = ["FARGATE"]
+    cpu                      = 512
+    memory                   = 1024
+    execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+
+    container_definitions = jsonencode([
+    {
+        name  = "${var.BASE_NAME}-streamlit"
+        image = data.aws_ecr_image.dashboard-image.image_uri
+
+        portMappings = [
+            {
+            containerPort = 8501
+            hostPort      = 8501
+            protocol      = "tcp"
+            }
+        ]
+
+        logConfiguration = {
+            logDriver = "awslogs"
+            options = {
+            "awslogs-group"         = aws_cloudwatch_log_group.ecs_dashboard_logs.name
+            "awslogs-region"        = var.DEFAULT_REGION
+            "awslogs-stream-prefix" = "ecs"
+            }
+        }
+
+        essential = true
+    }
+  ])
+}
+
+# ECS Service
+
+resource "aws_ecs_service" "streamlit" {
+    name            = "${var.BASE_NAME}-streamlit-service"
+    cluster         = data.aws_ecs_cluster.target-cluster.id
+    task_definition = aws_ecs_task_definition.streamlit.arn
+    desired_count   = 1
+    launch_type     = "FARGATE"
+
+    network_configuration {
+        subnets          = [data.aws_subnet.c21-public-subnet-a.id,
+                            data.aws_subnet.c21-public-subnet-b.id,
+                            data.aws_subnet.c21-public-subnet-c.id]
+        security_groups  = [aws_security_group.dashboard_sg.id]
+        assign_public_ip = true
+    }
+}
