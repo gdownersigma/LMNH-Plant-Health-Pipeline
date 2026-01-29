@@ -4,3 +4,4 @@ altair
 pymssql
 python-dotenv
 pyathena
+matplotlib
