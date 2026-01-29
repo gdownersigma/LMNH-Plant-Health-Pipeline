@@ -57,7 +57,8 @@ def calculate_daily_summary(df) -> pd.DataFrame:
     summary = df.groupby(
         ['reading_date', 'plant_id', 'plant_name', 'scientific_name',
          'botanist_name', 'botanist_email', 'botanist_phone'],
-        as_index=False
+        as_index=False,
+        dropna=False
     ).agg(
         min_temperature=('temperature', 'min'),
         max_temperature=('temperature', 'max'),
