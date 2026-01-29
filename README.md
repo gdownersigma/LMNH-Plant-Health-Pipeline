@@ -2,6 +2,12 @@
 
 This repository contains the code for the LMNH Plant Health Pipeline, which processes and transforms live plant data for analysis and visualisation.
 
+## Architecture Overview
+
+![LMNH Plant Health Pipeline Architecture](./images/architecture_diagram.png)
+
+In short, the entire cloud system consists of a short term pipeline that
+
 ## Project Structure
 
 ### pipeline/
@@ -40,7 +46,7 @@ This command logs you into the ECR registry using Docker.
 
 ### Create the ECR Repository
 ```bash
-aws ecr create-repository --repository-name {ECR_REPOSITORY_NAME} --region {REGION}  
+aws ecr create-repository --repository-name {ECR_REPOSITORY_NAME} --region {REGION}
 ```
 This creates a new ECR repository in a specific region.
 
