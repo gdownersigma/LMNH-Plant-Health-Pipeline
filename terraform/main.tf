@@ -11,6 +11,24 @@ data "aws_vpc" "c21-vpc" {
     id = var.VPC_ID
 }
 
+## public subnets
+data "aws_subnet" "c21-public-subnet-a" {
+  id = var.SUBNET_ID_A
+}
+
+data "aws_subnet" "c21-public-subnet-b" {
+  id = var.SUBNET_ID_B
+}
+
+data "aws_subnet" "c21-public-subnet-c" {
+  id = var.SUBNET_ID_C
+}
+
+# ECS Cluster
+data "aws_ecs_cluster" "target-cluster" {
+    cluster_name = var.CLUSTER_NAME
+}
+
 # S3 Bucket
 
 # Create new bucket
@@ -287,4 +305,7 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
         role_arn = aws_iam_role.schedule-role.arn
     }
 }
+
+# Dashboard ECS service
+
 
