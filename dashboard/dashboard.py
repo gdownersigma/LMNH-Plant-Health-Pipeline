@@ -67,23 +67,26 @@ def display_key_metrics(plants: int, countries: int, botanists: int):
     """Display key metrics at the top of the dashboard."""
 
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(label="Total Plants",
-                  value=plants,
-                  help="Total number of plants being monitored.")
     with col2:
-        st.metric(label="Total Countries",
-                  value=countries,
-                  help="Total number of countries of origin for the plants.")
-    with col3:
-        st.metric(label="Total Botanists",
-                  value=botanists,
-                  help="Total number of botanists monitoring the plants.")
+        col2_1, col2_2, col2_3 = st.columns(3)
+
+        with col2_1:
+            st.metric(label="Total Plants",
+                      value=plants,
+                      help="Total number of plants being monitored.")
+        with col2_2:
+            st.metric(label="Total Countries",
+                      value=countries,
+                      help="Total number of countries of origin for the plants.")
+        with col2_3:
+            st.metric(label="Total Botanists",
+                      value=botanists,
+                      help="Total number of botanists monitoring the plants.")
 
 
 def display_live_data(df: pd.DataFrame):
     """Display live plant data chart."""
-    st.subheader("Live Plant Data", text_alignment="center")
+    st.subheader(df['plant_name'].iloc[0], text_alignment="center")
 
     col1, col2 = st.columns([3, 1])
     with col1:
@@ -95,21 +98,25 @@ def display_live_data(df: pd.DataFrame):
         st.altair_chart(chart)
 
     with col2:
-        moisture = df.copy()
-        moisture = moisture.sort_values(by='recording_taken', ascending=False)
-        current_moisture = moisture['soil_moisture'].iloc[0]
-        st.metric(label="Current Soil Moisture",
-                  value=f"{current_moisture} %",
-                  help="Current soil moisture level of the selected plant.")
+        col2_1, col2_2, col2_3 = st.columns([1, 2, 1])
 
-        watered = df.copy()
-        watered = watered[watered["last_watered"].dt.date ==
-                          pd.Timestamp.now().date()]
-        unique_watered_dates = watered['last_watered'].unique()
-        last_watered = len(unique_watered_dates)
-        st.metric(label="Times Watered Today",
-                  value=f"{last_watered}",
-                  help="Number of times the selected plant was watered today.")
+        with col2_2:
+            moisture = df.copy()
+            moisture = moisture.sort_values(
+                by='recording_taken', ascending=False)
+            current_moisture = moisture['soil_moisture'].iloc[0]
+            st.metric(label="Current Soil Moisture",
+                      value=f"{current_moisture} %",
+                      help="Current soil moisture level of the selected plant.")
+
+            watered = df.copy()
+            watered = watered[watered["last_watered"].dt.date ==
+                              pd.Timestamp.now().date()]
+            unique_watered_dates = watered['last_watered'].unique()
+            last_watered = len(unique_watered_dates)
+            st.metric(label="Times Watered Today",
+                      value=f"{last_watered}",
+                      help="Number of times the selected plant was watered today.")
 
     col3, col4 = st.columns([3, 1])
     with col3:
@@ -121,12 +128,15 @@ def display_live_data(df: pd.DataFrame):
         st.altair_chart(chart)
 
     with col4:
-        temps = df.copy()
-        temps = temps.sort_values(by='recording_taken', ascending=False)
-        current_temp = temps['temperature'].iloc[0]
-        st.metric(label="Current Temperature",
-                  value=f"{current_temp:.1f} °C",
-                  help="Current temperature of the selected plant.")
+        col4_1, col4_2, col4_3 = st.columns([1, 2, 1])
+
+        with col4_2:
+            temps = df.copy()
+            temps = temps.sort_values(by='recording_taken', ascending=False)
+            current_temp = temps['temperature'].iloc[0]
+            st.metric(label="Current Temperature",
+                      value=f"{current_temp:.1f} °C",
+                      help="Current temperature of the selected plant.")
 
 
 if __name__ == "__main__":
