@@ -6,7 +6,9 @@ This repository contains the code for the LMNH Plant Health Pipeline, which proc
 
 ![LMNH Plant Health Pipeline Architecture](./images/architecture_diagram.png)
 
-In short, the entire cloud system consists of a short term pipeline that
+The entire cloud system consists of a short term pipeline that pulls a batch of queried data for each plant in the museum every minute. This data is hosted within an API that returns data from one plant per request.
+
+Every 24 hours there's a second pipeline which dumps all the RDS data onto an S3 bucket as time partitioned S3 files. After doing so, the script will delete all records within the RDS that are older than 24 hours.
 
 ## Project Structure
 
