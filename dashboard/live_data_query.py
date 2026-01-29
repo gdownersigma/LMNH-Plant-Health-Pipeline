@@ -72,7 +72,8 @@ def get_plant_readings(_conn: Connection) -> pd.DataFrame:
             pr.soil_moisture,
             pr.temperature,
             pr.last_watered,
-            pr.recording_taken
+            pr.recording_taken,
+            p.image_url
         FROM plant_reading AS pr
         JOIN plant AS p 
             ON pr.plant_id = p.plant_id
