@@ -120,7 +120,7 @@ def export_all_tables():
     conn.close()
     print("\n✓ Export complete!")
 
-def handler():
+def handler(event, context):
     export_all_tables()
 
 if __name__ == "__main__":
