@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 
-from data_query import get_db_connection, get_filter_data, get_all_live_data
+from live_data_query import get_db_connection, get_filter_data, get_all_live_data
 from chart import plant_bar_chart
 
 st.set_page_config(layout="wide", page_title="LMNH Plant Health Dashboard")
