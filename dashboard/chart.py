@@ -6,20 +6,22 @@ import altair as alt
 
 
 @st.cache_data(ttl=60)
-def plant_bar_chart(df: pd.DataFrame, y_field: str, y_title: str) -> alt.Chart:
-    """Create a bar of live plant data."""
+def plant_line_chart(df: pd.DataFrame,
+                     x_field: str,
+                     x_title: str,
+                     y_field: str,
+                     y_title: str) -> alt.Chart:
+    """Create a line chart of live plant data."""
 
-    print("Test3")
-    chart = alt.Chart(df).mark_bar().encode(
-        x=alt.X('plant_id:N',
-                title='Plant',
-                axis=alt.Axis(labels=False)).sort('-y'),
+    chart = alt.Chart(df).mark_point().encode(
+        x=alt.X(f'{x_field}:N',
+                title=x_title),
         y=alt.Y(f'{y_field}:Q',
                 title=y_title),
         color=alt.Color('plant_name:N',
                         title='Plant Name')
     ).properties(
-        title=f'Plant vs {y_title}',
+        title=f'Plant vs {y_title} over time',
         width=600,
         height=400
     )

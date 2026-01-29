@@ -5,8 +5,14 @@ from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 
-from live_data_query import get_db_connection, get_filter_data, get_recent_live_data
-from chart import plant_bar_chart
+from live_data_query import (get_db_connection,
+                             get_filter_data,
+                             get_plant_moisture_over_time,
+                             get_unique_plants,
+                             get_unique_countries,
+                             get_unique_botanists)
+
+from chart import (plant_line_chart)
 
 st.set_page_config(layout="wide", page_title="LMNH Plant Health Dashboard")
 
@@ -43,7 +49,7 @@ def build_select_box(df: pd.DataFrame, name: str, columns: list[str]) -> int:
     return selected_option[0]
 
 
-def display_sidebar(df: pd.DataFrame) -> pd.Series:
+def display_sidebar(df: pd.DataFrame) -> int:
     """Display the sidebar for the dashboard."""
 
     st.sidebar.header("Filters")
@@ -52,17 +58,9 @@ def display_sidebar(df: pd.DataFrame) -> pd.Series:
         selected_plant_id = build_select_box(
             df, "Plant", ["plant_id", "plant_name"])
 
-        selected_botanist_names = build_multi_select(
-            df, "Botanists", ["botanist_name"], default=True)
+        return selected_plant_id
 
-        selected_country_names = build_multi_select(
-            df, "Countries", ["country_name"], default=True)
-
-        return (df['plant_id'] == selected_plant_id) & \
-            df['botanist_name'].isin(selected_botanist_names) & \
-            df['country_name'].isin(selected_country_names)
-
-    return df['plant_id'].isin([])
+    return 1
 
 
 def display_key_metrics(plants: int, countries: int, botanists: int):
@@ -89,11 +87,20 @@ def display_live_data(df: pd.DataFrame):
 
     col1, col2 = st.columns([3, 1])
     with col1:
-        chart = plant_bar_chart(df, 'soil_moisture', 'Soil Moisture')
+        print(df.info())
+        df['hour'] = df['recording_taken'].dt.hour
+        df['minute'] = df['recording_taken'].dt.minute
+        df['time'] = df['hour'].astype(str).str.zfill(
+            2) + ':' + df['minute'].astype(str).str.zfill(2)
+        chart = plant_line_chart(df,
+                                 'time',
+                                 'Time (HH:MM)',
+                                 'soil_moisture',
+                                 'Soil Moisture')
         st.altair_chart(chart)
 
-        chart = plant_bar_chart(df, 'temperature', 'Temperature')
-        st.altair_chart(chart)
+        # chart = plant_line_chart(df, 'temperature', 'Temperature')
+        # st.altair_chart(chart)
 
     with col2:
         pass
@@ -106,20 +113,24 @@ if __name__ == "__main__":
     conn = get_db_connection(ENV)
 
     filter_data_df = get_filter_data(conn)
-    recent_live_data_df = get_recent_live_data(conn)
 
-    conn.close()
+    filter_plant_id = display_sidebar(filter_data_df)
 
-    filter_condition = display_sidebar(filter_data_df)
-    filtered_recent_live_data_df = recent_live_data_df[filter_condition]
+    plant_moisture_over_time_df = get_plant_moisture_over_time(
+        conn, filter_plant_id)
+
+    unique_plants = get_unique_plants(conn)
+    unique_countries = get_unique_countries(conn)
+    unique_botanists = get_unique_botanists(conn)
 
     st.title("LMNH Plant Health Dashboard", text_alignment="center")
 
-    display_key_metrics(int(filtered_recent_live_data_df['plant_id'].nunique()),
-                        int(filtered_recent_live_data_df['country_id'].nunique(
-                        )),
-                        int(filtered_recent_live_data_df['botanist_id'].nunique()))
+    display_key_metrics(int(unique_plants['unique_plants'].iloc[0]),
+                        int(unique_countries['unique_countries'].iloc[0]),
+                        int(unique_botanists['unique_botanists'].iloc[0]))
 
     st.header("Plant Health Overview", text_alignment="center")
 
-    display_live_data(filtered_recent_live_data_df)
+    display_live_data(plant_moisture_over_time_df)
+
+    conn.close()
