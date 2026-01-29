@@ -18,10 +18,12 @@ def get_db_connection(config: _Environ) -> Connection:
     )
 
 
-def get_all_live_data(conn: Connection) -> pd.DataFrame:
+@st.cache_data(ttl=60)
+def get_all_live_data(_conn: Connection) -> pd.DataFrame:
     """Returns all live data from Database as a DataFrame."""
 
-    with conn.cursor() as cur:
+    print("Test1")
+    with _conn.cursor() as cur:
         cur.execute(
             """SELECT
                     p.*,
@@ -62,10 +64,12 @@ def get_all_live_data(conn: Connection) -> pd.DataFrame:
     return df
 
 
-def get_filter_data(conn: Connection) -> pd.DataFrame:
+@st.cache_data(ttl=60)
+def get_filter_data(_conn: Connection) -> pd.DataFrame:
     """Returns all live data from Database as a DataFrame."""
 
-    with conn.cursor() as cur:
+    print("Test2")
+    with _conn.cursor() as cur:
         cur.execute(
             """SELECT
                     p.plant_id,
