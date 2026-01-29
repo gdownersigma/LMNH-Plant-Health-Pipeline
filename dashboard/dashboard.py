@@ -1,28 +1,28 @@
 """Dashboard file to display the plant health data."""
 
 from os import environ as ENV
-import re
 from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 
 from data_query import get_db_connection, get_filter_data, get_all_live_data
+from chart import plant_bar_chart
 
 st.set_page_config(layout="wide", page_title="LMNH Plant Health Dashboard")
 
 
 def build_multiselect(df: pd.DataFrame, name: str, columns: list[str], default: bool) -> list:
-    """Builds a multiselect and checkmark sidebar component and returns the selected options."""
+    """Builds a multiselect and checkbox sidebar component and returns the selected options."""
     options = df[columns].drop_duplicates().values.tolist()
 
     select_all = st.sidebar.checkbox(
-        f"Select All {name}s", value=default)
+        f"Select All {name}", value=default)
 
     selected_options = st.sidebar.multiselect(
-        label=f"Select {name}s",
+        label=f"Select {name}",
         options=options,
         default=options if select_all else [],
-        format_func=lambda x: f"{x[0]}" if name != "Plant" else f"{x[0]} - {x[1]}"
+        format_func=lambda x: f"{x[0]}" if name != "Plants" else f"{x[0]} - {x[1]}"
     )
 
     return [option[0] for option in selected_options]
@@ -35,13 +35,13 @@ def display_sidebar(df: pd.DataFrame) -> pd.Series:
 
     if not df.empty:
         selected_plant_ids = build_multiselect(
-            df, "Plant", ["plant_id", "name"], default=True)
+            df, "Plants", ["plant_id", "name"], default=True)
 
         selected_botanist_names = build_multiselect(
-            df, "Botanist", ["botanist_name"], default=True)
+            df, "Botanists", ["botanist_name"], default=True)
 
         selected_country_names = build_multiselect(
-            df, "Country", ["country_name"], default=True)
+            df, "Countries", ["country_name"], default=True)
 
         return df['plant_id'].isin(selected_plant_ids) & \
             df['botanist_name'].isin(selected_botanist_names) & \
@@ -72,15 +72,16 @@ def display_live_data(df: pd.DataFrame):
     """Display live plant data chart."""
     st.subheader("Live Plant Data", text_alignment="center")
 
+    chart = plant_bar_chart(df, 'soil_moisture', 'Soil Moisture')
+    st.altair_chart(chart)
+
+    chart = plant_bar_chart(df, 'temperature', 'Temperature')
+    st.altair_chart(chart)
+
 
 def display_all_data():
     """Display all plant data chart."""
     st.subheader("All Plant Data", text_alignment="center")
-
-
-def join_all_data():
-    """Returns joined data from plant, botanist, and country dataframes."""
-    pass
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ def get_all_live_data(conn: Connection) -> pd.DataFrame:
 
     with conn.cursor() as cur:
         cur.execute(
-            f"""SELECT
+            """SELECT
                     p.*,
                     pr.plant_reading_id,
                     pr.soil_moisture,
@@ -67,7 +67,7 @@ def get_filter_data(conn: Connection) -> pd.DataFrame:
 
     with conn.cursor() as cur:
         cur.execute(
-            f"""SELECT
+            """SELECT
                     p.plant_id,
                     p.name,
                     b.botanist_id,
