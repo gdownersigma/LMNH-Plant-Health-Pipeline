@@ -410,15 +410,15 @@ resource "aws_ecs_task_definition" "streamlit" {
 
 resource "aws_ecs_service" "streamlit" {
     name            = "${var.BASE_NAME}-streamlit-service"
-    cluster         = data.aws_ecs_cluster.c21-ecs-cluster.arn
+    cluster         = data.aws_ecs_cluster.target-cluster.id
     task_definition = aws_ecs_task_definition.streamlit.arn
     desired_count   = 1
     launch_type     = "FARGATE"
 
     network_configuration {
-        subnets          = [data.aws_subnets.c21-public-subnet-a.id,
-                            data.aws_subnets.c21-public-subnet-b.id,
-                            data.aws_subnets.c21-public-subnet-c.id]
+        subnets          = [data.aws_subnet.c21-public-subnet-a.id,
+                            data.aws_subnet.c21-public-subnet-b.id,
+                            data.aws_subnet.c21-public-subnet-c.id]
         security_groups  = [aws_security_group.dashboard_sg.id]
         assign_public_ip = true
     }
