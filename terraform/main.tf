@@ -261,7 +261,7 @@ resource "aws_glue_crawler" "plant-data-crawler" {
         path = "s3://${aws_s3_bucket.plant-storage.bucket}"
     }
 
-    schedule = "cron(0 0 * * ? *)"
+    schedule = "cron(6 0 * * ? *)"
 
     schema_change_policy {
         delete_behavior = "LOG"
@@ -279,7 +279,7 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
     flexible_time_window {
       mode = "OFF"
     }
-    schedule_expression = "cron(55 23 * * ? *)"
+    schedule_expression = "cron(1 0 * * ? *)"
     schedule_expression_timezone = "Europe/London"
 
     target {
