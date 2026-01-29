@@ -1,6 +1,6 @@
 # RDS to S3 Pipeline
 
-Export database tables to S3 as time-partitioned Parquet files.
+Export database daily plant health summaries to S3 as time-partitioned Parquet files.
 
 ## Running export_to_parquet.py
 
@@ -52,12 +52,7 @@ docker build --platform linux/amd64 --provenance=false -t rds-s3-export .
 ```
 s3://your-bucket/
 ├── input/
-│   ├── botanist/data.parquet
-│   ├── plant/data.parquet
-│   ├── city/data.parquet
-│   ├── country/data.parquet
-│   ├── origin/data.parquet
-│   └── plant_reading/
-│       └── year=2026/month=01/day=28/hour=14/minute=30/...
+│   └── daily_plant_health_summaries/
+│       └── year=2026/month=01/day=28/plant-health-daily-summary.parquet
 └── output/
 ```
