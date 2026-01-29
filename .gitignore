@@ -1,5 +1,5 @@
 .venv
-/__pycache__
+__pycache__/
 .env
 .terraform
 *.terraform.*
@@ -8,3 +8,4 @@
 explore/output/
 **/copilot-instructions.md
 *.csv
+terraform/terraform.tfstate.backup

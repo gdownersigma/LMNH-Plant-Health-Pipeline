@@ -1,12 +1,12 @@
-variable "AWS_REGION" {
+variable "DEFAULT_REGION" {
     type    = string
 }
 
-variable "AWS_ACCESS_KEY" {
+variable "ACCESS_KEY_ID" {
     type = string
 }
 
-variable "AWS_SECRET_KEY" {
+variable "SECRET_ACCESS_KEY" {
     type = string
 }
 
@@ -34,6 +34,25 @@ variable "CLUSTER_NAME" {
     type = string
 }
 
-variable "TASK_DEFINITION_ARN" {
+variable "DB_HOST" {
+    type = string
+}
+
+variable "DB_NAME" {
+    type = string
+}
+
+variable "DB_USER" {
+    type = string
+}
+
+variable "DB_PASSWORD" {
+    type = string
+}
+
+variable "DB_PORT" {
+    type = number
+}
+variable "DB_SCHEMA" {
     type = string
 }
