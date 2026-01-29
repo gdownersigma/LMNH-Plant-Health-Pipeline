@@ -8,7 +8,9 @@ from load_origin import (
     create_city,
     get_or_create_country,
     get_or_create_city,
+    get_origin_id,
     insert_origin,
+    get_or_create_origin,
     load_origin,
     load_origins
 )
@@ -144,6 +146,32 @@ class TestGetOrCreateCity:
         assert result == 25
 
 
+class TestGetOriginId:
+    """Tests for the get_origin_id function."""
+
+    def test_returns_id_when_found(self, mocker):
+        """Should return origin_id when origin exists."""
+        mock_cursor = mocker.MagicMock()
+        mock_cursor.fetchone.return_value = (42,)
+        mock_conn = mocker.MagicMock()
+        mock_conn.cursor.return_value.__enter__.return_value = mock_cursor
+
+        result = get_origin_id(mock_conn, 51.5074, -0.1278)
+
+        assert result == 42
+
+    def test_returns_none_when_not_found(self, mocker):
+        """Should return None when origin doesn't exist."""
+        mock_cursor = mocker.MagicMock()
+        mock_cursor.fetchone.return_value = None
+        mock_conn = mocker.MagicMock()
+        mock_conn.cursor.return_value.__enter__.return_value = mock_cursor
+
+        result = get_origin_id(mock_conn, 99.9999, 99.9999)
+
+        assert result is None
+
+
 class TestInsertOrigin:
     """Tests for the insert_origin function."""
 
@@ -160,6 +188,29 @@ class TestInsertOrigin:
         assert mock_cursor.execute.call_count == 2
 
 
+class TestGetOrCreateOrigin:
+    """Tests for the get_or_create_origin function."""
+
+    def test_returns_existing_id(self, mocker):
+        """Should return existing ID when origin exists."""
+        mocker.patch("load_origin.get_origin_id", return_value=42)
+        mock_conn = mocker.MagicMock()
+
+        result = get_or_create_origin(mock_conn, 10, 51.5074, -0.1278)
+
+        assert result == 42
+
+    def test_creates_new_origin(self, mocker):
+        """Should create new origin when doesn't exist."""
+        mocker.patch("load_origin.get_origin_id", return_value=None)
+        mocker.patch("load_origin.insert_origin", return_value=99)
+        mock_conn = mocker.MagicMock()
+
+        result = get_or_create_origin(mock_conn, 10, 51.5074, -0.1278)
+
+        assert result == 99
+
+
 class TestLoadOrigin:
     """Tests for the load_origin function."""
 
@@ -167,7 +218,7 @@ class TestLoadOrigin:
         """Should create country, city, and origin."""
         mocker.patch("load_origin.get_or_create_country", return_value=5)
         mocker.patch("load_origin.get_or_create_city", return_value=10)
-        mocker.patch("load_origin.insert_origin", return_value=100)
+        mocker.patch("load_origin.get_or_create_origin", return_value=100)
         mock_conn = mocker.MagicMock()
 
         row = {
