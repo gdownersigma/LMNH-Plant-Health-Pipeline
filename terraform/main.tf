@@ -396,7 +396,7 @@ resource "aws_ecs_task_definition" "streamlit" {
             logDriver = "awslogs"
             options = {
             "awslogs-group"         = aws_cloudwatch_log_group.ecs_dashboard_logs.name
-            "awslogs-region"        = var.DEFAULT_REGION
+            "awslogs-region"        = var.AWS_REGION
             "awslogs-stream-prefix" = "ecs"
             }
         }
