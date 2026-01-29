@@ -54,28 +54,3 @@ if __name__ == "__main__":
     print(df.info())
 
     conn.close()
-
-    df = df[[
-        'plant_id',
-        'plant_name',
-        'scientific_name',
-        'plant_reading_id',
-        'recording_taken',
-        'last_watered',
-        'soil_moisture',
-        'temperature',
-        'origin_id',
-        'lat',
-        'long',
-        'city_id',
-        'city_name',
-        'country_id',
-        'country_name',
-        'botanist_id',
-        'botanist_name',
-        'email',
-        'phone',
-        'image_license_url',
-        'image_url',
-        'thumbnail'
-    ]]

@@ -64,7 +64,8 @@ def get_filter_data(_conn: Connection) -> pd.DataFrame:
 @st.cache_data(ttl=60)
 def get_recent_live_data(_conn: Connection) -> pd.DataFrame:
     """Returns all data for the last readings on each plant as a DataFrame."""
-
+    # I need to change this function
+    # This gets too much data
     query = """
         SELECT
             p.name AS plant_name,
@@ -101,44 +102,33 @@ def get_recent_live_data(_conn: Connection) -> pd.DataFrame:
         'name': 'botanist_name'
     })
 
+    df = df[[
+        'plant_id',
+        'plant_name',
+        'scientific_name',
+        'plant_reading_id',
+        'recording_taken',
+        'last_watered',
+        'soil_moisture',
+        'temperature',
+        'origin_id',
+        'lat',
+        'long',
+        'city_id',
+        'city_name',
+        'country_id',
+        'country_name',
+        'botanist_id',
+        'botanist_name',
+        'email',
+        'phone',
+        'image_license_url',
+        'image_url',
+        'thumbnail'
+    ]]
+
     return df
 
-
-# @st.cache_data(ttl=60)
-# def get_filter_data(_conn: Connection) -> pd.DataFrame:
-#     """Returns all live data from Database as a DataFrame."""
-
-#     query = """
-#         SELECT
-#             pr.*,
-#             p.name AS plant_name,
-#             b.name AS botanist_name,
-#             cn.country_name
-#         FROM plant AS p
-#         JOIN plant_reading AS pr
-#             ON p.plant_id = pr.plant_id
-#         JOIN botanist AS b
-#             ON p.botanist_id = b.botanist_id
-#         JOIN origin AS o
-#             ON p.origin_id = o.origin_id
-#         JOIN city AS c
-#             ON o.city_id = c.city_id
-#         JOIN country AS cn
-#             ON c.country_id = cn.country_id
-#         WHERE recording_taken > DATEADD(hour, -24, GETDATE())
-#         ORDER BY p.plant_id;
-#     """
-
-#     return query_database(_conn, query)
-
-
-"""
-How many times has a plant been watered
-Page for long term
-Main page for live data
-soil moisture and temperature as scatter graphs
-
-"""
 
 if __name__ == "__main__":
 
