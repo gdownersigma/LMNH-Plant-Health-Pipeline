@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 
-@st.cache_resource
+# @st.cache_resource
 def get_db_connection(_config: _Environ) -> Connection:
     """Create and return a database connection"""
     return connect(

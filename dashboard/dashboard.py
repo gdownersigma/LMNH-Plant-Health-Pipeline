@@ -87,11 +87,13 @@ def display_key_metrics(plants: int, countries: int, botanists: int):
 def display_live_data(df: pd.DataFrame):
     """Display live plant data chart."""
     st.subheader(df['plant_name'].iloc[0], text_alignment="center")
-    try:
-        st.image(df['image_url'].iloc[0], use_container_width=True)
-    except:
-        st.image("images/plant-default.svg",
-                 use_container_width=True)
+
+    col1, col2, col3 = st.columns([3, 1, 3])
+    with col2:
+        try:
+            st.image(df['image_url'].iloc[0])
+        except:
+            st.image("images/plant-default.svg")
 
     col1, col2 = st.columns([3, 1])
     with col1:
