@@ -16,68 +16,24 @@ def create_boto3_session():
         region_name=os.getenv('DEFAULT_REGION', 'eu-west-2')
     )
 
-def get_summary_query():
-    """Return the SQL query for daily plant health summary"""
+def get_raw_data_query():
+    """Return simple SQL query to get raw plant reading data with joins"""
     return """
-        WITH RankedData AS (
-            SELECT
-                CAST(pr.recording_taken AS DATE) AS reading_date,
-                p.plant_id,
-                p.name AS plant_name,
-                p.scientific_name,
-                b.name AS botanist_name,
-                b.email AS botanist_email,
-                b.phone AS botanist_phone,
-                pr.temperature,
-                pr.soil_moisture,
-                pr.last_watered,
-                PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY pr.temperature)
-                    OVER (PARTITION BY CAST(pr.recording_taken AS DATE), p.plant_id) AS median_temperature,
-                PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY pr.temperature)
-                    OVER (PARTITION BY CAST(pr.recording_taken AS DATE), p.plant_id) AS percentile_25_temperature,
-                PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY pr.temperature)
-                    OVER (PARTITION BY CAST(pr.recording_taken AS DATE), p.plant_id) AS percentile_75_temperature,
-                PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY pr.soil_moisture)
-                    OVER (PARTITION BY CAST(pr.recording_taken AS DATE), p.plant_id) AS median_humidity,
-                PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY pr.soil_moisture)
-                    OVER (PARTITION BY CAST(pr.recording_taken AS DATE), p.plant_id) AS percentile_25_humidity,
-                PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY pr.soil_moisture)
-                    OVER (PARTITION BY CAST(pr.recording_taken AS DATE), p.plant_id) AS percentile_75_humidity
-            FROM plant p
-            INNER JOIN botanist b ON p.botanist_id = b.botanist_id
-            INNER JOIN plant_reading pr ON p.plant_id = pr.plant_id
-        )
         SELECT
-            reading_date,
-            plant_id,
-            plant_name,
-            scientific_name,
-            botanist_name,
-            botanist_email,
-            botanist_phone,
-            MIN(temperature) AS min_temperature,
-            MAX(temperature) AS max_temperature,
-            AVG(temperature) AS avg_temperature,
-            MAX(median_temperature) AS median_temperature,
-            MAX(percentile_25_temperature) AS percentile_25_temperature,
-            MAX(percentile_75_temperature) AS percentile_75_temperature,
-            MIN(soil_moisture) AS min_humidity,
-            MAX(soil_moisture) AS max_humidity,
-            AVG(soil_moisture) AS avg_humidity,
-            MAX(median_humidity) AS median_humidity,
-            MAX(percentile_25_humidity) AS percentile_25_humidity,
-            MAX(percentile_75_humidity) AS percentile_75_humidity,
-            COUNT(DISTINCT CAST(last_watered AS DATE)) AS times_watered
-        FROM RankedData
-        GROUP BY
-            reading_date,
-            plant_id,
-            plant_name,
-            scientific_name,
-            botanist_name,
-            botanist_email,
-            botanist_phone
-        ORDER BY reading_date DESC, plant_id
+            CAST(pr.recording_taken AS DATE) AS reading_date,
+            p.plant_id,
+            p.name AS plant_name,
+            p.scientific_name,
+            b.name AS botanist_name,
+            b.email AS botanist_email,
+            b.phone AS botanist_phone,
+            pr.temperature,
+            pr.soil_moisture,
+            pr.last_watered
+        FROM plant p
+        INNER JOIN botanist b ON p.botanist_id = b.botanist_id
+        INNER JOIN plant_reading pr ON p.plant_id = pr.plant_id
+        ORDER BY pr.recording_taken DESC, p.plant_id
     """
 
 def execute_query(cursor, query):
@@ -86,6 +42,38 @@ def execute_query(cursor, query):
     columns = [desc[0] for desc in cursor.description]
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
+
+def calculate_daily_summary(df) -> pd.DataFrame:
+    """Calculate daily plant health summary statistics using pandas"""
+    # Convert dates
+    df['reading_date'] = pd.to_datetime(df['reading_date'])
+    df['last_watered'] = pd.to_datetime(df['last_watered'])
+
+    # Group by date and plant, calculate aggregations
+    summary = df.groupby(
+        ['reading_date', 'plant_id', 'plant_name', 'scientific_name',
+         'botanist_name', 'botanist_email', 'botanist_phone'],
+        as_index=False
+    ).agg(
+        min_temperature=('temperature', 'min'),
+        max_temperature=('temperature', 'max'),
+        avg_temperature=('temperature', 'mean'),
+        median_temperature=('temperature', lambda x: x.quantile(0.5)),
+        percentile_25_temperature=('temperature', lambda x: x.quantile(0.25)),
+        percentile_75_temperature=('temperature', lambda x: x.quantile(0.75)),
+        min_humidity=('soil_moisture', 'min'),
+        max_humidity=('soil_moisture', 'max'),
+        avg_humidity=('soil_moisture', 'mean'),
+        median_humidity=('soil_moisture', lambda x: x.quantile(0.5)),
+        percentile_25_humidity=('soil_moisture', lambda x: x.quantile(0.25)),
+        percentile_75_humidity=('soil_moisture', lambda x: x.quantile(0.75)),
+        times_watered=('last_watered', lambda x: x.dt.date.nunique())
+    )
+
+    # Sort by date descending
+    summary = summary.sort_values(['reading_date', 'plant_id'], ascending=[False, True])
+
+    return summary
 
 def add_partition_columns(df):
     """Add year, month, day partition columns to DataFrame"""
@@ -151,17 +139,21 @@ def export_daily_summaries():
     output_folder = create_output_folder(s3_bucket, session)
     print(f"✓ Ensured output folder exists: {output_folder}\n")
 
-    # Get data
-    query = get_summary_query()
-    df = execute_query(cursor, query)
-    print(f"✓ Retrieved {len(df)} daily plant summary records")
+    # Get raw data
+    query = get_raw_data_query()
+    raw_df = execute_query(cursor, query)
+    print(f"✓ Retrieved {len(raw_df)} raw plant reading records")
 
-    if not df.empty:
+    if not raw_df.empty:
+        # Calculate summary statistics with pandas
+        summary_df = calculate_daily_summary(raw_df)
+        print(f"✓ Calculated {len(summary_df)} daily plant summary records")
+
         # Transform and write
-        df = add_partition_columns(df)
+        summary_df = add_partition_columns(summary_df)
         output_path = f"{base_path}/daily_plant_summaries"
-        write_to_s3(df, output_path, ['year', 'month', 'day'], session)
-        print(f"✓ Exported daily plant summaries ({len(df)} rows) to {output_path}")
+        write_to_s3(summary_df, output_path, ['year', 'month', 'day'], session)
+        print(f"✓ Exported daily plant summaries ({len(summary_df)} rows) to {output_path}")
     else:
         print("⚠ No data to export")
 
