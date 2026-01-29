@@ -140,9 +140,9 @@ resource "aws_lambda_function" "second-pipeline" {
             DB_USER   = var.DB_USER
             DB_PASSWORD   = var.DB_PASSWORD
             DB_PORT   = var.DB_PORT
-            AWS_ACCESS_KEY = var.AWS_ACCESS_KEY
-            AWS_SECRET_KEY = var.AWS_SECRET_KEY
-            AWS_REGION = var.AWS_REGION
+            ACCESS_KEY_ID = var.AWS_ACCESS_KEY
+            SECRET_ACCESS_KEY = var.AWS_SECRET_KEY
+            DEFAULT_REGION = var.AWS_REGION
         }
     }
 
