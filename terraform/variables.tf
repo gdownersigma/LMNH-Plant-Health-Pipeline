@@ -1,12 +1,12 @@
-variable "DEFAULT_REGION" {
+variable "AWS_REGION" {
     type    = string
 }
 
-variable "ACCESS_KEY_ID" {
+variable "AWS_ACCESS_KEY" {
     type = string
 }
 
-variable "SECRET_ACCESS_KEY" {
+variable "AWS_SECRET_KEY" {
     type = string
 }
 
