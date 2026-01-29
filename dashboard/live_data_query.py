@@ -1,5 +1,8 @@
 """File to query the live database for the dashboard."""
 
+# pylint: disable=no-name-in-module
+# pylint: disable=redefined-outer-name
+
 from os import environ as ENV, _Environ
 from dotenv import load_dotenv
 from pymssql import connect, Connection

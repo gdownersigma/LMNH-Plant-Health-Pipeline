@@ -1,5 +1,9 @@
 """Dashboard file to display the plant health data."""
 
+# pylint: disable=unused-variable
+# pylint: disable=too-many-locals
+# pylint: disable=bare-except
+
 from os import environ as ENV
 from dotenv import load_dotenv
 import pandas as pd
