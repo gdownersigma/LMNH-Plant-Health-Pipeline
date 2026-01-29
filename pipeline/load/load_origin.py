@@ -69,6 +69,15 @@ def get_or_create_city(conn, city_name: str, country_id: int) -> int:
     return city_id
 
 
+def get_origin_id(conn, lat: float, long: float) -> int | None:
+    """Get origin_id from the database, return None if not found."""
+    query = "SELECT origin_id FROM origin WHERE lat = %s AND long = %s"
+    with conn.cursor() as cursor:
+        cursor.execute(query, (lat, long))
+        result = cursor.fetchone()
+        return result[0] if result else None
+
+
 def insert_origin(conn, city_id: int, lat: float, long: float) -> int:
     """Insert origin record and return the new origin_id."""
     with conn.cursor() as cursor:
@@ -80,11 +89,19 @@ def insert_origin(conn, city_id: int, lat: float, long: float) -> int:
         return cursor.fetchone()[0]
 
 
+def get_or_create_origin(conn, city_id: int, lat: float, long: float) -> int:
+    """Get origin_id from database, or create if doesn't exist."""
+    origin_id = get_origin_id(conn, lat, long)
+    if origin_id is None:
+        origin_id = insert_origin(conn, city_id, lat, long)
+    return origin_id
+
+
 def load_origin(conn, row: dict) -> int:
     """Load a single origin row into the database."""
     country_id = get_or_create_country(conn, row["origin_country"])
     city_id = get_or_create_city(conn, row["origin_city"], country_id)
-    origin_id = insert_origin(
+    origin_id = get_or_create_origin(
         conn, city_id, row["origin_latitude"], row["origin_longitude"])
     return origin_id
 
