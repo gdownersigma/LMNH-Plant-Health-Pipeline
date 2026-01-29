@@ -36,12 +36,16 @@ def get_raw_data_query():
         ORDER BY pr.recording_taken DESC, p.plant_id
     """
 
-def execute_query(cursor, query):
+def execute_query(connection, query):
     """Execute SQL query and return results as DataFrame"""
-    cursor.execute(query)
-    columns = [desc[0] for desc in cursor.description]
-    data = cursor.fetchall()
-    return pd.DataFrame(data, columns=columns)
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        columns = [desc[0] for desc in cursor.description]
+        data = cursor.fetchall()
+        return pd.DataFrame(data, columns=columns)
+    finally:
+        cursor.close()
 
 def calculate_daily_summary(df) -> pd.DataFrame:
     """Calculate daily plant health summary statistics using pandas"""
@@ -129,7 +133,6 @@ def export_daily_summaries():
     # Setup
     session = create_boto3_session()
     conn = get_db_connection()
-    cursor = conn.cursor()
     s3_bucket = get_s3_bucket()
     base_path = f"s3://{s3_bucket}/input"
 
@@ -141,7 +144,7 @@ def export_daily_summaries():
 
     # Get raw data
     query = get_raw_data_query()
-    raw_df = execute_query(cursor, query)
+    raw_df = execute_query(conn, query)
     print(f"✓ Retrieved {len(raw_df)} raw plant reading records")
 
     if not raw_df.empty:
@@ -158,7 +161,6 @@ def export_daily_summaries():
         print("⚠ No data to export")
 
     # Cleanup
-    cursor.close()
     conn.close()
     print("\n✓ Export complete!")
 
