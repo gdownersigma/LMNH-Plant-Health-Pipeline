@@ -62,7 +62,7 @@ def get_filter_data(_conn: Connection) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=600)
-def get_plant_moisture_over_time(_conn: Connection, plant_id: int) -> pd.DataFrame:
+def get_plant_readings(_conn: Connection) -> pd.DataFrame:
     """Returns plant moisture as a DataFrame."""
 
     query = """
@@ -70,15 +70,16 @@ def get_plant_moisture_over_time(_conn: Connection, plant_id: int) -> pd.DataFra
             pr.plant_id,
             p.name AS plant_name,
             pr.soil_moisture,
+            pr.temperature,
+            pr.last_watered,
             pr.recording_taken
         FROM plant_reading AS pr
         JOIN plant AS p 
             ON pr.plant_id = p.plant_id
-        WHERE pr.plant_id = %s
-        ORDER BY pr.recording_taken;
+        WHERE recording_taken > DATEADD(hour, -24, GETDATE())
     """
 
-    return query_database(_conn, query, parameters=(plant_id,))
+    return query_database(_conn, query)
 
 
 @st.cache_data(ttl=600)
@@ -120,82 +121,13 @@ def get_unique_botanists(_conn: Connection) -> pd.DataFrame:
     return query_database(_conn, query)
 
 
-@st.cache_data(ttl=600)
-def get_recent_live_data(_conn: Connection) -> pd.DataFrame:
-    """Returns all data for the last readings on each plant as a DataFrame."""
-    # I need to change this function
-    # This gets too much data
-    query = """
-        SELECT
-            p.name AS plant_name,
-            p.scientific_name,
-            p.image_license_url,
-            p.image_url,
-            p.thumbnail,
-            pr.*,
-            b.*,
-            o.*,
-            c.city_name,
-            cn.*
-        FROM plant AS p 
-        JOIN plant_reading AS pr
-            ON p.plant_id = pr.plant_id
-        JOIN botanist AS b
-            ON p.botanist_id = b.botanist_id
-        JOIN origin AS o
-            ON p.origin_id = o.origin_id
-        JOIN city AS c
-            ON o.city_id = c.city_id
-        JOIN country AS cn
-            ON c.country_id = cn.country_id
-        WHERE pr.plant_reading_id IN (
-            SELECT MAX(plant_reading_id)
-            FROM plant_reading
-            GROUP BY plant_id)
-        ORDER BY p.plant_id;
-    """
-
-    df = query_database(_conn, query)
-
-    df = df.rename(columns={
-        'name': 'botanist_name'
-    })
-
-    df = df[[
-        'plant_id',
-        'plant_name',
-        'scientific_name',
-        'plant_reading_id',
-        'recording_taken',
-        'last_watered',
-        'soil_moisture',
-        'temperature',
-        'origin_id',
-        'lat',
-        'long',
-        'city_id',
-        'city_name',
-        'country_id',
-        'country_name',
-        'botanist_id',
-        'botanist_name',
-        'email',
-        'phone',
-        'image_license_url',
-        'image_url',
-        'thumbnail'
-    ]]
-
-    return df
-
-
 if __name__ == "__main__":
 
     load_dotenv()
 
     conn = get_db_connection(ENV)
 
-    df = get_recent_live_data(conn)
+    df = get_plant_readings(conn)
 
     print(df.info())
 

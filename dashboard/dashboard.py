@@ -7,12 +7,12 @@ import streamlit as st
 
 from live_data_query import (get_db_connection,
                              get_filter_data,
-                             get_plant_moisture_over_time,
+                             get_plant_readings,
                              get_unique_plants,
                              get_unique_countries,
                              get_unique_botanists)
 
-from chart import (plant_line_chart)
+from chart import (plant_scatter_chart)
 
 st.set_page_config(layout="wide", page_title="LMNH Plant Health Dashboard")
 
@@ -87,23 +87,46 @@ def display_live_data(df: pd.DataFrame):
 
     col1, col2 = st.columns([3, 1])
     with col1:
-        print(df.info())
-        df['hour'] = df['recording_taken'].dt.hour
-        df['minute'] = df['recording_taken'].dt.minute
-        df['time'] = df['hour'].astype(str).str.zfill(
-            2) + ':' + df['minute'].astype(str).str.zfill(2)
-        chart = plant_line_chart(df,
-                                 'time',
-                                 'Time (HH:MM)',
-                                 'soil_moisture',
-                                 'Soil Moisture')
+        chart = plant_scatter_chart(df,
+                                    'recording_taken',
+                                    'Time',
+                                    'soil_moisture',
+                                    'Soil Moisture')
         st.altair_chart(chart)
 
-        # chart = plant_line_chart(df, 'temperature', 'Temperature')
-        # st.altair_chart(chart)
-
     with col2:
-        pass
+        moisture = df.copy()
+        moisture = moisture.sort_values(by='recording_taken', ascending=False)
+        current_moisture = moisture['soil_moisture'].iloc[0]
+        st.metric(label="Current Soil Moisture",
+                  value=f"{current_moisture} %",
+                  help="Current soil moisture level of the selected plant.")
+
+        watered = df.copy()
+        watered = watered[watered["last_watered"].dt.date ==
+                          pd.Timestamp.now().date()]
+        unique_watered_dates = watered['last_watered'].unique()
+        last_watered = len(unique_watered_dates)
+        st.metric(label="Times Watered Today",
+                  value=f"{last_watered}",
+                  help="Number of times the selected plant was watered today.")
+
+    col3, col4 = st.columns([3, 1])
+    with col3:
+        chart = plant_scatter_chart(df,
+                                    'recording_taken',
+                                    'Time',
+                                    'temperature',
+                                    'Temperature')
+        st.altair_chart(chart)
+
+    with col4:
+        temps = df.copy()
+        temps = temps.sort_values(by='recording_taken', ascending=False)
+        current_temp = temps['temperature'].iloc[0]
+        st.metric(label="Current Temperature",
+                  value=f"{current_temp:.1f} °C",
+                  help="Current temperature of the selected plant.")
 
 
 if __name__ == "__main__":
@@ -116,8 +139,9 @@ if __name__ == "__main__":
 
     filter_plant_id = display_sidebar(filter_data_df)
 
-    plant_moisture_over_time_df = get_plant_moisture_over_time(
-        conn, filter_plant_id)
+    plant_readings_df = get_plant_readings(conn)
+    filtered_plant_readings_df = plant_readings_df[
+        plant_readings_df['plant_id'] == filter_plant_id]
 
     unique_plants = get_unique_plants(conn)
     unique_countries = get_unique_countries(conn)
@@ -131,6 +155,6 @@ if __name__ == "__main__":
 
     st.header("Plant Health Overview", text_alignment="center")
 
-    display_live_data(plant_moisture_over_time_df)
+    display_live_data(filtered_plant_readings_df)
 
     conn.close()
