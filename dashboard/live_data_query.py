@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 
-@st.cache_resource(ttl=3600)
+@st.cache_resource
 def get_db_connection(_config: _Environ) -> Connection:
     """Create and return a database connection"""
     return connect(
@@ -34,7 +34,7 @@ def query_database(conn: Connection, query: str, parameters: dict = None) -> pd.
     return pd.DataFrame(rows, columns=columns)
 
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=600)
 def get_filter_data(_conn: Connection) -> pd.DataFrame:
     """Returns all live data from Database as a DataFrame."""
 
@@ -61,7 +61,66 @@ def get_filter_data(_conn: Connection) -> pd.DataFrame:
     return query_database(_conn, query)
 
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=600)
+def get_plant_moisture_over_time(_conn: Connection, plant_id: int) -> pd.DataFrame:
+    """Returns plant moisture as a DataFrame."""
+
+    query = """
+        SELECT
+            pr.plant_id,
+            p.name AS plant_name,
+            pr.soil_moisture,
+            pr.recording_taken
+        FROM plant_reading AS pr
+        JOIN plant AS p 
+            ON pr.plant_id = p.plant_id
+        WHERE pr.plant_id = %s
+        ORDER BY pr.recording_taken;
+    """
+
+    return query_database(_conn, query, parameters=(plant_id,))
+
+
+@st.cache_data(ttl=600)
+def get_unique_plants(_conn: Connection) -> pd.DataFrame:
+    """Returns unique plants."""
+
+    query = """
+        SELECT
+            count(*) AS unique_plants
+        FROM plant;
+    """
+
+    return query_database(_conn, query)
+
+
+@st.cache_data(ttl=600)
+def get_unique_countries(_conn: Connection) -> pd.DataFrame:
+    """Returns unique countries."""
+
+    query = """
+        SELECT
+            count(*) AS unique_countries
+        FROM country;
+    """
+
+    return query_database(_conn, query)
+
+
+@st.cache_data(ttl=600)
+def get_unique_botanists(_conn: Connection) -> pd.DataFrame:
+    """Returns unique botanists."""
+
+    query = """
+        SELECT
+            count(*) AS unique_botanists
+        FROM botanist;
+    """
+
+    return query_database(_conn, query)
+
+
+@st.cache_data(ttl=600)
 def get_recent_live_data(_conn: Connection) -> pd.DataFrame:
     """Returns all data for the last readings on each plant as a DataFrame."""
     # I need to change this function
