@@ -65,7 +65,7 @@ def load(transformed_data: dict) -> None:
 
     Order of loading respects foreign key constraints:
     1. country (created via origin load)
-    2. city (created via origin load)  
+    2. city (created via origin load)
     3. origin
     4. botanist
     5. plant (references origin_id and botanist_id)
