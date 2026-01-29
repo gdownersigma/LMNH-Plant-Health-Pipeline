@@ -7,93 +7,138 @@ import pandas as pd
 import streamlit as st
 
 
-def get_db_connection(config: _Environ) -> Connection:
+@st.cache_resource(ttl=3600)
+def get_db_connection(_config: _Environ) -> Connection:
     """Create and return a database connection"""
     return connect(
-        server=config['DB_HOST'],
-        port=int(config['DB_PORT']),
-        user=config['DB_USER'],
-        password=config['DB_PASSWORD'],
-        database=config['DB_NAME']
+        server=_config['DB_HOST'],
+        port=int(_config['DB_PORT']),
+        user=_config['DB_USER'],
+        password=_config['DB_PASSWORD'],
+        database=_config['DB_NAME']
     )
 
 
-@st.cache_data(ttl=60)
-def get_all_live_data(_conn: Connection) -> pd.DataFrame:
-    """Returns all live data from Database as a DataFrame."""
+def query_database(conn: Connection, query: str, parameters: dict = None) -> pd.DataFrame:
+    """Returns a query result."""
 
-    print("Test1")
-    with _conn.cursor() as cur:
-        cur.execute(
-            """SELECT
-                    p.*,
-                    pr.plant_reading_id,
-                    pr.soil_moisture,
-                    pr.temperature,
-                    pr.recording_taken,
-                    pr.last_watered,
-                    b.email,
-                    b.name AS botanist_name,
-                    b.phone,
-                    o.lat,
-                    o.long,
-                    c.city_id,
-                    c.city_name,
-                    cn.country_id,
-                    cn.country_name
-                FROM plant AS p 
-                JOIN plant_reading AS pr
-                    ON p.plant_id = pr.plant_id
-                JOIN botanist AS b
-                    ON p.botanist_id = b.botanist_id
-                JOIN origin AS o
-                    ON p.origin_id = o.origin_id
-                JOIN city AS c
-                    ON o.city_id = c.city_id
-                JOIN country AS cn
-                    ON c.country_id = cn.country_id
-                WHERE pr.plant_reading_id IN (
-                    SELECT MAX(plant_reading_id)
-                    FROM plant_reading
-                    GROUP BY plant_id)
-                ORDER BY p.plant_id;""")
+    with conn.cursor() as cur:
+        if parameters:
+            cur.execute(query, parameters)
+        else:
+            cur.execute(query)
+
+        rows = cur.fetchall()
         columns = [desc[0] for desc in cur.description]
-        data = cur.fetchall()
 
-    df = pd.DataFrame(data, columns=columns)
-    return df
+    return pd.DataFrame(rows, columns=columns)
 
 
 @st.cache_data(ttl=60)
 def get_filter_data(_conn: Connection) -> pd.DataFrame:
     """Returns all live data from Database as a DataFrame."""
 
-    print("Test2")
-    with _conn.cursor() as cur:
-        cur.execute(
-            """SELECT
-                    p.plant_id,
-                    p.name,
-                    b.botanist_id,
-                    b.name AS botanist_name,
-                    cn.country_id,
-                    cn.country_name
-                FROM plant AS p 
-                JOIN botanist AS b
-                    ON p.botanist_id = b.botanist_id
-                JOIN origin AS o
-                    ON p.origin_id = o.origin_id
-                JOIN city AS c
-                    ON o.city_id = c.city_id
-                JOIN country AS cn
-                    ON c.country_id = cn.country_id
-                ORDER BY p.plant_id;""")
-        columns = [desc[0] for desc in cur.description]
-        data = cur.fetchall()
+    query = """
+        SELECT
+            p.plant_id,
+            p.name AS plant_name,
+            b.botanist_id,
+            b.name AS botanist_name,
+            cn.country_id,
+            cn.country_name
+        FROM plant AS p 
+        JOIN botanist AS b
+            ON p.botanist_id = b.botanist_id
+        JOIN origin AS o
+            ON p.origin_id = o.origin_id
+        JOIN city AS c
+            ON o.city_id = c.city_id
+        JOIN country AS cn
+            ON c.country_id = cn.country_id
+        ORDER BY p.plant_id;
+    """
 
-    df = pd.DataFrame(data, columns=columns)
+    return query_database(_conn, query)
+
+
+@st.cache_data(ttl=60)
+def get_recent_live_data(_conn: Connection) -> pd.DataFrame:
+    """Returns all data for the last readings on each plant as a DataFrame."""
+
+    query = """
+        SELECT
+            p.name AS plant_name,
+            p.scientific_name,
+            p.image_license_url,
+            p.image_url,
+            p.thumbnail,
+            pr.*,
+            b.*,
+            o.*,
+            c.city_name,
+            cn.*
+        FROM plant AS p 
+        JOIN plant_reading AS pr
+            ON p.plant_id = pr.plant_id
+        JOIN botanist AS b
+            ON p.botanist_id = b.botanist_id
+        JOIN origin AS o
+            ON p.origin_id = o.origin_id
+        JOIN city AS c
+            ON o.city_id = c.city_id
+        JOIN country AS cn
+            ON c.country_id = cn.country_id
+        WHERE pr.plant_reading_id IN (
+            SELECT MAX(plant_reading_id)
+            FROM plant_reading
+            GROUP BY plant_id)
+        ORDER BY p.plant_id;
+    """
+
+    df = query_database(_conn, query)
+
+    df = df.rename(columns={
+        'name': 'botanist_name'
+    })
+
     return df
 
+
+# @st.cache_data(ttl=60)
+# def get_filter_data(_conn: Connection) -> pd.DataFrame:
+#     """Returns all live data from Database as a DataFrame."""
+
+#     query = """
+#         SELECT
+#             pr.*,
+#             p.name AS plant_name,
+#             b.name AS botanist_name,
+#             cn.country_name
+#         FROM plant AS p
+#         JOIN plant_reading AS pr
+#             ON p.plant_id = pr.plant_id
+#         JOIN botanist AS b
+#             ON p.botanist_id = b.botanist_id
+#         JOIN origin AS o
+#             ON p.origin_id = o.origin_id
+#         JOIN city AS c
+#             ON o.city_id = c.city_id
+#         JOIN country AS cn
+#             ON c.country_id = cn.country_id
+#         WHERE recording_taken > DATEADD(hour, -24, GETDATE())
+#         ORDER BY p.plant_id;
+#     """
+
+#     return query_database(_conn, query)
+
+
+"""
+How many times has a plant been watered
+Page for long term
+Main page for live data
+soil moisture and temperature as scatter graphs
+
+"""
 
 if __name__ == "__main__":
 
@@ -101,8 +146,8 @@ if __name__ == "__main__":
 
     conn = get_db_connection(ENV)
 
-    df = get_all_live_data(conn)
+    df = get_recent_live_data(conn)
 
-    print(df.head())
+    print(df.info())
 
     conn.close()

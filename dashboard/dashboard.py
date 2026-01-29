@@ -5,13 +5,13 @@ from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 
-from live_data_query import get_db_connection, get_filter_data, get_all_live_data
+from live_data_query import get_db_connection, get_filter_data, get_recent_live_data
 from chart import plant_bar_chart
 
 st.set_page_config(layout="wide", page_title="LMNH Plant Health Dashboard")
 
 
-def build_multiselect(df: pd.DataFrame, name: str, columns: list[str], default: bool) -> list:
+def build_multi_select(df: pd.DataFrame, name: str, columns: list[str], default: bool) -> list:
     """Builds a multiselect and checkbox sidebar component and returns the selected options."""
     options = df[columns].drop_duplicates().values.tolist()
 
@@ -28,22 +28,37 @@ def build_multiselect(df: pd.DataFrame, name: str, columns: list[str], default: 
     return [option[0] for option in selected_options]
 
 
+def build_select_box(df: pd.DataFrame, name: str, columns: list[str]) -> int:
+    """Builds a select box sidebar component and returns the selected option."""
+    options = df[columns].drop_duplicates().values.tolist()
+
+    selected_option = st.sidebar.selectbox(
+        label=f"Select {name}",
+        options=options,
+        format_func=lambda x: f"{x[0]}" if name != "Plant" else f"{x[0]} - {x[1]}"
+    )
+
+    print(selected_option)
+
+    return selected_option[0]
+
+
 def display_sidebar(df: pd.DataFrame) -> pd.Series:
     """Display the sidebar for the dashboard."""
 
     st.sidebar.header("Filters")
 
     if not df.empty:
-        selected_plant_ids = build_multiselect(
-            df, "Plants", ["plant_id", "name"], default=True)
+        selected_plant_id = build_select_box(
+            df, "Plant", ["plant_id", "plant_name"])
 
-        selected_botanist_names = build_multiselect(
+        selected_botanist_names = build_multi_select(
             df, "Botanists", ["botanist_name"], default=True)
 
-        selected_country_names = build_multiselect(
+        selected_country_names = build_multi_select(
             df, "Countries", ["country_name"], default=True)
 
-        return df['plant_id'].isin(selected_plant_ids) & \
+        return (df['plant_id'] == selected_plant_id) & \
             df['botanist_name'].isin(selected_botanist_names) & \
             df['country_name'].isin(selected_country_names)
 
@@ -91,23 +106,24 @@ if __name__ == "__main__":
     conn = get_db_connection(ENV)
 
     filter_data_df = get_filter_data(conn)
-    all_live_data_df = get_all_live_data(conn)
+    recent_live_data_df = get_recent_live_data(conn)
 
     conn.close()
 
     filter_condition = display_sidebar(filter_data_df)
-    filtered_live_data_df = all_live_data_df[filter_condition]
+    filtered_recent_live_data_df = recent_live_data_df[filter_condition]
 
     st.title("LMNH Plant Health Dashboard", text_alignment="center")
 
-    display_key_metrics(int(filtered_live_data_df['plant_id'].nunique()),
-                        int(filtered_live_data_df['country_id'].nunique()),
-                        int(filtered_live_data_df['botanist_id'].nunique()))
+    display_key_metrics(int(filtered_recent_live_data_df['plant_id'].nunique()),
+                        int(filtered_recent_live_data_df['country_id'].nunique(
+                        )),
+                        int(filtered_recent_live_data_df['botanist_id'].nunique()))
 
     st.header("Plant Health Overview", text_alignment="center")
 
     col1, col2 = st.columns(2)
     with col1:
-        display_live_data(filtered_live_data_df)
+        display_live_data(filtered_recent_live_data_df)
     with col2:
         display_all_data()

@@ -14,8 +14,10 @@ def plant_bar_chart(df: pd.DataFrame, y_field: str, y_title: str) -> alt.Chart:
         x=alt.X('plant_id:N',
                 title='Plant',
                 axis=alt.Axis(labels=False)).sort('-y'),
-        y=alt.Y(f'{y_field}:Q', title=y_title),
-        color=alt.Color('name:N')
+        y=alt.Y(f'{y_field}:Q',
+                title=y_title),
+        color=alt.Color('plant_name:N',
+                        title='Plant Name')
     ).properties(
         title=f'Plant vs {y_title}',
         width=600,
