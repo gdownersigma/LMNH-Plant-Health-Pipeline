@@ -87,16 +87,16 @@ def display_live_data(df: pd.DataFrame):
     """Display live plant data chart."""
     st.subheader("Live Plant Data", text_alignment="center")
 
-    chart = plant_bar_chart(df, 'soil_moisture', 'Soil Moisture')
-    st.altair_chart(chart)
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        chart = plant_bar_chart(df, 'soil_moisture', 'Soil Moisture')
+        st.altair_chart(chart)
 
-    chart = plant_bar_chart(df, 'temperature', 'Temperature')
-    st.altair_chart(chart)
+        chart = plant_bar_chart(df, 'temperature', 'Temperature')
+        st.altair_chart(chart)
 
-
-def display_all_data():
-    """Display all plant data chart."""
-    st.subheader("All Plant Data", text_alignment="center")
+    with col2:
+        pass
 
 
 if __name__ == "__main__":
@@ -122,8 +122,4 @@ if __name__ == "__main__":
 
     st.header("Plant Health Overview", text_alignment="center")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        display_live_data(filtered_recent_live_data_df)
-    with col2:
-        display_all_data()
+    display_live_data(filtered_recent_live_data_df)
