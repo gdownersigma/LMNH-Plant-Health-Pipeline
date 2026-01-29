@@ -15,4 +15,4 @@ terraform/terraform.tfstate.backup
 
 explore/
 *.csv
-
+.DS_Store
