@@ -1,11 +1,18 @@
 """Historical plant data dashboard using AWS Athena and S3."""
 
+from live_data_query import get_db_connection, query_database
+import sys
+from pathlib import Path
 from os import environ as ENV
 from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 from pyathena import connect
 import altair as alt
+
+# Add the dashboard folder to the path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 
 load_dotenv()
 
@@ -104,6 +111,20 @@ def get_plant_date_range(_conn, plant_id: int) -> tuple:
     return None, None
 
 
+@st.cache_data(ttl=600)
+def get_plant_image_url(_conn, plant_id: int) -> str:
+    """Get the image URL for a specific plant from RDS."""
+    query = f"""
+        SELECT image_url
+        FROM plant
+        WHERE plant_id = {plant_id}
+    """
+    df = query_database(_conn, query)
+    if not df.empty and df.iloc[0]['image_url']:
+        return df.iloc[0]['image_url']
+    return None
+
+
 def build_select_box(df: pd.DataFrame, name: str, columns: list[str]) -> int:
     """Builds a select box sidebar component and returns the selected option."""
     options = df[columns].drop_duplicates().values.tolist()
@@ -158,7 +179,7 @@ def display_sidebar(df: pd.DataFrame, conn) -> tuple:
     return None, None, None
 
 
-def display_plant_details(details_df: pd.DataFrame):
+def display_plant_details(details_df: pd.DataFrame, image_url: str = None):
     """Display plant details in metrics."""
     if details_df.empty:
         st.warning("No data available for this plant.")
@@ -168,6 +189,17 @@ def display_plant_details(details_df: pd.DataFrame):
 
     st.subheader(f"🌱 {row['plant_name']}")
     st.caption(f"*{row['scientific_name']}*")
+
+    # Display image if available - centered with border
+    if image_url:
+        col_left, col_img, col_right = st.columns([2, 1, 2])
+        with col_img:
+            with st.container(border=True):
+                try:
+                    st.image(image_url, use_container_width=True)
+                except:
+                    st.image("images/plant-default.svg",
+                             use_container_width=True)
 
     st.divider()
 
@@ -251,14 +283,15 @@ if __name__ == "__main__":
     st.title("Historical Plant Data")
 
     try:
-        conn = get_athena_connection()
+        athena_conn = get_athena_connection()
+        rds_conn = get_db_connection(ENV)
 
         # Get unique plants for sidebar
-        plants_df = get_unique_plants(conn)
+        plants_df = get_unique_plants(athena_conn)
 
         # Display sidebar and get selected plant and date range
         selected_plant_id, start_date, end_date = display_sidebar(
-            plants_df, conn)
+            plants_df, athena_conn)
 
         # Convert dates to string format for SQL queries
         start_date_str = start_date.strftime(
@@ -266,19 +299,24 @@ if __name__ == "__main__":
         end_date_str = end_date.strftime('%Y-%m-%d') if end_date else None
 
         if selected_plant_id:
+            # Get plant image URL from RDS
+            image_url = get_plant_image_url(rds_conn, selected_plant_id)
+
             # Get and display plant details
             plant_details = get_plant_details(
-                conn, selected_plant_id, start_date_str, end_date_str)
-            display_plant_details(plant_details)
+                athena_conn, selected_plant_id, start_date_str, end_date_str)
+            display_plant_details(plant_details, image_url)
 
             # Get and display daily data box plots
             daily_data = get_daily_data(
-                conn, selected_plant_id, start_date_str, end_date_str)
+                athena_conn, selected_plant_id, start_date_str, end_date_str)
             display_trend_charts(daily_data)
             display_variability_chart(daily_data)
         else:
             st.info("Please select a plant from the sidebar.")
 
+        rds_conn.close()
+
     except Exception as e:
-        st.error(f"❌ Error connecting to Athena: {str(e)}")
-        st.info("Please check your AWS credentials and configuration.")
+        st.error(f"❌ Error connecting to database: {str(e)}")
+        st.info("Please check your AWS and database credentials.")
