@@ -47,9 +47,6 @@ def build_select_box(df: pd.DataFrame, name: str, columns: list[str]) -> int:
         options=options,
         format_func=lambda x: f"{x[0]}" if name != "Plant" else f"{x[0]} - {x[1]}"
     )
-
-    print(selected_option)
-
     return selected_option[0]
 
 
@@ -168,11 +165,12 @@ if __name__ == "__main__":
     unique_countries = get_unique_countries(conn)
     unique_botanists = get_unique_botanists(conn)
 
-    st.title("LMNH Plant Health Dashboard", text_alignment="center")
-
-    display_key_metrics(int(unique_plants['unique_plants'].iloc[0]),
-                        int(unique_countries['unique_countries'].iloc[0]),
-                        int(unique_botanists['unique_botanists'].iloc[0]))
+    col_1, col2 = st.columns([3, 1])
+    with col_1:
+        st.title("LMNH Plant Health Dashboard", text_alignment="center")
+        display_key_metrics(int(unique_plants['unique_plants'].iloc[0]),
+                            int(unique_countries['unique_countries'].iloc[0]),
+                            int(unique_botanists['unique_botanists'].iloc[0]))
 
     st.header("Plant Health Overview", text_alignment="center")
 
