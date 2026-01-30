@@ -101,8 +101,9 @@ resource "aws_iam_role_policy" "pipeline-lambda-permissions" {
 resource "aws_lambda_function" "first-pipeline" {
     function_name = "${var.BASE_NAME}-first-pipeline"
     role          = aws_iam_role.pipeline-lambda-role.arn
-    memory_size   = 512
+	memory_size   = 512
     timeout = 60
+    reserved_concurrent_executions = -1
 
     package_type = "Image"
     image_uri    = data.aws_ecr_image.first-pipeline-image.image_uri
@@ -127,8 +128,10 @@ resource "aws_lambda_function" "first-pipeline" {
 resource "aws_lambda_function" "second-pipeline" {
     function_name = "${var.BASE_NAME}-second-pipeline"
     role          = aws_iam_role.pipeline-lambda-role.arn
-    memory_size   = 512
+	memory_size   = 512
     timeout = 60
+    reserved_concurrent_executions = -1
+
     package_type = "Image"
     image_uri    = data.aws_ecr_image.second-pipeline-image.image_uri
 
@@ -276,7 +279,7 @@ resource "aws_glue_crawler" "plant-data-crawler" {
     database_name = aws_glue_catalog_database.plant-catalog-db.name
 
     s3_target {
-        path = "s3://${aws_s3_bucket.plant-storage.bucket}"
+        path = "s3://${aws_s3_bucket.plant-storage.bucket}/input/"
     }
 
     schedule = "cron(6 0 * * ? *)"
