@@ -69,7 +69,7 @@ def gen_needs_watering_section(df):
                         'last_watered': lambda t: t.strftime("%Y-%m-%d %H:%M"),
                         'Days Since Watered': "{:.2f}"
                     })
-    st.dataframe(styled_df, use_container_width=True, hide_index=True)
+    st.dataframe(styled_df, width='stretch', hide_index=True)
 
 def gen_low_soil_moisture_section(df):
     """Generate a scatter graph of plant_id vs soil_moisture. Highlight plants with soil_moisture < 30%."""
@@ -127,10 +127,10 @@ def gen_low_soil_moisture_section(df):
             with col:
                 with st.container(border=True):
                     try:
-                        st.image(row['image_url'], use_container_width=True)
+                        st.image(row['image_url'], width='stretch')
                     except:
                         st.image("plant-default.svg",
-                                use_container_width=True)  # Fallback image
+                                width='stretch')  # Fallback image
 
                     # Display plant info
                     st.write(f"**{row['plant_name']}**")
@@ -196,10 +196,10 @@ def gen_outlier_temp_section(df):
             with col:
                 with st.container(border=True):
                     try:
-                        st.image(row['image_url'], use_container_width=True)
+                        st.image(row['image_url'], width='stretch')
                     except:
                         st.image("plant-default.svg",
-                                 use_container_width=True)  # Fallback image
+                                 width='stretch')  # Fallback image
 
                     # Display plant info
                     st.write(f"**{row['plant_name']}**")
