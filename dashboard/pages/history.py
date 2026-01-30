@@ -203,31 +203,27 @@ def display_plant_details(details_df: pd.DataFrame, image_url: str = None):
 
     st.divider()
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric(
-            label="Botanist",
-            value=row['botanist_name']
-        )
-
-    with col2:
         st.metric(
             label="Times Watered",
             value=int(row['total_times_watered'])
         )
 
-    with col3:
+    with col2:
         st.metric(
             label="Avg Temperature",
             value=f"{row['avg_temperature']:.1f}°C"
         )
 
-    with col4:
+    with col3:
         st.metric(
             label="Avg Soil Moisture",
             value=f"{row['avg_humidity']:.1f}%"
         )
+
+    st.write(f"**Botanist:** {row['botanist_name']}")
 
 
 def display_trend_charts(daily_df: pd.DataFrame):
@@ -319,4 +315,3 @@ if __name__ == "__main__":
         st.info("Please select a plant from the sidebar.")
 
     rds_conn.close()
-    st.info("Please check your AWS and database credentials.")
