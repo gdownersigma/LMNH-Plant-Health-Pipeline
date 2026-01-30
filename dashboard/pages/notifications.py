@@ -127,9 +127,12 @@ def gen_low_soil_moisture_section(df):
             with col:
                 with st.container(border=True):
                     try:
-                        st.image(row['image_url'], width='stretch')
+                        image = row['image_url'].iloc[0]
+                        if 'upgrade' in image:
+                            raise Exception("Invalid image URL")
+                        st.image(image, width='stretch')
                     except:
-                        st.image("plant-default.svg",
+                        st.image("images/plant-default.svg",
                                 width='stretch')  # Fallback image
 
                     # Display plant info
@@ -196,9 +199,12 @@ def gen_outlier_temp_section(df):
             with col:
                 with st.container(border=True):
                     try:
-                        st.image(row['image_url'], width='stretch')
+                        image = row['image_url'].iloc[0]
+                        if 'upgrade' in image:
+                            raise Exception("Invalid image URL")
+                        st.image(image, width='stretch')
                     except:
-                        st.image("plant-default.svg",
+                        st.image("images/plant-default.svg",
                                  width='stretch')  # Fallback image
 
                     # Display plant info
