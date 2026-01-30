@@ -211,27 +211,23 @@ def display_plant_details(details_df: pd.DataFrame, image_url: str = None):
 
     with col1:
         st.metric(
-            label="Botanist",
-            value=row['botanist_name']
-        )
-
-    with col2:
-        st.metric(
             label="Times Watered",
             value=int(row['total_times_watered'])
         )
 
-    with col3:
+    with col2:
         st.metric(
             label="Avg Temperature",
             value=f"{row['avg_temperature']:.1f}°C"
         )
 
-    with col4:
+    with col3:
         st.metric(
             label="Avg Soil Moisture",
             value=f"{row['avg_humidity']:.1f}%"
         )
+
+    st.write(f"**Botanist:** {row['botanist_name']}")
 
 
 def display_trend_charts(daily_df: pd.DataFrame):
