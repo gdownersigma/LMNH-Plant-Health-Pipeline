@@ -285,38 +285,38 @@ if __name__ == "__main__":
     try:
         athena_conn = get_athena_connection()
         rds_conn = get_db_connection(ENV)
-
-        # Get unique plants for sidebar
-        plants_df = get_unique_plants(athena_conn)
-
-        # Display sidebar and get selected plant and date range
-        selected_plant_id, start_date, end_date = display_sidebar(
-            plants_df, athena_conn)
-
-        # Convert dates to string format for SQL queries
-        start_date_str = start_date.strftime(
-            '%Y-%m-%d') if start_date else None
-        end_date_str = end_date.strftime('%Y-%m-%d') if end_date else None
-
-        if selected_plant_id:
-            # Get plant image URL from RDS
-            image_url = get_plant_image_url(rds_conn, selected_plant_id)
-
-            # Get and display plant details
-            plant_details = get_plant_details(
-                athena_conn, selected_plant_id, start_date_str, end_date_str)
-            display_plant_details(plant_details, image_url)
-
-            # Get and display daily data box plots
-            daily_data = get_daily_data(
-                athena_conn, selected_plant_id, start_date_str, end_date_str)
-            display_trend_charts(daily_data)
-            display_variability_chart(daily_data)
-        else:
-            st.info("Please select a plant from the sidebar.")
-
-        rds_conn.close()
-
     except Exception as e:
         st.error(f"❌ Error connecting to database: {str(e)}")
-        st.info("Please check your AWS and database credentials.")
+        st.stop()
+
+    # Get unique plants for sidebar
+    plants_df = get_unique_plants(athena_conn)
+
+    # Display sidebar and get selected plant and date range
+    selected_plant_id, start_date, end_date = display_sidebar(
+        plants_df, athena_conn)
+
+    # Convert dates to string format for SQL queries
+    start_date_str = start_date.strftime(
+        '%Y-%m-%d') if start_date else None
+    end_date_str = end_date.strftime('%Y-%m-%d') if end_date else None
+
+    if selected_plant_id:
+        # Get plant image URL from RDS
+        image_url = get_plant_image_url(rds_conn, selected_plant_id)
+
+        # Get and display plant details
+        plant_details = get_plant_details(
+            athena_conn, selected_plant_id, start_date_str, end_date_str)
+        display_plant_details(plant_details, image_url)
+
+        # Get and display daily data box plots
+        daily_data = get_daily_data(
+            athena_conn, selected_plant_id, start_date_str, end_date_str)
+        display_trend_charts(daily_data)
+        display_variability_chart(daily_data)
+    else:
+        st.info("Please select a plant from the sidebar.")
+
+    rds_conn.close()
+    st.info("Please check your AWS and database credentials.")
