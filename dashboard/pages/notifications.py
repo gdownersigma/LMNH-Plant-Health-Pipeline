@@ -20,11 +20,6 @@ def get_plant_readings(_conn) -> pd.DataFrame:
     """Returns plant moisture as a DataFrame."""
 
     query = """
-        WITH LatestReadings AS (
-            SELECT *,
-                ROW_NUMBER() OVER (PARTITION BY plant_id ORDER BY recording_taken DESC) as rn
-            FROM plant_reading
-        )
         SELECT
             pr.plant_id,
             p.name AS plant_name,
@@ -34,12 +29,18 @@ def get_plant_readings(_conn) -> pd.DataFrame:
             pr.recording_taken,
             p.image_url,
             b.name AS botanist_name
-        FROM LatestReadings AS pr
+        FROM plant_reading AS pr
+        JOIN (
+            SELECT plant_id, MAX(recording_taken) AS max_recording
+            FROM plant_reading
+            GROUP BY plant_id
+        ) AS latest 
+            ON pr.plant_id = latest.plant_id 
+            AND pr.recording_taken = latest.max_recording
         JOIN plant AS p 
             ON pr.plant_id = p.plant_id
         JOIN botanist AS b
             ON p.botanist_id = b.botanist_id
-        WHERE pr.rn = 1
     """
     return query_database(_conn, query)
 
