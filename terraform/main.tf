@@ -314,7 +314,7 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
 ## Dashboard image
 
 data "aws_ecr_image" "dashboard-image" {
-    repository_name = "${var.BASE_NAME}-plant-dashboard"
+    repository_name = "${var.BASE_NAME}-dashboard"
     image_tag       = "latest"
 }
 
@@ -403,7 +403,44 @@ resource "aws_ecs_task_definition" "streamlit" {
             "awslogs-stream-prefix" = "ecs"
             }
         }
-
+        environment = [
+            {
+                name  = "S3_BUCKET"
+                value = "${var.BASE_NAME}-plant-storage"
+            },
+            {
+                name  = "AWS_ACCESS_KEY_ID"
+                value = var.AWS_ACCESS_KEY
+            },
+            {
+                name  = "AWS_SECRET_ACCESS_KEY"
+                value = var.AWS_SECRET_KEY
+            },
+            {
+                name  = "AWS_REGION"
+                value = var.AWS_REGION
+            },
+            {
+                name  = "DB_HOST"
+                value = var.DB_HOST
+            },
+            {   
+                name  = "DB_NAME"
+                value = var.DB_NAME
+            },
+            {
+                name  = "DB_USER"
+                value = var.DB_USER
+            },
+            {
+                name  = "DB_PASSWORD"
+                value = var.DB_PASSWORD
+            },
+            {
+                name  = "DB_PORT"
+                value = tostring(var.DB_PORT)
+            }
+        ]
         essential = true
     }
   ])
@@ -424,5 +461,6 @@ resource "aws_ecs_service" "streamlit" {
                             data.aws_subnet.c21-public-subnet-c.id]
         security_groups  = [aws_security_group.dashboard_sg.id]
         assign_public_ip = true
+    
     }
 }

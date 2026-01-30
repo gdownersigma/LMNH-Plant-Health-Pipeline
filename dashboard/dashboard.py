@@ -47,9 +47,6 @@ def build_select_box(df: pd.DataFrame, name: str, columns: list[str]) -> int:
         options=options,
         format_func=lambda x: f"{x[0]}" if name != "Plant" else f"{x[0]} - {x[1]}"
     )
-
-    print(selected_option)
-
     return selected_option[0]
 
 
@@ -71,33 +68,22 @@ def display_key_metrics(plants: int, countries: int, botanists: int):
     """Display key metrics at the top of the dashboard."""
 
     col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric(label="Total Plants",
+                    value=plants,
+                    help="Total number of plants being monitored.")
     with col2:
-        col2_1, col2_2, col2_3 = st.columns(3)
-
-        with col2_1:
-            st.metric(label="Total Plants",
-                      value=plants,
-                      help="Total number of plants being monitored.")
-        with col2_2:
-            st.metric(label="Total Countries",
-                      value=countries,
-                      help="Total number of countries of origin for the plants.")
-        with col2_3:
-            st.metric(label="Total Botanists",
-                      value=botanists,
-                      help="Total number of botanists monitoring the plants.")
+        st.metric(label="Total Countries",
+                    value=countries,
+                    help="Total number of countries of origin for the plants.")
+    with col3:
+        st.metric(label="Total Botanists",
+                    value=botanists,
+                    help="Total number of botanists monitoring the plants.")
 
 
 def display_live_data(df: pd.DataFrame):
     """Display live plant data chart."""
-    st.subheader(df['plant_name'].iloc[0], text_alignment="center")
-
-    col1, col2, col3 = st.columns([3, 1, 3])
-    with col2:
-        try:
-            st.image(df['image_url'].iloc[0])
-        except:
-            st.image("images/plant-default.svg")
 
     col1, col2 = st.columns([3, 1])
     with col1:
@@ -105,29 +91,26 @@ def display_live_data(df: pd.DataFrame):
                                     'recording_taken',
                                     'Time',
                                     'soil_moisture',
-                                    'Soil Moisture')
+                                    'Soil Moisture').configure_legend(disable=True)
         st.altair_chart(chart)
 
     with col2:
-        col2_1, col2_2, col2_3 = st.columns([1, 2, 1])
+        moisture = df.copy()
+        moisture = moisture.sort_values(
+            by='recording_taken', ascending=False)
+        current_moisture = moisture['soil_moisture'].iloc[0]
+        st.metric(label="Current Soil Moisture",
+                    value=f"{current_moisture} %",
+                    help="Current soil moisture level of the selected plant.")
 
-        with col2_2:
-            moisture = df.copy()
-            moisture = moisture.sort_values(
-                by='recording_taken', ascending=False)
-            current_moisture = moisture['soil_moisture'].iloc[0]
-            st.metric(label="Current Soil Moisture",
-                      value=f"{current_moisture} %",
-                      help="Current soil moisture level of the selected plant.")
-
-            watered = df.copy()
-            watered = watered[watered["last_watered"].dt.date ==
-                              pd.Timestamp.now().date()]
-            unique_watered_dates = watered['last_watered'].unique()
-            last_watered = len(unique_watered_dates)
-            st.metric(label="Times Watered Today",
-                      value=f"{last_watered}",
-                      help="Number of times the selected plant was watered today.")
+        watered = df.copy()
+        watered = watered[watered["last_watered"].dt.date ==
+                            pd.Timestamp.now().date()]
+        unique_watered_dates = watered['last_watered'].unique()
+        last_watered = len(unique_watered_dates)
+        st.metric(label="Times Watered Today",
+                    value=f"{last_watered}",
+                    help="Number of times the selected plant was watered today.")
 
     col3, col4 = st.columns([3, 1])
     with col3:
@@ -135,19 +118,16 @@ def display_live_data(df: pd.DataFrame):
                                     'recording_taken',
                                     'Time',
                                     'temperature',
-                                    'Temperature')
+                                    'Temperature').configure_legend(disable=True)
         st.altair_chart(chart)
 
     with col4:
-        col4_1, col4_2, col4_3 = st.columns([1, 2, 1])
-
-        with col4_2:
-            temps = df.copy()
-            temps = temps.sort_values(by='recording_taken', ascending=False)
-            current_temp = temps['temperature'].iloc[0]
-            st.metric(label="Current Temperature",
-                      value=f"{current_temp:.1f} °C",
-                      help="Current temperature of the selected plant.")
+        temps = df.copy()
+        temps = temps.sort_values(by='recording_taken', ascending=False)
+        current_temp = temps['temperature'].iloc[0]
+        st.metric(label="Current Temperature",
+                    value=f"{current_temp:.1f} °C",
+                    help="Current temperature of the selected plant.")
 
 
 if __name__ == "__main__":
@@ -168,13 +148,25 @@ if __name__ == "__main__":
     unique_countries = get_unique_countries(conn)
     unique_botanists = get_unique_botanists(conn)
 
-    st.title("LMNH Plant Health Dashboard", text_alignment="center")
-
-    display_key_metrics(int(unique_plants['unique_plants'].iloc[0]),
-                        int(unique_countries['unique_countries'].iloc[0]),
-                        int(unique_botanists['unique_botanists'].iloc[0]))
-
-    st.header("Plant Health Overview", text_alignment="center")
+    col_1, col2 = st.columns([3, 1])
+    with col_1:
+        st.title("LMNH Plant Health Dashboard")
+        display_key_metrics(int(unique_plants['unique_plants'].iloc[0]),
+                            int(unique_countries['unique_countries'].iloc[0]),
+                            int(unique_botanists['unique_botanists'].iloc[0]))
+        st.subheader(filtered_plant_readings_df['plant_name'].iloc[0])
+    with col2:
+        with st.container(border=True):
+            try:
+                image = filtered_plant_readings_df['image_url'].iloc[0]
+                if 'image/upgrade_access' in image:
+                    raise Exception("Invalid image URL")
+                st.image(image, width='stretch')
+            except:
+                st.image("images/plant-default.svg",
+                            width='stretch')  # Fallback image
+                
+    st.header("Daily Overview")
 
     display_live_data(filtered_plant_readings_df)
 

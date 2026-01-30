@@ -56,11 +56,11 @@ def gen_needs_watering_section(df):
     def style_rows(row):
         days = row['Days Since Watered']
         if days > 2:
-            return ['background-color: #ffcccc'] * len(row)  # Light red
+            return ['background-color: #ffcccc; color: black'] * len(row)  # Light red
         elif days > 1:
-            return ['background-color: #ffffcc'] * len(row)  # Light yellow
+            return ['background-color: #ffffcc; color: black'] * len(row)  # Light yellow
         else:
-            return ['background-color: white'] * len(row)
+            return ['background-color: #e6ffe6; color: black'] * len(row)  # Light green
 
     # Apply styling and display
     st.title("Plant Watering Status")
@@ -127,9 +127,12 @@ def gen_low_soil_moisture_section(df):
             with col:
                 with st.container(border=True):
                     try:
-                        st.image(row['image_url'], width='stretch')
+                        image = row['image_url'].iloc[0]
+                        if 'image/upgrade_access' in image:
+                            raise Exception("Invalid image URL")
+                        st.image(image, width='stretch')
                     except:
-                        st.image("plant-default.svg",
+                        st.image("images/plant-default.svg",
                                 width='stretch')  # Fallback image
 
                     # Display plant info
@@ -196,9 +199,12 @@ def gen_outlier_temp_section(df):
             with col:
                 with st.container(border=True):
                     try:
-                        st.image(row['image_url'], width='stretch')
+                        image = row['image_url'].iloc[0]
+                        if 'image/upgrade_access' in image:
+                            raise Exception("Invalid image URL")
+                        st.image(image, width='stretch')
                     except:
-                        st.image("plant-default.svg",
+                        st.image("images/plant-default.svg",
                                  width='stretch')  # Fallback image
 
                     # Display plant info
