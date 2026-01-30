@@ -27,7 +27,7 @@ def get_plant_readings_data(all_data: pd.DataFrame) -> pd.DataFrame:
 
 
 def change_to_datetime(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    """Changes columns to datetime for the plant readings data."""
+    """Changes named column to datetime."""
 
     readings[column_name] = pd.to_datetime(
         readings[column_name], errors='coerce')
@@ -36,7 +36,7 @@ def change_to_datetime(readings: pd.DataFrame, column_name: str) -> pd.DataFrame
 
 
 def round_readings(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    """Round soil_moisture and temperature to 3 decimal places."""
+    """Round named column to 3 decimal places."""
 
     readings[column_name] = readings[column_name].round(3)
 
@@ -44,9 +44,21 @@ def round_readings(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
 
 
 def round_seconds(readings: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    """Returns datetime column rounded to the nearest second."""
+    """Return named column rounded to the nearest second."""
 
     readings[column_name] = readings[column_name].dt.round('s')
+
+    return readings
+
+
+def filter_readings(readings: pd.DataFrame, column_name: str, min: int = None, max: int = None) -> pd.DataFrame:
+    """Return named column filtered to the minimum and/or maximum values."""
+
+    if min is not None:
+        readings = readings[readings[column_name] >= min]
+
+    if max is not None:
+        readings = readings[readings[column_name] <= max]
 
     return readings
 
@@ -57,6 +69,10 @@ def transform_plant_readings(all_data: pd.DataFrame) -> pd.DataFrame:
     readings_data = get_plant_readings_data(all_data)
     readings_data = change_to_datetime(readings_data, 'recording_taken')
     readings_data = change_to_datetime(readings_data, 'last_watered')
+    readings_data = filter_readings(
+        readings_data, 'soil_moisture', min=0, max=100)
+    readings_data = filter_readings(
+        readings_data, 'temperature', min=-15, max=70)
     readings_data = round_readings(readings_data, 'soil_moisture')
     readings_data = round_seconds(readings_data, 'recording_taken')
 
@@ -64,11 +80,15 @@ def transform_plant_readings(all_data: pd.DataFrame) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("plant_data.csv")
+    df = pd.read_csv("out.csv")
 
     readings_df = get_plant_readings_data(df)
     readings_df = change_to_datetime(readings_df, 'recording_taken')
     readings_df = change_to_datetime(readings_df, 'last_watered')
+    readings_df = filter_readings(
+        readings_df, 'soil_moisture', min=0, max=100)
+    readings_df = filter_readings(
+        readings_df, 'temperature', min=-15, max=70)
     readings_df = round_readings(readings_df, 'soil_moisture')
     readings_df = round_seconds(readings_df, 'recording_taken')
 

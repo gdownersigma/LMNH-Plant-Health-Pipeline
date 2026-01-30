@@ -54,6 +54,23 @@ def clean_names(name: str) -> str:
     return name
 
 
+def filter_url(url: str) -> str:
+    """Ensure URL starts with http or https."""
+    if pd.isna(url) or url == '':
+        return None
+
+    if 'upgrade_access' in url:
+        return None
+
+    return url
+
+
+def match_url_data(df: pd.DataFrame, url_column: str, has_data: pd.Series) -> pd.DataFrame:
+    """Ensure that image URLs match their corresponding license URLs."""
+    df.loc[~has_data, url_column] = None
+    return df
+
+
 def transform_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
     """Transform the plant data."""
 
@@ -66,6 +83,15 @@ def transform_plant_data(all_data: pd.DataFrame) -> pd.DataFrame:
     plant_data['origin_latitude'] = plant_data['origin_latitude'].astype(float)
     plant_data['origin_longitude'] = plant_data['origin_longitude'].astype(
         float)
+
+    plant_data['image_original_url'] = plant_data['image_original_url'].apply(
+        filter_url)
+
+    has_original_url = plant_data['image_original_url'].notna()
+    plant_data = match_url_data(
+        plant_data, 'image_license_url', has_original_url)
+    plant_data = match_url_data(
+        plant_data, 'image_thumbnail', has_original_url)
 
     return plant_data
 

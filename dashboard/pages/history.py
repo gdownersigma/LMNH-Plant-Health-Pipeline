@@ -187,23 +187,27 @@ def display_plant_details(details_df: pd.DataFrame, image_url: str = None):
 
     row = details_df.iloc[0]
 
-    st.subheader(f"🌱 {row['plant_name']}")
-    st.caption(f"*{row['scientific_name']}*")
-
     # Display image if available - centered with border
-    if image_url:
-        col_left, col_img, col_right = st.columns([2, 1, 2])
-        with col_img:
-            with st.container(border=True):
+    col_left, col_img = st.columns([2, 1])
+    with col_left:
+        st.title("Historical Plant Data")
+        st.subheader(f"🌱 Plant: {row['plant_name']}")
+        st.caption(f"*Scientific Name: {row['scientific_name']}*")
+    with col_img:
+        with st.container(border=True):
+            if image_url:
                 try:
                     st.image(image_url, use_container_width=True)
                 except:
                     st.image("images/plant-default.svg",
-                             use_container_width=True)
+                                use_container_width=True)
+            else:
+                st.image("images/plant-default.svg",
+                            use_container_width=True)
 
     st.divider()
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns([2,1,1,1])
 
     with col1:
         st.metric(
@@ -275,8 +279,6 @@ def display_variability_chart(daily_df: pd.DataFrame):
 if __name__ == "__main__":
 
     st.set_page_config(page_title="Historical Plant Data", layout="wide")
-
-    st.title("Historical Plant Data")
 
     try:
         athena_conn = get_athena_connection()
