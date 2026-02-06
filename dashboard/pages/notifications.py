@@ -12,10 +12,10 @@ import matplotlib.pyplot as plt
 # Add the dashboard folder to the path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from live_data_query import get_db_connection, query_database
+from dashboard.data_queries import get_db_connection, query_database
 
 
-@st.cache_data(ttl=600)
+# @st.cache_data(ttl=60)
 def get_plant_readings(_conn) -> pd.DataFrame:
     """Returns plant moisture as a DataFrame."""
 

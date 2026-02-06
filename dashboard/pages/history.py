@@ -1,6 +1,5 @@
 """Historical plant data dashboard using AWS Athena and S3."""
 
-from live_data_query import get_db_connection, query_database
 import sys
 from pathlib import Path
 from os import environ as ENV
@@ -8,13 +7,9 @@ from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 from pyathena import connect
-import altair as alt
 
-# Add the dashboard folder to the path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
-
-load_dotenv()
+from dashboard.data_queries import get_db_connection, query_database
 
 
 @st.cache_resource
@@ -187,7 +182,7 @@ def display_plant_details(details_df: pd.DataFrame, image_url: str = None):
 
     row = details_df.iloc[0]
 
-    # Display image if available - centered with border
+    # Display image if available
     col_left, col_img = st.columns([2, 1])
     with col_left:
         st.title("Historical Plant Data")
@@ -237,7 +232,7 @@ def display_trend_charts(daily_df: pd.DataFrame):
         return
 
     st.divider()
-    st.subheader("📊 Historical Trends")
+    st.subheader("Historical Trends")
 
     col1, col2 = st.columns(2)
 
@@ -257,7 +252,7 @@ def display_variability_chart(daily_df: pd.DataFrame):
         return
 
     st.divider()
-    st.subheader("📉 Reading Stability")
+    st.subheader("Measurement Stability")
 
     # Calculate interquartile range (shows how stable readings are)
     daily_df['temp_iqr'] = daily_df['percentile_75_temperature'] - \
@@ -278,13 +273,15 @@ def display_variability_chart(daily_df: pd.DataFrame):
 
 if __name__ == "__main__":
 
+    load_dotenv()
+
     st.set_page_config(page_title="Historical Plant Data", layout="wide")
 
     try:
         athena_conn = get_athena_connection()
         rds_conn = get_db_connection(ENV)
     except Exception as e:
-        st.error(f"❌ Error connecting to database: {str(e)}")
+        st.error(f"Error connecting to database: {str(e)}")
         st.stop()
 
     # Get unique plants for sidebar

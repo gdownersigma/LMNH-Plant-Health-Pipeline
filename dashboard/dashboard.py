@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import pandas as pd
 import streamlit as st
 
-from live_data_query import (get_db_connection,
+from data_queries import (get_db_connection,
                              get_filter_data,
                              get_plant_readings,
                              get_unique_plants,

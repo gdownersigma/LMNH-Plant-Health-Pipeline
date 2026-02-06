@@ -50,7 +50,7 @@ data "aws_ecr_image" "second-pipeline-image" {
     image_tag       = "latest"
 }
 
-## Shared Lambda IAM Role and Permissions
+## Lambda IAM Role and Permissions
 data "aws_iam_policy_document" "lambda-trust-policy" {
     statement {
         effect = "Allow"
@@ -211,7 +211,7 @@ resource "aws_scheduler_schedule" "first-pipeline-schedule" {
 }
 
 
-# Glue Crawler IAM Role
+# Glue Crawler IAM Role and Permissions
 data "aws_iam_policy_document" "glue-trust-policy" {
     statement {
         effect = "Allow"
@@ -312,14 +312,12 @@ resource "aws_scheduler_schedule" "second-pipeline-schedule" {
 # Dashboard ECS service
 
 ## Dashboard image
-
 data "aws_ecr_image" "dashboard-image" {
     repository_name = "${var.BASE_NAME}-dashboard"
     image_tag       = "latest"
 }
 
 # ECS execution role
-
 resource "aws_iam_role" "ecs_task_execution" {
     name = "${var.BASE_NAME}-task-execution-role"
 
@@ -343,7 +341,6 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
 }
 
 # ECS Security Group
-
 resource "aws_security_group" "dashboard_sg" {
     name        = "${var.BASE_NAME}-dashboard-sg"
     description = "Security group for ECS tasks"
@@ -366,14 +363,12 @@ resource "aws_security_group" "dashboard_sg" {
 }
 
 # ECS Log Group
-
 resource "aws_cloudwatch_log_group" "ecs_dashboard_logs" {
     name              = "/ecs/${var.BASE_NAME}-dashboard"
     retention_in_days = 7
 }
 
 # ECS Task Definition
-
 resource "aws_ecs_task_definition" "streamlit" {
     family                   = "${var.BASE_NAME}-streamlit-task"
     network_mode             = "awsvpc"
@@ -447,7 +442,6 @@ resource "aws_ecs_task_definition" "streamlit" {
 }
 
 # ECS Service
-
 resource "aws_ecs_service" "streamlit" {
     name            = "${var.BASE_NAME}-streamlit-service"
     cluster         = data.aws_ecs_cluster.target-cluster.id
