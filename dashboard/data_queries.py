@@ -10,7 +10,7 @@ import pandas as pd
 import streamlit as st
 
 
-# @st.cache_resource
+@st.cache_resource
 def get_db_connection(_config: _Environ) -> Connection:
     """Create and return a database connection"""
     return connect(
@@ -41,25 +41,8 @@ def query_database(conn: Connection, query: str, parameters: dict = None) -> pd.
 def get_filter_data(_conn: Connection) -> pd.DataFrame:
     """Returns all live data from Database as a DataFrame."""
 
-    query = """
-        SELECT
-            p.plant_id,
-            p.name AS plant_name,
-            b.botanist_id,
-            b.name AS botanist_name,
-            cn.country_id,
-            cn.country_name
-        FROM plant AS p 
-        JOIN botanist AS b
-            ON p.botanist_id = b.botanist_id
-        JOIN origin AS o
-            ON p.origin_id = o.origin_id
-        JOIN city AS c
-            ON o.city_id = c.city_id
-        JOIN country AS cn
-            ON c.country_id = cn.country_id
-        ORDER BY p.plant_id;
-    """
+    with open("dashboard/queries/plant_details.sql", "r") as file:
+        query = file.read()
 
     return query_database(_conn, query)
 
@@ -68,20 +51,8 @@ def get_filter_data(_conn: Connection) -> pd.DataFrame:
 def get_plant_readings(_conn: Connection) -> pd.DataFrame:
     """Returns plant moisture as a DataFrame."""
 
-    query = """
-        SELECT
-            pr.plant_id,
-            p.name AS plant_name,
-            pr.soil_moisture,
-            pr.temperature,
-            pr.last_watered,
-            pr.recording_taken,
-            p.image_url
-        FROM plant_reading AS pr
-        JOIN plant AS p 
-            ON pr.plant_id = p.plant_id
-        WHERE recording_taken > DATEADD(hour, -24, GETDATE())
-    """
+    with open("dashboard/queries/plant_readings.sql", "r") as file:
+        query = file.read()
 
     return query_database(_conn, query)
 
@@ -126,13 +97,4 @@ def get_unique_botanists(_conn: Connection) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-
-    load_dotenv()
-
-    conn = get_db_connection(ENV)
-
-    df = get_plant_readings(conn)
-
-    print(df.info())
-
-    conn.close()
+    pass

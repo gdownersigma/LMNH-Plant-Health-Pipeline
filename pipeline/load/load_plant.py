@@ -126,12 +126,8 @@ def load_plant(conn, row: dict, botanist_id: int, origin_id: int) -> int:
 
 
 def load_plants(df: pd.DataFrame, botanist_email_to_id: dict) -> None:
-    """Load all plants from dataframe into database.
-
-    Args:
-        df: DataFrame with plant data
-        botanist_email_to_id: dict mapping botanist_email -> botanist_id
-    """
+    """Load all plants from dataframe into database."""
+    
     conn = get_connection()
 
     try:
